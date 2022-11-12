@@ -73,7 +73,9 @@ namespace EDDiscovery.UserControls
             changesilence = true;
 
             textBox_From.SetAutoCompletor(SystemCache.ReturnSystemAdditionalListForAutoComplete, true);
+            textBox_From.AutoCompleteTimeout = 500;
             textBox_To.SetAutoCompletor(SystemCache.ReturnSystemAdditionalListForAutoComplete , true);
+            textBox_To.AutoCompleteTimeout = 500;
 
             textBox_From.Text = GetSetting("_RouteFrom", "");
             textBox_To.Text = GetSetting("_RouteTo", "");
