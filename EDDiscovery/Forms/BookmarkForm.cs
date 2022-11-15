@@ -106,9 +106,7 @@ namespace EDDiscovery.Forms
             {
                 InitialisePos(bk.x, bk.y, bk.z);
 
-                SystemNoteClass sn = SystemNoteClass.GetNoteOnSystem(bk.StarName);
-                note = (sn != null) ? sn.Note : "";
-
+                note = SystemNoteClass.GetTextNotesOnSystem(bk.StarName);
                 name = bk.StarName;
             }
             else

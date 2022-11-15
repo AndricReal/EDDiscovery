@@ -661,12 +661,10 @@ namespace EDDiscovery.UserControls
 
         private void dataGridViewTravel_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-            DataGridView grid = sender as DataGridView;
-
-            PaintHelpers.PaintEventColumn(grid, e,
-                        discoveryform.history.Count, (HistoryEntry)dataGridViewTravel.Rows[e.RowIndex].Tag,
-                        Columns.Icon, 
-                        true);
+            HistoryEntry he = (HistoryEntry)dataGridViewTravel.Rows[e.RowIndex].Tag;
+            bool debugmode = travelGridInDebugModeToolStripMenuItem.Checked;
+            int rowno = debugmode ? (int)he.Journalid : (EDDConfig.Instance.OrderRowsInverted ? he.EntryNumber : (discoveryform.history.Count - he.EntryNumber + 1));
+            PaintHelpers.PaintEventColumn(dataGridViewTravel, e, rowno, he, Columns.Icon, true);
         }
 
 

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright © 2016 EDDiscovery development team
+ * Copyright © 2016-2022 EDDiscovery development team
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at
@@ -10,35 +10,29 @@
  * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
  * ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
- * 
- * EDDiscovery is not affiliated with Frontier Developments plc.
  */
 
 using EliteDangerousCore.EDSM;
-using EDDiscovery.Forms;
 using EliteDangerousCore;
 using EliteDangerousCore.DB;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows.Forms;
 
 namespace EDDiscovery.UserControls
 {
     static class TargetHelpers
     {
-        public static void SetTargetSystem(Object sender, EDDiscoveryForm discoveryform, String sn)
-        {
-            SetTargetSystem(sender, discoveryform, sn, true);
+        // Set or clear a target.  targetname = empty/null means delete
+        // a target needs a system lookup to be successful, or a GMO object
+        // targets are associated with bookmarks or a note on the system (any note)
+        // if no note/bookmark is found, a bookmark is prompted to be made
 
-        }
-        public static void SetTargetSystem(Object sender, EDDiscoveryForm discoveryform, String sn, Boolean prompt)
+        public static void SetTargetSystem(Object sender, EDDiscoveryForm discoveryform, string targetname, bool prompt = false)
         {
             Form senderForm = ((Control)sender)?.FindForm() ?? discoveryform;
 
-            if (string.IsNullOrWhiteSpace(sn))
+            if (string.IsNullOrWhiteSpace(targetname))      // if empty, delete it
             {
                 if (prompt && TargetClass.IsTargetSet())      // if prompting, and target is set, ask for delete
                 {
@@ -52,29 +46,33 @@ namespace EDDiscovery.UserControls
                 return;
             }
 
-            ISystem sc = SystemCache.FindSystem(sn, discoveryform.galacticMapping, true);
+            // find system 
+
+            ISystem sc = SystemCache.FindSystem(targetname, discoveryform.galacticMapping, true);
             string msgboxtext = null;
 
-            if (sc != null && sc.HasCoordinate)
+            if (sc != null && sc.HasCoordinate)         // if we have a system, and it has co-ords
             {
-                SystemNoteClass nc = SystemNoteClass.GetNoteOnSystem(sc.Name);        // has it got a note?
+                SystemNoteClass nc = SystemNoteClass.GetLastNoteOnSystem(sc.Name);        // has it got a note?
 
-                if (nc != null)
+                if (nc != null)     // had a note, lets associate with a note
                 {
                     TargetClass.SetTargetNotedSystem(sc.Name, nc.id, sc.X, sc.Y, sc.Z);
                     msgboxtext = "Target set on system with note " + sc.Name;
                 }
                 else
                 {
-                    BookmarkClass bk = GlobalBookMarkList.Instance.FindBookmarkOnSystem(sn);    // has it been bookmarked?
+                    BookmarkClass bk = GlobalBookMarkList.Instance.FindBookmarkOnSystem(targetname);    // has it been bookmarked?
 
-                    if (bk != null)
+                    if (bk != null)     // yep, associate with a bookmark
                     {
                         TargetClass.SetTargetBookmark(sc.Name, bk.id, bk.x, bk.y, bk.z);
                         msgboxtext = "Target set on bookmarked system " + sc.Name;
                     }
                     else
                     {
+                        // create bookmark for it
+
                         bool createbookmark = false;
                         if ((prompt && ExtendedControls.MessageBoxTheme.Show(senderForm, "Make a bookmark on " + sc.Name + " and set as target?", "Make Bookmark", MessageBoxButtons.OKCancel) == DialogResult.OK) || !prompt)
                         {
@@ -83,7 +81,7 @@ namespace EDDiscovery.UserControls
 
                         if (createbookmark)
                         {
-                            BookmarkClass newbk = GlobalBookMarkList.Instance.AddOrUpdateBookmark(null, true, sn, sc.X, sc.Y, sc.Z, DateTime.UtcNow, "");
+                            BookmarkClass newbk = GlobalBookMarkList.Instance.AddOrUpdateBookmark(null, true, targetname, sc.X, sc.Y, sc.Z, DateTime.UtcNow, "");
                             TargetClass.SetTargetBookmark(sc.Name, newbk.id, newbk.x, newbk.y, newbk.z);
                         }
                     }
@@ -92,12 +90,14 @@ namespace EDDiscovery.UserControls
             }
             else
             {
-                if (sn.Length > 2 && sn.Substring(0, 2).Equals("G:"))
-                    sn = sn.Substring(2, sn.Length - 2);
+                // system not known to star database. See if its a GMO thingy
 
-                GalacticMapObject gmo = discoveryform.galacticMapping.Find(sn, true);    // ignore if its off, find any part of string, find if disabled
+                if (targetname.Length > 2 && targetname.Substring(0, 2).Equals("G:"))
+                    targetname = targetname.Substring(2, targetname.Length - 2);
 
-                if (gmo != null)
+                GalacticMapObject gmo = discoveryform.galacticMapping.Find(targetname, true);    // ignore if its off, find any part of string, find if disabled
+
+                if (gmo != null)        // yes, so grab the address
                 {
                     TargetClass.SetTargetGMO("G:" + gmo.Name, gmo.ID, gmo.Points[0].X, gmo.Points[0].Y, gmo.Points[0].Z);
                     msgboxtext = "Target set on galaxy object " + gmo.Name;
@@ -113,92 +113,6 @@ namespace EDDiscovery.UserControls
             if (msgboxtext != null && prompt)
                 ExtendedControls.MessageBoxTheme.Show(senderForm, msgboxtext, "Create a target", MessageBoxButtons.OK);
 
-        }
-
-        // cursystem = null, curbookmark = null, new system free entry bookmark
-        // cursystem != null, curbookmark = null, system bookmark found, update
-        // cursystem != null, curbookmark = null, no system bookmark found, new bookmark on system
-        // curbookmark != null, edit current bookmark
-
-        public static void ShowBookmarkForm(Object sender, EDDiscoveryForm discoveryForm, ISystem cursystem, BookmarkClass curbookmark, bool notedsystem)
-        {
-            Form senderForm = ((Control)sender)?.FindForm() ?? discoveryForm;
-
-            // try and find the associated bookmark..
-            BookmarkClass bkmark = (curbookmark != null) ? curbookmark : (cursystem != null ? GlobalBookMarkList.Instance.FindBookmarkOnSystem(cursystem.Name) : null);
-
-            SystemNoteClass sn = (cursystem != null) ? SystemNoteClass.GetNoteOnSystem(cursystem.Name) : null;
-            string note = (sn != null) ? sn.Note : "";
-
-            BookmarkForm frm = new BookmarkForm(discoveryForm.history);
-
-            if (notedsystem && bkmark == null)              // note on a system
-            {
-                long targetid = TargetClass.GetTargetNotedSystem();      // who is the target of a noted system (0=none)
-                long noteid = sn.id;
-
-                frm.InitialisePos(cursystem);
-                frm.NotedSystem(cursystem.Name, note, noteid == targetid);       // note may be passed in null
-                frm.ShowDialog(senderForm);
-
-                if ((frm.IsTarget && targetid != noteid) || (!frm.IsTarget && targetid == noteid)) // changed..
-                {
-                    if (frm.IsTarget)
-                        TargetClass.SetTargetNotedSystem(cursystem.Name, noteid, cursystem.X, cursystem.Y, cursystem.Z);
-                    else
-                        TargetClass.ClearTarget();
-                }
-            }
-            else
-            {
-                bool regionmarker = false;
-                DateTime timeutc;
-
-                if (bkmark == null)                         // new bookmark
-                {
-                    timeutc = DateTime.UtcNow;
-                    if (cursystem == null)
-                        frm.NewFreeEntrySystemBookmark(timeutc);
-                    else
-                        frm.NewSystemBookmark(cursystem, note, timeutc);
-                }
-                else                                        // update bookmark
-                {
-                    regionmarker = bkmark.isRegion;
-                    timeutc = bkmark.TimeUTC;
-                    frm.Bookmark(bkmark);
-                }
-
-                DialogResult res = frm.ShowDialog(senderForm);
-
-                long curtargetid = TargetClass.GetTargetBookmark();      // who is the target of a bookmark (0=none)
-
-                if (res == DialogResult.OK)
-                {
-                    BookmarkClass newcls = GlobalBookMarkList.Instance.AddOrUpdateBookmark(bkmark, !regionmarker, frm.StarHeading, double.Parse(frm.x), double.Parse(frm.y), double.Parse(frm.z),
-                                                                     timeutc, frm.Notes, frm.SurfaceLocations);
-
-
-                    if ((frm.IsTarget && curtargetid != newcls.id) || (!frm.IsTarget && curtargetid == newcls.id)) // changed..
-                    {
-                        if (frm.IsTarget)
-                            TargetClass.SetTargetBookmark(regionmarker ? ("RM:" + newcls.Heading) : newcls.StarName, newcls.id, newcls.x, newcls.y, newcls.z);
-                        else
-                            TargetClass.ClearTarget();
-                    }
-                }
-                else if (res == DialogResult.Abort && bkmark != null)
-                {
-                    if (curtargetid == bkmark.id)
-                    {
-                        TargetClass.ClearTarget();
-                    }
-
-                    GlobalBookMarkList.Instance.Delete(bkmark);
-                }
-            }
-
-            discoveryForm.NewTargetSet(sender);
         }
     }
 }

@@ -276,10 +276,7 @@ namespace EDDiscovery.UserControls
                 if (!sysname.HasChars())
                     continue;
 
-                string note = "";
-                SystemNoteClass sysnote = SystemNoteClass.GetNoteOnSystem(sysname);
-                if (sysnote != null && !string.IsNullOrWhiteSpace(sysnote.Note))
-                    note = sysnote.Note;
+                string note = SystemNoteClass.GetTextNotesOnSystem(sysname);
 
                 BookmarkClass bkmark = GlobalBookMarkList.Instance.FindBookmarkOnSystem(sysname);
                 if (bkmark != null && !string.IsNullOrWhiteSpace(bkmark.Note))
@@ -1263,7 +1260,7 @@ namespace EDDiscovery.UserControls
             if (sc == null)
                 sc = new SystemClass((string)obj,0,0,0);
 
-            TargetHelpers.ShowBookmarkForm(this, discoveryform, sc, null, false);
+            BookmarkHelpers.ShowBookmarkForm(this, discoveryform, sc, null, false);
             UpdateSystemRows();
         }
 

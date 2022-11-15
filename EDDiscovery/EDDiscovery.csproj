@@ -276,6 +276,7 @@
     <Compile Include="UserControls\Helpers\MissionListUserControl.Designer.cs">
       <DependentUpon>MissionListUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Helpers\BookmarkHelpers.cs" />
     <Compile Include="UserControls\History\UserControlTravelGrid2.cs">
       <SubType>UserControl</SubType>
     </Compile>

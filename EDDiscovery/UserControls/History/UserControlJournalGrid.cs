@@ -420,10 +420,9 @@ namespace EDDiscovery.UserControls
 
         private void dataGridViewJournal_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-            DataGridView grid = sender as DataGridView;
-            PaintHelpers.PaintEventColumn(sender as DataGridView, e,
-                discoveryform.history.Count, (HistoryEntry)dataGridViewJournal.Rows[e.RowIndex].Tag,
-                Columns.Event, false);
+            HistoryEntry he = (HistoryEntry)dataGridViewJournal.Rows[e.RowIndex].Tag;
+            int rowno = EDDConfig.Instance.OrderRowsInverted ? he.EntryNumber : (discoveryform.history.Count - he.EntryNumber + 1);
+            PaintHelpers.PaintEventColumn(dataGridViewJournal, e, rowno, he, Columns.Event, false);
         }
 
         #region Mouse Clicks

@@ -164,7 +164,7 @@ namespace EDDiscovery.UserControls
         private void buttonNew_Click(object sender, EventArgs e)
         {
             updating = true;
-            UserControls.TargetHelpers.ShowBookmarkForm(this.FindForm(), discoveryform, null, null, false);
+            BookmarkHelpers.ShowBookmarkForm(this.FindForm(), discoveryform, null, null, false);
             updating = false;
             Display();
         }
@@ -172,7 +172,7 @@ namespace EDDiscovery.UserControls
         private void extButtonEditSystem_Click(object sender, EventArgs e)
         {
             updating = true;
-            UserControls.TargetHelpers.ShowBookmarkForm(this.FindForm(), discoveryform, discoveryform.history.GetLast?.System, null, false);
+            BookmarkHelpers.ShowBookmarkForm(this.FindForm(), discoveryform, discoveryform.history.GetLast?.System, null, false);
             updating = false;
             Display();
         }
@@ -193,7 +193,7 @@ namespace EDDiscovery.UserControls
                 EliteDangerousCore.ISystem sys = bk.isStar ? SystemCache.FindSystem(bk.Name, discoveryform.galacticMapping, true) : null;
 
                 updating = true;
-                UserControls.TargetHelpers.ShowBookmarkForm(this.FindForm(), discoveryform, sys, bk, false);
+                BookmarkHelpers.ShowBookmarkForm(this.FindForm(), discoveryform, sys, bk, false);
                 updating = false;
                 Display();
             }
