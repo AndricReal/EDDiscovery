@@ -45,8 +45,8 @@ namespace EDDiscovery.UserControls
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlLedger));
-            System.Windows.Forms.DataVisualization.Charting.ElementPosition elementPosition3 = new System.Windows.Forms.DataVisualization.Charting.ElementPosition();
-            System.Windows.Forms.DataVisualization.Charting.ElementPosition elementPosition4 = new System.Windows.Forms.DataVisualization.Charting.ElementPosition();
+            System.Windows.Forms.DataVisualization.Charting.ElementPosition elementPosition1 = new System.Windows.Forms.DataVisualization.Charting.ElementPosition();
+            System.Windows.Forms.DataVisualization.Charting.ElementPosition elementPosition2 = new System.Windows.Forms.DataVisualization.Charting.ElementPosition();
             this.dataViewScrollerPanel = new ExtendedControls.ExtPanelDataGridViewScroll();
             this.dataGridViewLedger = new BaseUtils.DataGridViewColumnControl();
             this.TimeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,8 +69,10 @@ namespace EDDiscovery.UserControls
             this.buttonExtExcel = new ExtendedControls.ExtButton();
             this.extCheckBoxWordWrap = new ExtendedControls.ExtCheckBox();
             this.topPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.label24h = new System.Windows.Forms.Label();
             this.splitContainerLedger = new System.Windows.Forms.SplitContainer();
             this.extChartLedger = new ExtendedControls.ExtSafeChart();
+            this.label7d = new System.Windows.Forms.Label();
             this.dataViewScrollerPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLedger)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
@@ -225,8 +227,8 @@ namespace EDDiscovery.UserControls
             // labelTime
             // 
             this.labelTime.AutoSize = true;
-            this.labelTime.Location = new System.Drawing.Point(0, 1);
-            this.labelTime.Margin = new System.Windows.Forms.Padding(0, 1, 8, 1);
+            this.labelTime.Location = new System.Drawing.Point(0, 3);
+            this.labelTime.Margin = new System.Windows.Forms.Padding(0, 3, 8, 1);
             this.labelTime.Name = "labelTime";
             this.labelTime.Size = new System.Drawing.Size(30, 13);
             this.labelTime.TabIndex = 26;
@@ -276,8 +278,8 @@ namespace EDDiscovery.UserControls
             // labelSearch
             // 
             this.labelSearch.AutoSize = true;
-            this.labelSearch.Location = new System.Drawing.Point(146, 1);
-            this.labelSearch.Margin = new System.Windows.Forms.Padding(0, 1, 8, 1);
+            this.labelSearch.Location = new System.Drawing.Point(146, 3);
+            this.labelSearch.Margin = new System.Windows.Forms.Padding(0, 3, 8, 1);
             this.labelSearch.Name = "labelSearch";
             this.labelSearch.Size = new System.Drawing.Size(41, 13);
             this.labelSearch.TabIndex = 24;
@@ -365,11 +367,23 @@ namespace EDDiscovery.UserControls
             this.topPanel.Controls.Add(this.buttonFilter);
             this.topPanel.Controls.Add(this.extCheckBoxWordWrap);
             this.topPanel.Controls.Add(this.buttonExtExcel);
+            this.topPanel.Controls.Add(this.label24h);
+            this.topPanel.Controls.Add(this.label7d);
             this.topPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.topPanel.Location = new System.Drawing.Point(0, 0);
             this.topPanel.Name = "topPanel";
             this.topPanel.Size = new System.Drawing.Size(800, 30);
             this.topPanel.TabIndex = 2;
+            // 
+            // label24h
+            // 
+            this.label24h.AutoSize = true;
+            this.label24h.Location = new System.Drawing.Point(459, 3);
+            this.label24h.Margin = new System.Windows.Forms.Padding(0, 3, 8, 1);
+            this.label24h.Name = "label24h";
+            this.label24h.Size = new System.Drawing.Size(64, 13);
+            this.label24h.TabIndex = 34;
+            this.label24h.Text = "<code 24h>";
             // 
             // splitContainerLedger
             // 
@@ -394,15 +408,25 @@ namespace EDDiscovery.UserControls
             this.extChartLedger.AutoScaleYAddedPercent = 5D;
             this.extChartLedger.Dock = System.Windows.Forms.DockStyle.Fill;
             this.extChartLedger.LeftArrowEnable = true;
-            this.extChartLedger.LeftArrowPosition = elementPosition3;
+            this.extChartLedger.LeftArrowPosition = elementPosition1;
             this.extChartLedger.Location = new System.Drawing.Point(0, 0);
             this.extChartLedger.Name = "extChartLedger";
             this.extChartLedger.RightArrowEnable = true;
-            this.extChartLedger.RightArrowPosition = elementPosition4;
+            this.extChartLedger.RightArrowPosition = elementPosition2;
             this.extChartLedger.Size = new System.Drawing.Size(800, 272);
             this.extChartLedger.TabIndex = 11;
             this.extChartLedger.ZoomMouseWheelXMinimumInterval = 5D;
             this.extChartLedger.ZoomMouseWheelXZoomFactor = 1.5D;
+            // 
+            // label7d
+            // 
+            this.label7d.AutoSize = true;
+            this.label7d.Location = new System.Drawing.Point(531, 3);
+            this.label7d.Margin = new System.Windows.Forms.Padding(0, 3, 8, 1);
+            this.label7d.Name = "label7d";
+            this.label7d.Size = new System.Drawing.Size(58, 13);
+            this.label7d.TabIndex = 34;
+            this.label7d.Text = "<code 7d>";
             // 
             // UserControlLedger
             // 
@@ -452,5 +476,7 @@ namespace EDDiscovery.UserControls
         private ExtendedControls.ExtCheckBox extCheckBoxWordWrap;
         private System.Windows.Forms.SplitContainer splitContainerLedger;
         private ExtendedControls.ExtSafeChart extChartLedger;
+        private System.Windows.Forms.Label label24h;
+        private System.Windows.Forms.Label label7d;
     }
 }

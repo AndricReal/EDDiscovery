@@ -154,13 +154,13 @@ namespace EDDiscovery.UserControls
             dataGridViewLedger.Rows.Clear();
             extChartLedger.ClearSeriesPoints();
 
-            var mc = discoveryform.history.CashLedger;
+            var ledger = discoveryform.history.CashLedger;
             transactioncountatdisplay = 0;
             
-            if (mc != null && mc.Transactions.Count > 0)
+            if (ledger != null && ledger.Transactions.Count > 0)
             {
                 var filter = (TravelHistoryFilter)comboBoxTime.SelectedItem ?? TravelHistoryFilter.NoFilter;
-                List<Ledger.Transaction> filteredlist = filter.Filter(mc.Transactions);
+                List<Ledger.Transaction> filteredlist = filter.Filter(ledger.Transactions);
 
                 if (filteredlist.Count > 0)
                 {
@@ -183,12 +183,18 @@ namespace EDDiscovery.UserControls
                     dataGridViewLedger.Rows.AddRange(rowsToAdd.ToArray());
                 }
 
-                transactioncountatdisplay = mc.Transactions.Count;
+                transactioncountatdisplay = ledger.Transactions.Count;
             }
 
             dataGridViewLedger.Columns[0].HeaderText = EDDConfig.Instance.GetTimeTitle();
             dataGridViewLedger.Sort(sortcol, (sortorder == SortOrder.Descending) ? ListSortDirection.Descending : ListSortDirection.Ascending);
             dataGridViewLedger.Columns[sortcol.Index].HeaderCell.SortGlyphDirection = sortorder;
+
+            var tx1 = ledger.TransactionBefore(DateTime.UtcNow.AddHours(-24));
+            label24h.Text = tx1 != null ? ("24h: " + (ledger.CashTotal - tx1.CashTotal).ToString("N0") + "cr") : "";
+            var tx2 = ledger.TransactionBefore(DateTime.UtcNow.AddDays(-7));
+            label7d.Text = tx2 != null ? ("7d: " + (ledger.CashTotal - tx2.CashTotal).ToString("N0") + "cr") : "";
+
         }
 
         private DataGridViewRow CreateRow(Ledger.Transaction tx, HashSet<string> eventfilter, string textfilter)
