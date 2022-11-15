@@ -64,6 +64,10 @@ namespace EDDiscovery.UserControls
             this.tabPageGeneral = new System.Windows.Forms.TabPage();
             this.splitContainerGeneral = new System.Windows.Forms.SplitContainer();
             this.extPanelDataGridViewScrollGeneral = new ExtendedControls.ExtPanelDataGridViewScroll();
+            this.tabPageRanks = new System.Windows.Forms.TabPage();
+            this.extPanelDataGridViewScrollRanks = new ExtendedControls.ExtPanelDataGridViewScroll();
+            this.dataGridViewRanks = new BaseUtils.DataGridViewBaseEnhancements();
+            this.extScrollBarRanks = new ExtendedControls.ExtScrollBar();
             this.tabPageLedger = new System.Windows.Forms.TabPage();
             this.splitContainerLedger = new System.Windows.Forms.SplitContainer();
             this.extPanelDataGridViewScrollLedger = new ExtendedControls.ExtPanelDataGridViewScroll();
@@ -105,6 +109,11 @@ namespace EDDiscovery.UserControls
             this.extPanelRollUp = new ExtendedControls.ExtPanelRollUp();
             this.dateTimePickerEndDate = new ExtendedControls.ExtDateTimePicker();
             this.labelStart = new System.Windows.Forms.Label();
+            this.dataGridViewTextBoxColumnRank = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumnAtStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxAtEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextColumnRankProgressNumeric = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumnLastPromotionDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGeneral)).BeginInit();
             this.tabControlCustomStats.SuspendLayout();
             this.tabPageGeneral.SuspendLayout();
@@ -113,6 +122,9 @@ namespace EDDiscovery.UserControls
             this.splitContainerGeneral.Panel2.SuspendLayout();
             this.splitContainerGeneral.SuspendLayout();
             this.extPanelDataGridViewScrollGeneral.SuspendLayout();
+            this.tabPageRanks.SuspendLayout();
+            this.extPanelDataGridViewScrollRanks.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRanks)).BeginInit();
             this.tabPageLedger.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerLedger)).BeginInit();
             this.splitContainerLedger.Panel1.SuspendLayout();
@@ -233,6 +245,7 @@ namespace EDDiscovery.UserControls
             // 
             this.tabControlCustomStats.AllowDragReorder = false;
             this.tabControlCustomStats.Controls.Add(this.tabPageGeneral);
+            this.tabControlCustomStats.Controls.Add(this.tabPageRanks);
             this.tabControlCustomStats.Controls.Add(this.tabPageLedger);
             this.tabControlCustomStats.Controls.Add(this.tabPageTravel);
             this.tabControlCustomStats.Controls.Add(this.tabPageScan);
@@ -300,6 +313,84 @@ namespace EDDiscovery.UserControls
             this.extPanelDataGridViewScrollGeneral.Size = new System.Drawing.Size(1059, 300);
             this.extPanelDataGridViewScrollGeneral.TabIndex = 10;
             this.extPanelDataGridViewScrollGeneral.VerticalScrollBarDockRight = true;
+            // 
+            // tabPageRanks
+            // 
+            this.tabPageRanks.Controls.Add(this.extPanelDataGridViewScrollRanks);
+            this.tabPageRanks.Location = new System.Drawing.Point(4, 22);
+            this.tabPageRanks.Name = "tabPageRanks";
+            this.tabPageRanks.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageRanks.Size = new System.Drawing.Size(1065, 511);
+            this.tabPageRanks.TabIndex = 9;
+            this.tabPageRanks.Text = "Ranks";
+            this.tabPageRanks.UseVisualStyleBackColor = true;
+            // 
+            // extPanelDataGridViewScrollRanks
+            // 
+            this.extPanelDataGridViewScrollRanks.Controls.Add(this.dataGridViewRanks);
+            this.extPanelDataGridViewScrollRanks.Controls.Add(this.extScrollBarRanks);
+            this.extPanelDataGridViewScrollRanks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.extPanelDataGridViewScrollRanks.InternalMargin = new System.Windows.Forms.Padding(0);
+            this.extPanelDataGridViewScrollRanks.Location = new System.Drawing.Point(3, 3);
+            this.extPanelDataGridViewScrollRanks.Name = "extPanelDataGridViewScrollRanks";
+            this.extPanelDataGridViewScrollRanks.Size = new System.Drawing.Size(1059, 505);
+            this.extPanelDataGridViewScrollRanks.TabIndex = 12;
+            this.extPanelDataGridViewScrollRanks.VerticalScrollBarDockRight = true;
+            // 
+            // dataGridViewRanks
+            // 
+            this.dataGridViewRanks.AllowUserToAddRows = false;
+            this.dataGridViewRanks.AllowUserToDeleteRows = false;
+            this.dataGridViewRanks.AllowUserToResizeRows = false;
+            this.dataGridViewRanks.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewRanks.AutoSortByColumnName = true;
+            this.dataGridViewRanks.ColumnHeaderMenuStrip = null;
+            this.dataGridViewRanks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewRanks.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumnRank,
+            this.dataGridViewTextBoxColumnAtStart,
+            this.dataGridViewTextBoxAtEnd,
+            this.dataGridViewTextColumnRankProgressNumeric,
+            this.dataGridViewTextBoxColumnLastPromotionDate});
+            this.dataGridViewRanks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewRanks.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewRanks.Name = "dataGridViewRanks";
+            this.dataGridViewRanks.RowHeaderMenuStrip = null;
+            this.dataGridViewRanks.RowHeadersVisible = false;
+            this.dataGridViewRanks.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.dataGridViewRanks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewRanks.SingleRowSelect = true;
+            this.dataGridViewRanks.Size = new System.Drawing.Size(1043, 505);
+            this.dataGridViewRanks.TabIndex = 2;
+            this.dataGridViewRanks.TopLeftHeaderMenuStrip = null;
+            // 
+            // extScrollBarRanks
+            // 
+            this.extScrollBarRanks.ArrowBorderColor = System.Drawing.Color.LightBlue;
+            this.extScrollBarRanks.ArrowButtonColor = System.Drawing.Color.LightGray;
+            this.extScrollBarRanks.ArrowColorScaling = 0.5F;
+            this.extScrollBarRanks.ArrowDownDrawAngle = 270F;
+            this.extScrollBarRanks.ArrowUpDrawAngle = 90F;
+            this.extScrollBarRanks.BorderColor = System.Drawing.Color.White;
+            this.extScrollBarRanks.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.extScrollBarRanks.HideScrollBar = false;
+            this.extScrollBarRanks.LargeChange = 0;
+            this.extScrollBarRanks.Location = new System.Drawing.Point(1043, 0);
+            this.extScrollBarRanks.Maximum = -1;
+            this.extScrollBarRanks.Minimum = 0;
+            this.extScrollBarRanks.MouseOverButtonColor = System.Drawing.Color.Green;
+            this.extScrollBarRanks.MousePressedButtonColor = System.Drawing.Color.Red;
+            this.extScrollBarRanks.Name = "extScrollBarRanks";
+            this.extScrollBarRanks.Size = new System.Drawing.Size(16, 505);
+            this.extScrollBarRanks.SliderColor = System.Drawing.Color.DarkGray;
+            this.extScrollBarRanks.SmallChange = 1;
+            this.extScrollBarRanks.TabIndex = 8;
+            this.extScrollBarRanks.ThumbBorderColor = System.Drawing.Color.Yellow;
+            this.extScrollBarRanks.ThumbButtonColor = System.Drawing.Color.DarkBlue;
+            this.extScrollBarRanks.ThumbColorScaling = 0.5F;
+            this.extScrollBarRanks.ThumbDrawAngle = 0F;
+            this.extScrollBarRanks.Value = -1;
+            this.extScrollBarRanks.ValueLimited = -1;
             // 
             // tabPageLedger
             // 
@@ -965,6 +1056,37 @@ namespace EDDiscovery.UserControls
             this.labelStart.TabIndex = 0;
             this.labelStart.Text = "Start";
             // 
+            // dataGridViewTextBoxColumnRank
+            // 
+            this.dataGridViewTextBoxColumnRank.HeaderText = "Rank";
+            this.dataGridViewTextBoxColumnRank.Name = "dataGridViewTextBoxColumnRank";
+            this.dataGridViewTextBoxColumnRank.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumnAtStart
+            // 
+            this.dataGridViewTextBoxColumnAtStart.HeaderText = "At Start";
+            this.dataGridViewTextBoxColumnAtStart.MinimumWidth = 50;
+            this.dataGridViewTextBoxColumnAtStart.Name = "dataGridViewTextBoxColumnAtStart";
+            this.dataGridViewTextBoxColumnAtStart.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxAtEnd
+            // 
+            this.dataGridViewTextBoxAtEnd.HeaderText = "At End";
+            this.dataGridViewTextBoxAtEnd.Name = "dataGridViewTextBoxAtEnd";
+            this.dataGridViewTextBoxAtEnd.ReadOnly = true;
+            // 
+            // dataGridViewTextColumnRankProgressNumeric
+            // 
+            this.dataGridViewTextColumnRankProgressNumeric.HeaderText = "Progress";
+            this.dataGridViewTextColumnRankProgressNumeric.Name = "dataGridViewTextColumnRankProgressNumeric";
+            this.dataGridViewTextColumnRankProgressNumeric.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumnLastPromotionDate
+            // 
+            this.dataGridViewTextBoxColumnLastPromotionDate.HeaderText = "Last Promotion/Date";
+            this.dataGridViewTextBoxColumnLastPromotionDate.Name = "dataGridViewTextBoxColumnLastPromotionDate";
+            this.dataGridViewTextBoxColumnLastPromotionDate.ReadOnly = true;
+            // 
             // UserControlStats
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -981,6 +1103,9 @@ namespace EDDiscovery.UserControls
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerGeneral)).EndInit();
             this.splitContainerGeneral.ResumeLayout(false);
             this.extPanelDataGridViewScrollGeneral.ResumeLayout(false);
+            this.tabPageRanks.ResumeLayout(false);
+            this.extPanelDataGridViewScrollRanks.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewRanks)).EndInit();
             this.tabPageLedger.ResumeLayout(false);
             this.splitContainerLedger.Panel1.ResumeLayout(false);
             this.splitContainerLedger.Panel2.ResumeLayout(false);
@@ -1074,5 +1199,14 @@ namespace EDDiscovery.UserControls
         private System.Windows.Forms.DataGridViewTextBoxColumn Information;
         private System.Windows.Forms.SplitContainer splitContainerShips;
         private ExtendedControls.ExtSafeChart extChartShips;
+        private System.Windows.Forms.TabPage tabPageRanks;
+        private ExtendedControls.ExtPanelDataGridViewScroll extPanelDataGridViewScrollRanks;
+        private BaseUtils.DataGridViewBaseEnhancements dataGridViewRanks;
+        private ExtendedControls.ExtScrollBar extScrollBarRanks;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumnRank;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumnAtStart;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxAtEnd;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextColumnRankProgressNumeric;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumnLastPromotionDate;
     }
 }

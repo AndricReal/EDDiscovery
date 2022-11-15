@@ -526,6 +526,7 @@ namespace EDDiscovery
         UserControlStats_tabControlCustomStats_tabPageGeneral_Information, // Column Header 'Information'
         UserControlStats_tabControlCustomStats_tabPageTravel, // Control 'Travel'
         UserControlStats_tabControlCustomStats_tabPageScan, // Control 'Scan'
+        UserControlStats_tabControlCustomStats_tabPageRanks, // Control 'Scan'
         UserControlStats_tabControlCustomStats_tabPageGameStats, // Control 'In Game'
         UserControlStats_tabControlCustomStats_tabPageByShip, // Control 'By Ship'
         UserControlStats_tabControlCustomStats_tabPageCombat,
@@ -589,6 +590,52 @@ namespace EDDiscovery
 
         UserControlStats_tabControlCustomStats_tabPageLedger_dataGridViewTextBoxColumnLedgerDate,
         UserControlStats_tabControlCustomStats_tabPageLedger_dataGridViewTextBoxColumnNumericCredits,
+
+        UserControlStats_tabControlCustomStats_tabPageRanks_dataGridViewTextBoxColumnRank, 
+        UserControlStats_tabControlCustomStats_tabPageRanks_dataGridViewTextBoxColumnAtStart, 
+        UserControlStats_tabControlCustomStats_tabPageRanks_dataGridViewTextBoxAtEnd, 
+        UserControlStats_tabControlCustomStats_tabPageRanks_dataGridViewTextBoxColumnLastPromotionDate,
+        UserControlStats_tabControlCustomStats_tabPageRanks_dataGridViewTextColumnRankProgressNumeric,
+
+        UserControlStats_Powerplay,
+        UserControlStats_Squadron,
+        UserControlStats_Bounties,
+        UserControlStats_Bountyvalue,
+        UserControlStats_Bountiesonships,
+        UserControlStats_Crimes,
+        UserControlStats_CrimeCost,
+        UserControlStats_FactionKillBonds,
+        UserControlStats_FKBValue,
+        UserControlStats_InterdictionPlayerSucceeded,
+        UserControlStats_InterdictionPlayerFailed,
+        UserControlStats_InterdictionNPCSucceeded,
+        UserControlStats_InterdictionNPCFailed,
+        UserControlStats_InterdictedPlayerSucceeded,
+        UserControlStats_InterdictedPlayerFailed,
+        UserControlStats_InterdictedNPCSucceeded,
+        UserControlStats_InterdictedNPCFailed,
+        UserControlStats_PVPKills,
+        UserControlStats_BountiesThargoid,
+        UserControlStats_BountiesOnFootNPC,
+        UserControlStats_BountiesSkimmers,
+        UserControlStats_ShipsUnknown,
+        UserControlStats_ShipsElite,
+        UserControlStats_ShipsDeadly,
+        UserControlStats_ShipsDangerous,
+        UserControlStats_ShipsMaster,
+        UserControlStats_ShipsExpert,
+        UserControlStats_ShipsCompetent,
+        UserControlStats_ShipsNovice,
+        UserControlStats_ShipsHarmless,
+        UserControlStats_PVPElite,
+        UserControlStats_PVPDeadly,
+        UserControlStats_PVPDangerous,
+        UserControlStats_PVPMaster,
+        UserControlStats_PVPExpert,
+        UserControlStats_PVPCompetent,
+        UserControlStats_PVPNovice,
+        UserControlStats_PVPHarmless,
+
 
         UserControlOrganics_extCheckBoxShowIncomplete_ToolTip, // ToolTip 'Display incomplete scans'
         UserControlOrganics_extButtonShowControl_ToolTip, // ToolTip 'Display Settings'
@@ -1454,6 +1501,9 @@ namespace EDDiscovery
         FilterSelector_MicroResources,
         FilterSelector_Suits,
         FilterSelector_Carrier,
+        FilterSelector_NewGroup,
+        FilterSelector_Confirmremoval,
+        FilterSelector_Newgroupname,
 
         ScanDisplayForm_Sys, // System
         ScanDisplayForm_Station, // Station

@@ -978,6 +978,57 @@ SECTION UserControlStats
 .tabControlCustomStats.tabPageScan: "Scan" @
 .tabControlCustomStats.tabPageGameStats: "In Game" @
 .tabControlCustomStats.tabPageByShip: "By Ship" @
+.tabControlCustomStats.tabPageRanks: "Ranks" @
+.tabControlCustomStats.tabPageRanks.dataGridViewTextBoxColumnRank: "Rank" @
+.tabControlCustomStats.tabPageRanks.dataGridViewTextBoxColumnAtStart: "At Start" @
+.tabControlCustomStats.tabPageRanks.dataGridViewTextBoxAtEnd: "At End" @
+.tabControlCustomStats.tabPageRanks.dataGridViewTextColumnRankProgressNumeric: "Progress" @
+.tabControlCustomStats.tabPageRanks.dataGridViewTextBoxColumnLastPromotionDate: "Last Promotion/Date" @
+.tabControlCustomStats.tabPageLedger: "Ledger" @
+.tabControlCustomStats.tabPageLedger.dataGridViewTextBoxColumnLedgerDate: "Date" @
+.tabControlCustomStats.tabPageLedger.dataGridViewTextBoxColumnNumericCredits: "Credits" @
+.tabControlCustomStats.tabPageCombat: "Combat" @
+
+.Powerplay: "Powerplay" @
+.Squadron: "Squadron" @
+
+.NoTrip: "No Trip" @
+.BountiesThargoid: "Bounties on Thargoids" @
+.BountiesOnFootNPC: "Bounties on On Foot NPC" @
+.BountiesSkimmers: "Bounties on Skimmers" @
+.ShipsUnknown: "Ships Unknown Rank" @
+.ShipsElite: "Ships Elite Rank" @
+.ShipsDeadly: "Ships Deadly Rank" @
+.ShipsDangerous: "Ships Dangerous Rank" @
+.ShipsMaster: "Ships Master Rank" @
+.ShipsExpert: "Ships Expert Rank" @
+.ShipsCompetent: "Ships Competent Rank" @
+.ShipsNovice: "Ships Novice Rank" @
+.ShipsHarmless: "Ships Harmless Rank" @
+.PVPElite: "PVP Elite Rank" @
+.PVPDeadly: "PVP Deadly Rank" @
+.PVPDangerous: "PVP Dangerous Rank" @
+.PVPMaster: "PVP Master Rank" @
+.PVPExpert: "PVP Expert Rank" @
+.PVPCompetent: "PVP Competent Rank" @
+.PVPNovice: "PVP Novice Rank" @
+.PVPHarmless: "PVP Harmless Rank" @
+.Bounties: "Bounties" @
+.Bountyvalue: "Bounty Value" @
+.Bountiesonships: "Bounties on Ships" @
+.Crimes: "Crimes" @
+.CrimeCost: "Crime Cost" @
+.FactionKillBonds: "Faction Kill Bonds" @
+.FKBValue: "FKB Value" @
+.InterdictionPlayerSucceeded: "Interdictions Player Succeeded" @
+.InterdictionPlayerFailed: "Interdictions Player Failed" @
+.InterdictionNPCSucceeded: "Interdictions NPC Succeeded" @
+.InterdictionNPCFailed: "Interdictions NPC Failed" @
+.InterdictedPlayerSucceeded: "Interdicted Player Succeeded" @
+.InterdictedPlayerFailed: "Interdicted Player Failed" @
+.InterdictedNPCSucceeded: "Interdicted NPC Succeeded" @
+.InterdictedNPCFailed: "Interdicted NPC Failed" @
+.PVPKills: "PVP Kills" @
 
 .TotalNoofjumps: "Total No of jumps" @
 .FSDjumps: "FSD jumps" @
@@ -1427,6 +1478,10 @@ SECTION FilterSelector
 .MicroResources: "Micro Resources" @
 .Suits: "Suits" @
 .Carrier: "Carrier" @
+.NewGroup: "Create new group" @
+.Newgroupname: "Enter name of new group" @
+.Confirmremoval: "Confirm removal of" @
+
 
 SECTION UserControlCommonBase
 

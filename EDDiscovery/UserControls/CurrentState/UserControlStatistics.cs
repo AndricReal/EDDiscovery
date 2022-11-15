@@ -84,6 +84,8 @@ namespace EDDiscovery.UserControls
             var enumlist = new Enum[] { EDTx.UserControlStats_tabControlCustomStats_tabPageGeneral, EDTx.UserControlStats_tabControlCustomStats_tabPageGeneral_ItemName,
                                         EDTx.UserControlStats_tabControlCustomStats_tabPageGeneral_Information, EDTx.UserControlStats_tabControlCustomStats_tabPageTravel,
                                         EDTx.UserControlStats_tabControlCustomStats_tabPageScan,
+                                        EDTx.UserControlStats_tabControlCustomStats_tabPageRanks, EDTx.UserControlStats_tabControlCustomStats_tabPageRanks_dataGridViewTextBoxColumnRank, EDTx.UserControlStats_tabControlCustomStats_tabPageRanks_dataGridViewTextBoxColumnAtStart, EDTx.UserControlStats_tabControlCustomStats_tabPageRanks_dataGridViewTextBoxAtEnd, 
+                                        EDTx.UserControlStats_tabControlCustomStats_tabPageRanks_dataGridViewTextBoxColumnLastPromotionDate,EDTx.UserControlStats_tabControlCustomStats_tabPageRanks_dataGridViewTextColumnRankProgressNumeric,
                                         EDTx.UserControlStats_tabControlCustomStats_tabPageGameStats,
                                         EDTx.UserControlStats_tabControlCustomStats_tabPageByShip, EDTx.UserControlStats_labelStart, EDTx.UserControlStats_labelEndDate,
                                         EDTx.UserControlStats_tabControlCustomStats_tabPageCombat,
@@ -413,7 +415,7 @@ namespace EDDiscovery.UserControls
                     {                               // we may not be currently displaying them, but we will need to refresh if we select them again
                         System.Diagnostics.Debug.WriteLine($"{BaseUtils.AppTicks.TickCount} Stats clear flags due to ns{newstats} eq{enqueued} ");
                         lasttraveltimemode = lastscantimemode = lastcombattimemode = StatsTimeUserControl.TimeModeType.NotSet;
-                        laststatsgeneraldisplayed = laststatsbyshipdisplayed = laststatsledgerdisplayed = false;
+                        laststatsgeneraldisplayed = laststatsbyshipdisplayed = laststatsledgerdisplayed = laststatsrankdisplayed= false;
                     }
 
                     DateTime starttimeutc = dateTimePickerStartDate.Checked ? EDDConfig.Instance.ConvertTimeToUTCFromPicker(dateTimePickerStartDate.Value.StartOfDay()) :
@@ -426,6 +428,11 @@ namespace EDDiscovery.UserControls
                     {
                         if (laststatsgeneraldisplayed == false)
                             StatsGeneral(currentstats, endtimeutc);
+                    }
+                    if (tabControlCustomStats.SelectedTab == tabPageRanks)
+                    {
+                        if (laststatsrankdisplayed == false)
+                            StatsRanks(currentstats, endtimeutc);
                     }
                     if (tabControlCustomStats.SelectedTab == tabPageLedger)
                     {
@@ -547,6 +554,95 @@ namespace EDDiscovery.UserControls
 
         #endregion
 
+        #region Ranks
+
+        private bool laststatsrankdisplayed = false;
+
+        private void StatsRanks(JournalStats currentstat, DateTime endtimeutc)
+        {
+            JournalRank firstrank = currentstat.Ranks.FirstOrDefault();        // may be null;
+            JournalRank lastrank = currentstat.Ranks.LastOrDefault();        // may be null;
+            JournalPromotion pcombat = currentstat.Promotions.FindLast(x => x.Combat.HasValue);
+            JournalPromotion ptrade = currentstat.Promotions.FindLast(x => x.Trade.HasValue);
+            JournalPromotion pexplore = currentstat.Promotions.FindLast(x => x.Explore.HasValue);
+            JournalPromotion psoldier= currentstat.Promotions.FindLast(x => x.Soldier.HasValue);
+            JournalPromotion pexobiologist = currentstat.Promotions.FindLast(x => x.ExoBiologist.HasValue);
+            JournalPromotion pempire = currentstat.Promotions.FindLast(x => x.Empire.HasValue);
+            JournalPromotion pfederation = currentstat.Promotions.FindLast(x => x.Federation.HasValue);
+            JournalPromotion pcqc = currentstat.Promotions.FindLast(x => x.CQC.HasValue);
+
+            dataGridViewRanks.Rows.Clear();
+
+            var ranknames = JournalRank.TranslatedRankNames();
+
+            dataGridViewRanks.Rows.Add(new string[]
+            {
+                ranknames[0], firstrank?.Combat.ToString().Replace("_", " ") ?? "?",lastrank?.Combat.ToString().Replace("_", " ") ?? "?",
+                currentstat.LastProgress?.Combat.ToString() ?? "-",
+                pcombat!=null ? EDDConfig.Instance.ConvertTimeToSelectedFromUTC(pcombat.EventTimeUTC).ToString() : "-",
+            });
+            dataGridViewRanks.Rows.Add(new string[]
+            {
+                ranknames[1], firstrank?.Trade.ToString().Replace("_", " ") ?? "?",lastrank?.Trade.ToString().Replace("_", " ") ?? "?",
+                currentstat.LastProgress?.Trade.ToString() ?? "-",
+                ptrade!=null ? EDDConfig.Instance.ConvertTimeToSelectedFromUTC(ptrade.EventTimeUTC).ToString() : "-",
+            });
+            dataGridViewRanks.Rows.Add(new string[]
+            {
+                ranknames[2], firstrank?.Explore.ToString().Replace("_", " ") ?? "?",lastrank?.Explore.ToString().Replace("_", " ") ?? "?",
+                currentstat.LastProgress?.Explore.ToString() ?? "-",
+                pexplore!=null ? EDDConfig.Instance.ConvertTimeToSelectedFromUTC(pexplore.EventTimeUTC).ToString() : "-",
+            });
+            dataGridViewRanks.Rows.Add(new string[]
+            {
+                ranknames[3], firstrank?.Soldier.ToString().Replace("_", " ") ?? "?",lastrank?.Soldier.ToString().Replace("_", " ") ?? "?",
+                currentstat.LastProgress?.Soldier.ToString() ?? "-",
+                psoldier!=null ? EDDConfig.Instance.ConvertTimeToSelectedFromUTC(psoldier.EventTimeUTC).ToString() : "-",
+            });
+            dataGridViewRanks.Rows.Add(new string[]
+            {
+                ranknames[4], firstrank?.ExoBiologist.ToString().Replace("_", " ") ?? "?",lastrank?.ExoBiologist.ToString().Replace("_", " ") ?? "?",
+                currentstat.LastProgress?.ExoBiologist.ToString() ?? "-",
+                pexobiologist!=null ? EDDConfig.Instance.ConvertTimeToSelectedFromUTC(pexobiologist.EventTimeUTC).ToString() : "-",
+            });
+            dataGridViewRanks.Rows.Add(new string[]
+            {
+                ranknames[5], firstrank?.Empire.ToString().Replace("_", " ") ?? "?",lastrank?.Empire.ToString().Replace("_", " ") ?? "?",
+                currentstat.LastProgress?.Empire.ToString() ?? "-",
+                pempire!=null ? EDDConfig.Instance.ConvertTimeToSelectedFromUTC(pempire.EventTimeUTC).ToString() : "-",
+            });
+            dataGridViewRanks.Rows.Add(new string[]
+            {
+                ranknames[6], firstrank?.Federation.ToString().Replace("_", " ") ?? "?",lastrank?.Federation.ToString().Replace("_", " ") ?? "?",
+                currentstat.LastProgress?.Federation.ToString() ?? "-",
+                pfederation!=null ? EDDConfig.Instance.ConvertTimeToSelectedFromUTC(pfederation.EventTimeUTC).ToString() : "-",
+            });
+            dataGridViewRanks.Rows.Add(new string[]
+            {
+                ranknames[7], firstrank?.CQC.ToString().Replace("_", " ") ?? "?",lastrank?.CQC.ToString().Replace("_", " ") ?? "?",
+                currentstat.LastProgress?.CQC.ToString() ?? "-",
+                pcqc!=null ? EDDConfig.Instance.ConvertTimeToSelectedFromUTC(pcqc.EventTimeUTC).ToString() : "-",
+            });
+
+            string pp = currentstat.LastPowerplay != null ? $"{currentstat.LastPowerplay.Power} - {currentstat.LastPowerplay.Rank} - {currentstat.LastPowerplay.Merits}" : "-";
+            string pptime = currentstat.LastPowerplay != null ? EDDConfig.Instance.ConvertTimeToSelectedFromUTC(currentstat.LastPowerplay.TimeJoinedUTC).ToString() : "";
+            dataGridViewRanks.Rows.Add(new string[]
+            {
+                "Powerplay".TxID(EDTx.UserControlStats_Powerplay), "", pp,"",pptime,
+            });
+
+            string ss = currentstat.LastSquadronStartup != null ? $"{currentstat.LastSquadronStartup.Name} - {currentstat.LastSquadronStartup.CurrentRank.ToString()}" : "-";
+            string sstime = currentstat.LastSquadronPromotion != null ? EDDConfig.Instance.ConvertTimeToSelectedFromUTC(currentstat.LastSquadronPromotion.EventTimeUTC).ToString() : "";
+            dataGridViewRanks.Rows.Add(new string[]
+            {
+                "Squadron".TxID(EDTx.UserControlStats_Squadron), "", ss,"",sstime,
+            });
+
+
+            laststatsrankdisplayed = true;
+        }
+
+        #endregion
 
         #region Ledger *********************************************************************************************************************
 
@@ -943,29 +1039,30 @@ namespace EDDiscovery.UserControls
             if (IsClosed)
                 return;
 
-   //TBD TX IDS
             int row = 0;
-            StatToDGV(dataGridViewCombat, "Bounties".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "Bounty Value".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "Bounties on Ships".T(EDTx.TBD), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Bounties".T(EDTx.UserControlStats_Bounties), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Bounty Value".T(EDTx.UserControlStats_Bountyvalue), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Bounties on Ships".T(EDTx.UserControlStats_Bountiesonships), cres.griddata[row++]);
 
             foreach (var lab in cres.chart1labels)
                 StatToDGV(dataGridViewCombat, lab, cres.griddata[row++]);
 
-            StatToDGV(dataGridViewCombat, "Crimes".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "Crime Cost".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "Faction Kill Bonds".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "FKB Value".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "Interdictions Player Succeeded".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "Interdictions Player Failed".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "Interdictions NPC Succeeded".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "Interdictions NPC Failed".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "Interdicted Player Succeeded".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "Interdicted Player Failed".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "Interdicted NPC Succeeded".T(EDTx.TBD), cres.griddata[row++]);
-            StatToDGV(dataGridViewCombat, "Interdicted NPC Failed".T(EDTx.TBD), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Crimes".T(EDTx.UserControlStats_Crimes), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Crime Cost".T(EDTx.UserControlStats_CrimeCost), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Faction Kill Bonds".T(EDTx.UserControlStats_FactionKillBonds), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "FKB Value".T(EDTx.UserControlStats_FKBValue), cres.griddata[row++]);
 
-            StatToDGV(dataGridViewCombat, "PVP Kills".T(EDTx.TBD), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Interdictions Player Succeeded".T(EDTx.UserControlStats_InterdictionPlayerSucceeded), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Interdictions Player Failed".T(EDTx.UserControlStats_InterdictionPlayerFailed), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Interdictions NPC Succeeded".T(EDTx.UserControlStats_InterdictionNPCSucceeded), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Interdictions NPC Failed".T(EDTx.UserControlStats_InterdictionNPCFailed), cres.griddata[row++]);
+
+            StatToDGV(dataGridViewCombat, "Interdicted Player Succeeded".T(EDTx.UserControlStats_InterdictedPlayerSucceeded), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Interdicted Player Failed".T(EDTx.UserControlStats_InterdictedPlayerFailed), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Interdicted NPC Succeeded".T(EDTx.UserControlStats_InterdictedNPCSucceeded), cres.griddata[row++]);
+            StatToDGV(dataGridViewCombat, "Interdicted NPC Failed".T(EDTx.UserControlStats_InterdictedNPCFailed), cres.griddata[row++]);
+
+            StatToDGV(dataGridViewCombat, "PVP Kills".T(EDTx.UserControlStats_PVPKills), cres.griddata[row++]);
             foreach (var lab in cres.chart2labels)
                 StatToDGV(dataGridViewCombat, lab, cres.griddata[row++]);
 
@@ -1066,18 +1163,18 @@ namespace EDDiscovery.UserControls
 
                 crs.chart1labels = new string[]
                 {
-                    "Bounties on Thargoids".T(EDTx.TBD),
-                    "Bounties on On Foot NPC".T(EDTx.TBD), 
-                    "Bounties on Skimmers".T(EDTx.TBD), 
-                    "Ships Unknown Rank".T(EDTx.TBD),
-                    "Ships Elite Rank".T(EDTx.TBD),
-                    "Ships Deadly Rank".T(EDTx.TBD),
-                    "Ships Dangerous Rank".T(EDTx.TBD),
-                    "Ships Master Rank".T(EDTx.TBD),
-                    "Ships Expert Rank".T(EDTx.TBD),
-                    "Ships Competent Rank".T(EDTx.TBD),
-                    "Ships Novice Rank".T(EDTx.TBD),
-                    "Ships Harmless Rank".T(EDTx.TBD),
+                    "Bounties on Thargoids".T(EDTx.UserControlStats_BountiesThargoid),
+                    "Bounties on On Foot NPC".T(EDTx.UserControlStats_BountiesOnFootNPC), 
+                    "Bounties on Skimmers".T(EDTx.UserControlStats_BountiesSkimmers), 
+                    "Ships Unknown Rank".T(EDTx.UserControlStats_ShipsUnknown),
+                    "Ships Elite Rank".T(EDTx.UserControlStats_ShipsElite),
+                    "Ships Deadly Rank".T(EDTx.UserControlStats_ShipsDeadly),
+                    "Ships Dangerous Rank".T(EDTx.UserControlStats_ShipsDangerous),
+                    "Ships Master Rank".T(EDTx.UserControlStats_ShipsMaster),
+                    "Ships Expert Rank".T(EDTx.UserControlStats_ShipsExpert),
+                    "Ships Competent Rank".T(EDTx.UserControlStats_ShipsCompetent),
+                    "Ships Novice Rank".T(EDTx.UserControlStats_ShipsNovice),
+                    "Ships Harmless Rank".T(EDTx.UserControlStats_ShipsHarmless),
                 };
 
                 crs.chart1data = new int[intervals][];        // outer [] is intervals      CHART 1 is PVP
@@ -1086,14 +1183,14 @@ namespace EDDiscovery.UserControls
 
                 crs.chart2labels = new string[]
                 {
-                     "PVP Elite Rank".T(EDTx.TBD),
-                     "PVP Deadly Rank".T(EDTx.TBD),
-                     "PVP Dangerous Rank".T(EDTx.TBD),
-                     "PVP Master Rank".T(EDTx.TBD),
-                     "PVP Expert Rank".T(EDTx.TBD),
-                     "PVP Competent Rank".T(EDTx.TBD),
-                     "PVP Novice Rank".T(EDTx.TBD),
-                     "PVP Harmless Rank".T(EDTx.TBD),
+                     "PVP Elite Rank".T(EDTx.UserControlStats_PVPElite),
+                     "PVP Deadly Rank".T(EDTx.UserControlStats_PVPDeadly),
+                     "PVP Dangerous Rank".T(EDTx.UserControlStats_PVPDangerous),
+                     "PVP Master Rank".T(EDTx.UserControlStats_PVPMaster),
+                     "PVP Expert Rank".T(EDTx.UserControlStats_PVPExpert),
+                     "PVP Competent Rank".T(EDTx.UserControlStats_PVPCompetent),
+                     "PVP Novice Rank".T(EDTx.UserControlStats_PVPNovice),
+                     "PVP Harmless Rank".T(EDTx.UserControlStats_PVPHarmless),
                 };
 
                 crs.chart2data = new int[intervals][];        // outer [] is intervals

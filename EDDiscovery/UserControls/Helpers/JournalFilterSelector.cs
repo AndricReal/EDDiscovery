@@ -33,6 +33,7 @@ namespace EDDiscovery.UserControls
             HideOnDeactivate = true;
             MultipleColumnsAllowed = true;
             MultipleColumnsFitToScreen = true;
+            BorderStyle = BorderStyle.FixedSingle;
         }
 
         public void AddJournalExtraOptions()
@@ -103,7 +104,7 @@ namespace EDDiscovery.UserControls
 
             //System.Diagnostics.Debug.WriteLine($"Group setting {GetUserGroupDefinition(1)}");
 
-            AddStandardOptionAtTop(null, "Create new group".TxID(EDTx.TBD), global::EDDiscovery.Icons.Controls.AddJournals, button: true);
+            AddStandardOptionAtTop(null, "Create new group".TxID(EDTx.FilterSelector_NewGroup), global::EDDiscovery.Icons.Controls.AddJournals, button: true);
 
             ButtonPressed += (index,stag, text, usertag, e) => 
             {
@@ -113,7 +114,7 @@ namespace EDDiscovery.UserControls
                     {
                         Hide();
 
-                        if (ExtendedControls.MessageBoxTheme.Show($"Confirm removal of".TxID(EDTx.TBD) + " " + text, "Warning".TxID(EDTx.Warning), MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+                        if (ExtendedControls.MessageBoxTheme.Show($"Confirm removal of".TxID(EDTx.FilterSelector_Confirmremoval) + " " + text, "Warning".TxID(EDTx.Warning), MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
                         {
                             Clear();
                             RemoveGroupOption(index);
@@ -130,7 +131,7 @@ namespace EDDiscovery.UserControls
                     {
                         Hide();
 
-                        string promptValue = ExtendedControls.PromptSingleLine.ShowDialog(null, "", "", "Enter name of new group".TxID(EDTx.TBD), Properties.Resources.edlogo_3mo_icon);
+                        string promptValue = ExtendedControls.PromptSingleLine.ShowDialog(null, "", "", "Enter name of new group".TxID(EDTx.FilterSelector_Newgroupname), Properties.Resources.edlogo_3mo_icon);
                         if (promptValue != null)
                         {
                             string cursettings = GetChecked();
