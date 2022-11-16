@@ -1075,6 +1075,7 @@
     <EmbeddedResource Include="Controls\PioneerSupplies.png" />
     <EmbeddedResource Include="Controls\ModulePack.png" />
     <EmbeddedResource Include="Panels\Carrier.png" />
+    <EmbeddedResource Include="Controls\NewRegion.png" />
     <Content Include="Controls\readme.txt" />
     <EmbeddedResource Include="Panels\MissionOverlay.png" />
     <EmbeddedResource Include="Journal\CrimeVictim.png" />

@@ -27,86 +27,77 @@ namespace EDDiscovery.UserControls
         // cursystem != null, curbookmark = null, system bookmark found, update
         // cursystem != null, curbookmark = null, no system bookmark found, new bookmark on system
         // curbookmark != null, edit current bookmark
+        // region = true, with  cursystem=null,curbookmark = null, region marker
 
-        public static void ShowBookmarkForm(Object sender, EDDiscoveryForm discoveryForm, ISystem cursystem, BookmarkClass curbookmark, bool notedsystem)
+        public static bool ShowBookmarkForm(Control parent, EDDiscoveryForm discoveryForm, ISystem cursystem, BookmarkClass curbookmark, bool region = false)
         {
-            Form senderForm = ((Control)sender)?.FindForm() ?? discoveryForm;
-
             // try and find the associated bookmark..
             BookmarkClass bkmark = (curbookmark != null) ? curbookmark : (cursystem != null ? GlobalBookMarkList.Instance.FindBookmarkOnSystem(cursystem.Name) : null);
 
-            SystemNoteClass sn = (cursystem != null) ? SystemNoteClass.GetLastNoteOnSystem(cursystem.Name) : null;
-            string note = (sn != null) ? sn.Note : "";
+            BookmarkForm frm = new BookmarkForm(discoveryForm.history, true);       // we handle target changes so show checkbox
 
-            BookmarkForm frm = new BookmarkForm(discoveryForm.history);
+            bool regionmarker = false;                  // if region marker..
+            DateTime timeutc;
 
-            if (notedsystem && bkmark == null)              // note on a system
+            if (bkmark == null)                         // new bookmark
             {
-                long targetid = TargetClass.GetTargetNotedSystem();      // who is the target of a noted system (0=none)
-                long noteid = sn.id;
+                timeutc = DateTime.UtcNow;
+                if (region == true)
+                {
+                    frm.NewRegionBookmark(timeutc);
+                    regionmarker = true;
+                }
+                else if (cursystem == null)
+                    frm.NewFreeEntrySystemBookmark(timeutc);
+                else
+                    frm.NewSystemBookmark(cursystem, timeutc);
+            }
+            else                                        // update bookmark
+            {
+                regionmarker = bkmark.isRegion;
+                timeutc = bkmark.TimeUTC;
+                frm.Bookmark(bkmark);
+            }
 
-                frm.InitialisePos(cursystem);
-                frm.NotedSystem(cursystem.Name, note, noteid == targetid);       // note may be passed in null
-                frm.ShowDialog(senderForm);
+            DialogResult res = frm.ShowDialog(parent);
 
-                if ((frm.IsTarget && targetid != noteid) || (!frm.IsTarget && targetid == noteid)) // changed..
+            long curtargetid = TargetClass.GetTargetBookmarkID();      // who is the current bookmark target? (ID). If not a bookmark, -1
+
+            if (res == DialogResult.OK)
+            {
+                BookmarkClass newcls = GlobalBookMarkList.Instance.AddOrUpdateBookmark(bkmark, !regionmarker, frm.StarHeading, double.Parse(frm.x), double.Parse(frm.y), double.Parse(frm.z),
+                                                                    timeutc, frm.Notes, frm.SurfaceLocations);
+
+
+
+                // if form sets target, and our target ID is not the same.. or we have removed the target, we update the target system
+
+                if ((frm.IsTarget && curtargetid != newcls.id) || (!frm.IsTarget && curtargetid == newcls.id)) // changed..
                 {
                     if (frm.IsTarget)
-                        TargetClass.SetTargetNotedSystem(cursystem.Name, noteid, cursystem.X, cursystem.Y, cursystem.Z);
+                        TargetClass.SetTargetOnBookmark(regionmarker ? ("RM:" + newcls.Heading) : newcls.StarName, newcls.id, newcls.x, newcls.y, newcls.z);
                     else
                         TargetClass.ClearTarget();
+
+                    discoveryForm.NewTargetSet(parent);     // inform system
                 }
+
+                return true;
             }
-            else
+            else if (res == DialogResult.Abort && bkmark != null)
             {
-                bool regionmarker = false;
-                DateTime timeutc;
-
-                if (bkmark == null)                         // new bookmark
+                if (curtargetid == bkmark.id)       // if we deleted it
                 {
-                    timeutc = DateTime.UtcNow;
-                    if (cursystem == null)
-                        frm.NewFreeEntrySystemBookmark(timeutc);
-                    else
-                        frm.NewSystemBookmark(cursystem, note, timeutc);
-                }
-                else                                        // update bookmark
-                {
-                    regionmarker = bkmark.isRegion;
-                    timeutc = bkmark.TimeUTC;
-                    frm.Bookmark(bkmark);
+                    TargetClass.ClearTarget();
+                    discoveryForm.NewTargetSet(parent);     // inform system
                 }
 
-                DialogResult res = frm.ShowDialog(senderForm);
+                GlobalBookMarkList.Instance.Delete(bkmark);
 
-                long curtargetid = TargetClass.GetTargetBookmark();      // who is the target of a bookmark (0=none)
-
-                if (res == DialogResult.OK)
-                {
-                    BookmarkClass newcls = GlobalBookMarkList.Instance.AddOrUpdateBookmark(bkmark, !regionmarker, frm.StarHeading, double.Parse(frm.x), double.Parse(frm.y), double.Parse(frm.z),
-                                                                     timeutc, frm.Notes, frm.SurfaceLocations);
-
-
-                    if ((frm.IsTarget && curtargetid != newcls.id) || (!frm.IsTarget && curtargetid == newcls.id)) // changed..
-                    {
-                        if (frm.IsTarget)
-                            TargetClass.SetTargetBookmark(regionmarker ? ("RM:" + newcls.Heading) : newcls.StarName, newcls.id, newcls.x, newcls.y, newcls.z);
-                        else
-                            TargetClass.ClearTarget();
-                    }
-                }
-                else if (res == DialogResult.Abort && bkmark != null)
-                {
-                    if (curtargetid == bkmark.id)
-                    {
-                        TargetClass.ClearTarget();
-                    }
-
-                    GlobalBookMarkList.Instance.Delete(bkmark);
-                }
+                return true;
             }
 
-            discoveryForm.NewTargetSet(sender);
+            return false;
         }
     }
 }

@@ -1238,7 +1238,15 @@ namespace EDDiscovery.UserControls
 
             if (obj == null)
                 return;
-            TargetHelpers.SetTargetSystem(this, discoveryform, (string)obj);
+
+            ISystem sc = SystemCache.FindSystem((string)obj);       //TBD warning not found?
+            if (sc != null && sc.HasCoordinate)
+            {
+                if (TargetClass.SetTargetOnSystemConditional(sc.Name, sc.X, sc.Y, sc.Z))
+                {
+                    discoveryform.NewTargetSet(this);
+                }
+            }
         }
 
         private void editBookmarkToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1260,7 +1268,7 @@ namespace EDDiscovery.UserControls
             if (sc == null)
                 sc = new SystemClass((string)obj,0,0,0);
 
-            BookmarkHelpers.ShowBookmarkForm(this, discoveryform, sc, null, false);
+            BookmarkHelpers.ShowBookmarkForm(this.FindForm(), discoveryform, sc, null);
             UpdateSystemRows();
         }
 

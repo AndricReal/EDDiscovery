@@ -511,13 +511,17 @@ namespace EDDiscovery.UserControls.Map3D
                             rightclickmenu.Visible = false;     // because its a winform dialog we are showing, the menu won't shut down during show
                                                                 // so we set this to invisible (not close, won't work inside here)
                             var bkm = rightclickmenu.Tag as EliteDangerousCore.DB.BookmarkClass;
-                            if ( bkm == null)
+
+                            if (bkm == null)
                             {
                                 var nl = NameLocationDescription(rightclickmenu.Tag, parent.discoveryform.history.GetLast);
                                 bkm = EliteDangerousCore.DB.GlobalBookMarkList.Instance.FindBookmarkOnSystem(nl.Item1);
                             }
-                            if (bkm != null )
-                                EditBookmark(bkm);
+
+                            var res = BookmarkHelpers.ShowBookmarkForm(parent.discoveryform, parent.discoveryform, null, bkm);
+                            if (res)
+                                UpdateBookmarks();
+
                         }
                     },
                     new GLMenuItem("RCMZoomIn", "Goto Zoom In")
@@ -570,16 +574,12 @@ namespace EDDiscovery.UserControls.Map3D
                         {
                             rightclickmenu.Visible = false;     // see above for this reason
                             var nl = NameLocationDescription(rightclickmenu.Tag, parent.discoveryform.history.GetLast);
-                            BookmarkForm frm = new BookmarkForm(parent.discoveryform.history);
-                            frm.NewSystemBookmark(new SystemClass(nl.Item1, nl.Item2.X, nl.Item2.Y, nl.Item2.Z), "", DateTime.UtcNow);
-                            System.Windows.Forms.DialogResult res = frm.ShowDialog();
-                            if (res == System.Windows.Forms.DialogResult.OK)
-                            {
-                                // add/update, the global bookmark callback will prompt update
 
-                                EliteDangerousCore.DB.BookmarkClass newcls = EliteDangerousCore.DB.GlobalBookMarkList.Instance.AddOrUpdateBookmark(
-                                    null, true, frm.StarHeading, double.Parse(frm.x), double.Parse(frm.y), double.Parse(frm.z),
-                                                                                                   DateTime.UtcNow, frm.Notes, frm.SurfaceLocations);
+                            var res = BookmarkHelpers.ShowBookmarkForm(parent.discoveryform, parent.discoveryform,
+                                                    new SystemClass(nl.Item1, nl.Item2.X, nl.Item2.Y, nl.Item2.Z), null);
+
+                            if ( res )      // if changed
+                            {
                                 UpdateBookmarks();
                             }
                         }
@@ -821,21 +821,9 @@ namespace EDDiscovery.UserControls.Map3D
 
         public void EditBookmark(EliteDangerousCore.DB.BookmarkClass bkm)
         {
-            BookmarkForm frm = new BookmarkForm(parent.discoveryform.history);
-            frm.Bookmark(bkm);
-            System.Windows.Forms.DialogResult res = frm.ShowDialog();
-            if (res == System.Windows.Forms.DialogResult.OK)
-            {
-                EliteDangerousCore.DB.BookmarkClass newcls = EliteDangerousCore.DB.GlobalBookMarkList.Instance.AddOrUpdateBookmark(
-                    bkm, bkm.isStar, frm.StarHeading, double.Parse(frm.x), double.Parse(frm.y), double.Parse(frm.z),
-                                                                                   bkm.TimeUTC, frm.Notes, frm.SurfaceLocations);
+            var res = BookmarkHelpers.ShowBookmarkForm(parent.discoveryform, parent.discoveryform, null, bkm);
+            if (res)
                 UpdateBookmarks();
-            }
-            else if ( res == DialogResult.Abort)
-            {
-                EliteDangerousCore.DB.GlobalBookMarkList.Instance.Delete(bkm);
-                UpdateBookmarks();
-            }
         }
         public void DeleteBookmark(EliteDangerousCore.DB.BookmarkClass bkm)
         {
@@ -911,18 +899,9 @@ namespace EDDiscovery.UserControls.Map3D
                     {
                         MouseClick = (s, e) =>
                         {
-                            BookmarkForm frm = new BookmarkForm(parent.discoveryform.history);
-                            frm.NewFreeEntrySystemBookmark(DateTime.UtcNow);
-                            System.Windows.Forms.DialogResult res = frm.ShowDialog();
-                            if (res == System.Windows.Forms.DialogResult.OK)
-                            {
-                                // add/update, the global bookmark callback will prompt update
-
-                                EliteDangerousCore.DB.BookmarkClass newcls = EliteDangerousCore.DB.GlobalBookMarkList.Instance.AddOrUpdateBookmark(
-                                    null, true, frm.StarHeading, double.Parse(frm.x), double.Parse(frm.y), double.Parse(frm.z),
-                                                                                                   DateTime.UtcNow, frm.Notes, frm.SurfaceLocations);
-
-                            }
+                            var res = BookmarkHelpers.ShowBookmarkForm(parent.discoveryform, parent.discoveryform, null, null);
+                            if (res)
+                                UpdateBookmarks();
                         }
                     },
                     new GLMenuItem("BKDelete", "Delete")

@@ -1074,31 +1074,7 @@ namespace EDDiscovery.UserControls
 
         private void createEditBookmarkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            BookmarkForm bookmarkForm = new BookmarkForm(discoveryform.history);
-            BookmarkClass existing = GlobalBookMarkList.Instance.FindBookmarkOnSystem(rightclickhe.System.Name);
-            DateTime timeutc;
-            if (existing != null)
-            {
-                timeutc = existing.TimeUTC;
-                bookmarkForm.Bookmark(existing);
-            }
-            else
-            {
-                timeutc = DateTime.UtcNow;
-                bookmarkForm.NewSystemBookmark(rightclickhe.System, "", timeutc);
-            }
-            DialogResult dr = bookmarkForm.ShowDialog();
-            if (dr == DialogResult.OK)
-            {
-                GlobalBookMarkList.Instance.AddOrUpdateBookmark(existing, true, rightclickhe.System.Name, rightclickhe.System.X, rightclickhe.System.Y, rightclickhe.System.Z,
-                    timeutc, bookmarkForm.Notes, bookmarkForm.SurfaceLocations);
-            }
-            if (dr == DialogResult.Abort && existing != null)
-            {
-                GlobalBookMarkList.Instance.Delete(existing);
-            }
-
-            dataGridViewTravel.Refresh();
+            BookmarkHelpers.ShowBookmarkForm(discoveryform, discoveryform, rightclickhe.System, null);
         }
 
         private void gotoEntryNumberToolStripMenuItem_Click(object sender, EventArgs e)

@@ -502,11 +502,10 @@ namespace EDDiscovery.UserControls
 
                             if (IsSet(RouteControl.settarget))
                             {
-                                string targetName;
-                                double x, y, z;
-                                TargetClass.GetTargetPosition(out targetName, out x, out y, out z);
-                                if (name.CompareTo(targetName) != 0)
-                                    TargetHelpers.SetTargetSystem(this, discoveryform, name, false);
+                                if (TargetClass.SetTargetOnSystemConditional(name, closest.nextsystem.X, closest.nextsystem.Y, closest.nextsystem.Z))
+                                {
+                                    discoveryform.NewTargetSet(this);
+                                }
                             }
 
                             lastsystemroute = name;
@@ -516,9 +515,9 @@ namespace EDDiscovery.UserControls
 
                 if (IsSet(RouteControl.showtarget))
                 {
-                    if (TargetClass.GetTargetPosition(out string name, out Point3D tpos))
+                    if (TargetClass.GetTargetPosition(out string name, out double x, out double y, out double z))
                     {
-                        double dist = last_sys.Distance(tpos.X, tpos.Y, tpos.Z);
+                        double dist = last_sys.Distance(x,y,z);
 
                         string jumpstr = "";
                         if (shipfsdinfo != null)

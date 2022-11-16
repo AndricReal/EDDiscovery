@@ -840,6 +840,7 @@ namespace EDDiscovery
         UserControlBookmarks_buttonDelete_ToolTip, // ToolTip 'Delete selected bookmark'
         UserControlBookmarks_buttonExtExcel_ToolTip, // ToolTip 'Export bookmarks to CSV file'
         UserControlBookmarks_buttonExtImport_ToolTip, // ToolTip 'Import bookmarks to EDD from CSV file'
+        UserControlBookmarks_extButtonNewRegion_ToolTip,
         UserControlBookmarks_CFN, // Do you really want to delete {0} bookmarks?
         UserControlBookmarks_CF, // Do you really want to delete the bookmark for {0}
         UserControlBookmarks_SysU, // System could not be found - has not been synched or EDSM is unavailable

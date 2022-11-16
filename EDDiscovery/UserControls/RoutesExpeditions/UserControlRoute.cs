@@ -304,7 +304,7 @@ namespace EDDiscovery.UserControls
         {
             if (TargetClass.GetTargetPosition(out string name, out double x, out double y, out double z))
             {
-                UpdateFrom(textBox_From, TargetClass.GetNameWithoutPrefix(name));
+                UpdateFrom(textBox_From, name);
             }
         }
 
@@ -425,7 +425,7 @@ namespace EDDiscovery.UserControls
         {
             if (TargetClass.GetTargetPosition(out string name, out double x, out double y, out double z))
             {
-                UpdateTo(textBox_To, TargetClass.GetNameWithoutPrefix(name));
+                UpdateTo(textBox_To, name);
             }
         }
 

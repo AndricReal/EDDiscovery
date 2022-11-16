@@ -122,7 +122,8 @@ namespace EDDiscovery.UserControls
             BaseUtils.Translator.Instance.TranslateToolstrip(contextMenuStrip, enumlistcms, this);
             BaseUtils.Translator.Instance.TranslateTooltip(toolTip, enumlisttt, this);
 
-            textBoxTarget.SetAutoCompletor(SystemCache.ReturnSystemAutoCompleteList);
+            textBoxTarget.SetAutoCompletor(SystemCache.ReturnSystemAdditionalListForAutoComplete);
+            textBoxTarget.AutoCompleteTimeout = 500;
 
             // same order as Sel bits are defined in, one bit per selection item.
             toolstriplist = new ToolStripMenuItem[]
@@ -209,6 +210,7 @@ namespace EDDiscovery.UserControls
             panelFD.BackgroundImage = EDDiscovery.Icons.Controls.notfirstdiscover;      // just to hide it during boot up
 
             shiptexttranslation = labelShip.Text;
+
         }
 
         public override void LoadLayout()
@@ -584,7 +586,32 @@ namespace EDDiscovery.UserControls
         {
             if (e.KeyCode == Keys.Enter)
             {
-                TargetHelpers.SetTargetSystem(this, discoveryform, textBoxTarget.Text);
+                if (textBoxTarget.Text.HasChars())          // if chars, means to set it
+                {
+                    ISystem sc = SystemCache.FindSystem(textBoxTarget.Text);        // find system
+                    if ( sc != null)
+                    {
+                        TargetClass.SetTargetOnSystem(sc.Name, sc.X, sc.Y, sc.Z);
+                        discoveryform.NewTargetSet(this);
+                    }
+                    else
+                    {
+                        GalacticMapObject gmo = discoveryform.galacticMapping.Find(textBoxTarget.Text, true);       // find gmo, any part
+                        if (gmo != null)
+                        {
+                            TargetClass.SetTargetOnGMO(gmo.Name,gmo.ID, gmo.Points[0].X, gmo.Points[0].Y, gmo.Points[0].Z);
+                            textBoxTarget.Text = gmo.Name;
+                            discoveryform.NewTargetSet(this);
+                        }
+                        else
+                            Console.Beep(256, 200); // beep boop!
+                    }
+                }
+                else
+                {
+                    TargetClass.ClearTarget();          // empty means clear
+                    discoveryform.NewTargetSet(this);
+                }
             }
         }
 

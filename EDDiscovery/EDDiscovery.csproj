@@ -535,7 +535,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Helpers\HistoryFilterHelpers.cs" />
-    <Compile Include="UserControls\Helpers\TargetClassHelpers.cs" />
     <Compile Include="EDDApplicationContext.cs" />
     <Compile Include="EDDiscoveryControllerMain.cs" />
     <Compile Include="Forms\AddOnManagerForm.cs">

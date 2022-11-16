@@ -196,5 +196,6 @@ namespace EDDiscovery.Icons
         public static Image FleetCarrier { get { return BaseUtils.Icons.IconSet.GetIcon("Controls.FleetCarrier"); } }
         public static Image ArrowsRight { get { return BaseUtils.Icons.IconSet.GetIcon("Controls.ArrowsRight"); } }
         public static Image AddJournals { get { return BaseUtils.Icons.IconSet.GetIcon("Controls.AddJournals"); } }
+        public static Image NewRegion { get { return BaseUtils.Icons.IconSet.GetIcon("Controls.NewRegion"); } }
     }
 }
