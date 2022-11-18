@@ -72,7 +72,7 @@ namespace EDDiscovery.UserControls
             1,1,1,2,        // 12   - small: Mats, Data, Credits
             2,2,1,2,        // 16   - small: jumprange
             2,2,2,1,        // 20   - small: security
-            3,0,0,0,        // 24   - large: Next target
+            2,0,0,0,        // 24   - large: Next target
         };
 
         private int[,] resetorder = new int[,]          // default reset order
@@ -333,7 +333,7 @@ namespace EDDiscovery.UserControls
         HistoryEntry last_he = null;
         HistoryList last_hl = null;
 
-        private void Display(HistoryEntry he, HistoryList hl)       // use he/hl not any global ones due to refresh sync timing between EDSM/Others
+        private async void Display(HistoryEntry he, HistoryList hl)       // use he/hl not any global ones due to refresh sync timing between EDSM/Others
         {
             if (neverdisplayed)
             {
@@ -524,6 +524,11 @@ namespace EDDiscovery.UserControls
                     string starname = "";
                     string bodyname = "";
                     string starclass = "";
+                    string distance = "";
+                    string pos = "";
+                    Color textdistcolor = ExtendedControls.Theme.Current.TextBlockColor;
+
+                    //bool sysinfoincurrentsystem = he.System.Name == (discoveryform.history.LastOrDefault?.System.Name ?? "xx");
 
                     // decide on time which one to present..  if lastdestination is newer..
                     if (lastdestination != null && (lasttarget == null || lastdestination.EventTimeUTC >= lasttarget.EventTimeUTC))
@@ -532,31 +537,57 @@ namespace EDDiscovery.UserControls
                         {
                             starname = lastdestination.Name;
                             starclass = lasttarget != null && lasttarget.StarSystem == lastdestination.Name ? ": " + lasttarget.StarClass : "";
-                            System.Diagnostics.Debug.WriteLine($"Destination select star {lastdestination.Name} {lastdestination.BodyID}");
+                          //  System.Diagnostics.Debug.WriteLine($"Destination select star {lastdestination.Name} {lastdestination.BodyID}");
                         }
                         else
                         {
                             bodyname = lastdestination.Name;    // else body
-                            System.Diagnostics.Debug.WriteLine($"Destination select body {lastdestination.BodyID}");
+                          //  System.Diagnostics.Debug.WriteLine($"Destination select body {lastdestination.BodyID}");
+
+                            var ss = await discoveryform.history.StarScan.FindSystemAsync(discoveryform.history.GetLast.System, false);
+                            if (IsClosed)       //ASYNC! warning! may have closed.
+                                return;
+
+                            // with a found system, see if we can get the body name
+                            if (ss != null && ss.NodesByID.TryGetValue(lastdestination.BodyID, out StarScan.ScanNode body))
+                            {
+                                pos = body.FullName.ReplaceIfStartsWith(he.System.Name).Trim();
+
+                                if (body.ScanData != null)
+                                    distance = body.ScanData.DistanceFromArrivalLS.ToString("N0") + "ls";
+                            }
                         }
                     }
                     else if (lasttarget != null)  // paranoia
                     {
                         starname = lasttarget.StarSystem;
                         starclass = ": " + lasttarget.StarClass;
-                        System.Diagnostics.Debug.WriteLine($"Target select star");
+                       // System.Diagnostics.Debug.WriteLine($"Target select star");
                     }
 
-                    ISystem sys = starname != null ? SystemCache.FindSystem(starname) : null;         // no EDSM, find star pos
-                    double stardistance = sys != null ? sys.Distance(he.System) : 0;
-                    string xyz = sys != null ? $" {stardistance:N1}ly {sys.X:N1},{sys.Y:N1},{sys.Z:N1}" : "";
+                    if (starname != null)
+                    {
+                        ISystem sys = await SystemCache.FindSystemAsync(starname, null);         // no EDSM, no glist, find star pos
 
-                    extTextBoxNextDestination.Text = $"{starname}{bodyname}{starclass}{xyz}";
-                    extTextBoxNextDestination.Select(0, 0);
+                        if (IsClosed)       //ASYNC! warning! may have closed.
+                            return;
+
+                        if (sys != null && sys.HasCoordinate)       // Bingo!
+                        {
+                            double dist = sys.Distance(discoveryform.history.GetLast.System);       // we must have a last to be here
+                            distance = dist.ToString("N1") + "ly";
+                            pos = $"{sys.X:N1}, {sys.Y:N1}, {sys.Z:N1}";
+                            if (jumprange > 0 && jumprange < dist)
+                                textdistcolor = ExtendedControls.Theme.Current.TextBlockHighlightColor;
+                        }
+                    }
+
+                    extTextBoxNextDestination.Text = $"{starname}{bodyname}{starclass}";
+                    extTextBoxNextDestinationDistance.Text = distance;
+                    extTextBoxNextDestinationPosition.Text = pos;
+                    extTextBoxNextDestinationDistance.ForeColor = textdistcolor;
 
                     // set colour to text block color if no jumprange, not a star, or okay in range. stardistance = 0 if not known so will pass
-                    extTextBoxNextDestination.ForeColor = jumprange == 0 || starname == "" || jumprange>=stardistance ? 
-                                        ExtendedControls.Theme.Current.TextBlockColor: ExtendedControls.Theme.Current.TextBlockHighlightColor;
                 }
                 else
                     extTextBoxNextDestination.Text = "";
@@ -984,6 +1015,12 @@ namespace EDDiscovery.UserControls
 
                                 case BitSelNextDestination:
                                     itembottom = this.SetPos(labpos, labelNextDestination, datapos, extTextBoxNextDestination, si);
+                                    itembottom++;
+                                    extTextBoxNextDestinationDistance.Location = new Point(extTextBoxNextDestination.Left, itembottom);
+                                    extTextBoxNextDestinationPosition.Bounds = new Rectangle(extTextBoxNextDestinationDistance.Right + hspacing, extTextBoxNextDestinationDistance.Top,
+                                                                                             extTextBoxNextDestination.Width - hspacing - extTextBoxNextDestinationDistance.Width, extTextBoxNextDestinationPosition.Height);
+                                    extTextBoxNextDestinationDistance.Visible = extTextBoxNextDestinationPosition.Visible = true;
+                                    itembottom = Math.Max(extTextBoxNextDestinationDistance.Bottom, itembottom);
                                     break;
 
 

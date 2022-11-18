@@ -79,11 +79,14 @@ namespace EDDiscovery.UserControls
             this.textBoxTargetDist = new ExtendedControls.ExtTextBox();
             this.textBoxTarget = new ExtendedControls.ExtTextBoxAutoComplete();
             this.extPanelScroll = new ExtendedControls.ExtPanelScroll();
+            this.extScrollBar1 = new ExtendedControls.ExtScrollBar();
+            this.extTextBoxNextDestinationPosition = new ExtendedControls.ExtTextBox();
+            this.extTextBoxNextDestinationDistance = new ExtendedControls.ExtTextBox();
+            this.extTextBox1 = new ExtendedControls.ExtTextBox();
             this.extTextBoxNextDestination = new ExtendedControls.ExtTextBox();
             this.labelNextDestination = new System.Windows.Forms.Label();
             this.extTextBoxStationFaction = new ExtendedControls.ExtTextBox();
             this.labelStationFaction = new System.Windows.Forms.Label();
-            this.extScrollBar1 = new ExtendedControls.ExtScrollBar();
             this.textBoxSystem = new ExtendedControls.ExtTextBox();
             this.extButtonEDSMTarget = new ExtendedControls.ExtButtonDrawn();
             this.extTextBoxSecurity = new ExtendedControls.ExtTextBox();
@@ -184,7 +187,7 @@ namespace EDDiscovery.UserControls
             this.toolStripReset,
             this.toolStripRemoveAll});
             this.contextMenuStrip.Name = "contextMenuStrip1";
-            this.contextMenuStrip.Size = new System.Drawing.Size(256, 664);
+            this.contextMenuStrip.Size = new System.Drawing.Size(256, 642);
             // 
             // toolStripSystem
             // 
@@ -548,11 +551,14 @@ namespace EDDiscovery.UserControls
             // 
             // extPanelScroll
             // 
+            this.extPanelScroll.Controls.Add(this.extScrollBar1);
+            this.extPanelScroll.Controls.Add(this.extTextBoxNextDestinationPosition);
+            this.extPanelScroll.Controls.Add(this.extTextBoxNextDestinationDistance);
+            this.extPanelScroll.Controls.Add(this.extTextBox1);
             this.extPanelScroll.Controls.Add(this.extTextBoxNextDestination);
             this.extPanelScroll.Controls.Add(this.labelNextDestination);
             this.extPanelScroll.Controls.Add(this.extTextBoxStationFaction);
             this.extPanelScroll.Controls.Add(this.labelStationFaction);
-            this.extPanelScroll.Controls.Add(this.extScrollBar1);
             this.extPanelScroll.Controls.Add(this.textBoxSystem);
             this.extPanelScroll.Controls.Add(this.extButtonEDSMTarget);
             this.extPanelScroll.Controls.Add(this.extTextBoxSecurity);
@@ -622,9 +628,127 @@ namespace EDDiscovery.UserControls
             this.extPanelScroll.FlowControlsLeftToRight = false;
             this.extPanelScroll.Location = new System.Drawing.Point(0, 0);
             this.extPanelScroll.Name = "extPanelScroll";
-            this.extPanelScroll.Size = new System.Drawing.Size(755, 832);
+            this.extPanelScroll.Size = new System.Drawing.Size(1024, 832);
             this.extPanelScroll.TabIndex = 49;
             this.extPanelScroll.VerticalScrollBarDockRight = true;
+            // 
+            // extScrollBar1
+            // 
+            this.extScrollBar1.ArrowBorderColor = System.Drawing.Color.LightBlue;
+            this.extScrollBar1.ArrowButtonColor = System.Drawing.Color.LightGray;
+            this.extScrollBar1.ArrowColorScaling = 0.5F;
+            this.extScrollBar1.ArrowDownDrawAngle = 270F;
+            this.extScrollBar1.ArrowUpDrawAngle = 90F;
+            this.extScrollBar1.BorderColor = System.Drawing.Color.White;
+            this.extScrollBar1.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.extScrollBar1.HideScrollBar = true;
+            this.extScrollBar1.LargeChange = 10;
+            this.extScrollBar1.Location = new System.Drawing.Point(1008, 0);
+            this.extScrollBar1.Maximum = -303;
+            this.extScrollBar1.Minimum = 0;
+            this.extScrollBar1.MouseOverButtonColor = System.Drawing.Color.Green;
+            this.extScrollBar1.MousePressedButtonColor = System.Drawing.Color.Red;
+            this.extScrollBar1.Name = "extScrollBar1";
+            this.extScrollBar1.Size = new System.Drawing.Size(16, 832);
+            this.extScrollBar1.SliderColor = System.Drawing.Color.DarkGray;
+            this.extScrollBar1.SmallChange = 1;
+            this.extScrollBar1.TabIndex = 49;
+            this.extScrollBar1.ThumbBorderColor = System.Drawing.Color.Yellow;
+            this.extScrollBar1.ThumbButtonColor = System.Drawing.Color.DarkBlue;
+            this.extScrollBar1.ThumbColorScaling = 0.5F;
+            this.extScrollBar1.ThumbDrawAngle = 0F;
+            this.extScrollBar1.Value = -303;
+            this.extScrollBar1.ValueLimited = -303;
+            // 
+            // extTextBoxNextDestinationPosition
+            // 
+            this.extTextBoxNextDestinationPosition.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.extTextBoxNextDestinationPosition.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
+            this.extTextBoxNextDestinationPosition.BackErrorColor = System.Drawing.Color.Red;
+            this.extTextBoxNextDestinationPosition.BorderColor = System.Drawing.Color.Transparent;
+            this.extTextBoxNextDestinationPosition.BorderColorScaling = 0.5F;
+            this.extTextBoxNextDestinationPosition.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.extTextBoxNextDestinationPosition.ClearOnFirstChar = false;
+            this.extTextBoxNextDestinationPosition.ControlBackground = System.Drawing.SystemColors.Control;
+            this.extTextBoxNextDestinationPosition.EndButtonEnable = true;
+            this.extTextBoxNextDestinationPosition.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("extTextBoxNextDestinationPosition.EndButtonImage")));
+            this.extTextBoxNextDestinationPosition.EndButtonVisible = false;
+            this.extTextBoxNextDestinationPosition.InErrorCondition = false;
+            this.extTextBoxNextDestinationPosition.Location = new System.Drawing.Point(611, 241);
+            this.extTextBoxNextDestinationPosition.Multiline = false;
+            this.extTextBoxNextDestinationPosition.Name = "extTextBoxNextDestinationPosition";
+            this.extTextBoxNextDestinationPosition.ReadOnly = true;
+            this.extTextBoxNextDestinationPosition.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.extTextBoxNextDestinationPosition.SelectionLength = 0;
+            this.extTextBoxNextDestinationPosition.SelectionStart = 0;
+            this.extTextBoxNextDestinationPosition.Size = new System.Drawing.Size(137, 20);
+            this.extTextBoxNextDestinationPosition.TabIndex = 52;
+            this.extTextBoxNextDestinationPosition.TabStop = false;
+            this.extTextBoxNextDestinationPosition.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.extTextBoxNextDestinationPosition.WordWrap = true;
+            this.extTextBoxNextDestinationPosition.MouseDown += new System.Windows.Forms.MouseEventHandler(this.controlMouseDown);
+            this.extTextBoxNextDestinationPosition.MouseMove += new System.Windows.Forms.MouseEventHandler(this.controlMouseMove);
+            this.extTextBoxNextDestinationPosition.MouseUp += new System.Windows.Forms.MouseEventHandler(this.controlMouseUp);
+            // 
+            // extTextBoxNextDestinationDistance
+            // 
+            this.extTextBoxNextDestinationDistance.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.extTextBoxNextDestinationDistance.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
+            this.extTextBoxNextDestinationDistance.BackErrorColor = System.Drawing.Color.Red;
+            this.extTextBoxNextDestinationDistance.BorderColor = System.Drawing.Color.Transparent;
+            this.extTextBoxNextDestinationDistance.BorderColorScaling = 0.5F;
+            this.extTextBoxNextDestinationDistance.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.extTextBoxNextDestinationDistance.ClearOnFirstChar = false;
+            this.extTextBoxNextDestinationDistance.ControlBackground = System.Drawing.SystemColors.Control;
+            this.extTextBoxNextDestinationDistance.EndButtonEnable = true;
+            this.extTextBoxNextDestinationDistance.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("extTextBoxNextDestinationDistance.EndButtonImage")));
+            this.extTextBoxNextDestinationDistance.EndButtonVisible = false;
+            this.extTextBoxNextDestinationDistance.InErrorCondition = false;
+            this.extTextBoxNextDestinationDistance.Location = new System.Drawing.Point(550, 241);
+            this.extTextBoxNextDestinationDistance.Multiline = false;
+            this.extTextBoxNextDestinationDistance.Name = "extTextBoxNextDestinationDistance";
+            this.extTextBoxNextDestinationDistance.ReadOnly = true;
+            this.extTextBoxNextDestinationDistance.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.extTextBoxNextDestinationDistance.SelectionLength = 0;
+            this.extTextBoxNextDestinationDistance.SelectionStart = 0;
+            this.extTextBoxNextDestinationDistance.Size = new System.Drawing.Size(59, 20);
+            this.extTextBoxNextDestinationDistance.TabIndex = 52;
+            this.extTextBoxNextDestinationDistance.TabStop = false;
+            this.extTextBoxNextDestinationDistance.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.extTextBoxNextDestinationDistance.WordWrap = true;
+            this.extTextBoxNextDestinationDistance.MouseDown += new System.Windows.Forms.MouseEventHandler(this.controlMouseDown);
+            this.extTextBoxNextDestinationDistance.MouseMove += new System.Windows.Forms.MouseEventHandler(this.controlMouseMove);
+            this.extTextBoxNextDestinationDistance.MouseUp += new System.Windows.Forms.MouseEventHandler(this.controlMouseUp);
+            // 
+            // extTextBox1
+            // 
+            this.extTextBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.extTextBox1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
+            this.extTextBox1.BackErrorColor = System.Drawing.Color.Red;
+            this.extTextBox1.BorderColor = System.Drawing.Color.Transparent;
+            this.extTextBox1.BorderColorScaling = 0.5F;
+            this.extTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.extTextBox1.ClearOnFirstChar = false;
+            this.extTextBox1.ControlBackground = System.Drawing.SystemColors.Control;
+            this.extTextBox1.EndButtonEnable = true;
+            this.extTextBox1.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("extTextBox1.EndButtonImage")));
+            this.extTextBox1.EndButtonVisible = false;
+            this.extTextBox1.InErrorCondition = false;
+            this.extTextBox1.Location = new System.Drawing.Point(377, 500);
+            this.extTextBox1.Multiline = false;
+            this.extTextBox1.Name = "extTextBox1";
+            this.extTextBox1.ReadOnly = true;
+            this.extTextBox1.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.extTextBox1.SelectionLength = 0;
+            this.extTextBox1.SelectionStart = 0;
+            this.extTextBox1.Size = new System.Drawing.Size(54, 20);
+            this.extTextBox1.TabIndex = 52;
+            this.extTextBox1.TabStop = false;
+            this.extTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.extTextBox1.WordWrap = true;
+            this.extTextBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.controlMouseDown);
+            this.extTextBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.controlMouseMove);
+            this.extTextBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.controlMouseUp);
             // 
             // extTextBoxNextDestination
             // 
@@ -640,14 +764,14 @@ namespace EDDiscovery.UserControls
             this.extTextBoxNextDestination.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("extTextBoxNextDestination.EndButtonImage")));
             this.extTextBoxNextDestination.EndButtonVisible = false;
             this.extTextBoxNextDestination.InErrorCondition = false;
-            this.extTextBoxNextDestination.Location = new System.Drawing.Point(232, 707);
+            this.extTextBoxNextDestination.Location = new System.Drawing.Point(550, 217);
             this.extTextBoxNextDestination.Multiline = false;
             this.extTextBoxNextDestination.Name = "extTextBoxNextDestination";
             this.extTextBoxNextDestination.ReadOnly = true;
             this.extTextBoxNextDestination.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.extTextBoxNextDestination.SelectionLength = 0;
             this.extTextBoxNextDestination.SelectionStart = 0;
-            this.extTextBoxNextDestination.Size = new System.Drawing.Size(350, 20);
+            this.extTextBoxNextDestination.Size = new System.Drawing.Size(198, 20);
             this.extTextBoxNextDestination.TabIndex = 52;
             this.extTextBoxNextDestination.TabStop = false;
             this.extTextBoxNextDestination.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -659,7 +783,7 @@ namespace EDDiscovery.UserControls
             // labelNextDestination
             // 
             this.labelNextDestination.AutoSize = true;
-            this.labelNextDestination.Location = new System.Drawing.Point(184, 710);
+            this.labelNextDestination.Location = new System.Drawing.Point(502, 220);
             this.labelNextDestination.Name = "labelNextDestination";
             this.labelNextDestination.Size = new System.Drawing.Size(29, 13);
             this.labelNextDestination.TabIndex = 53;
@@ -710,34 +834,6 @@ namespace EDDiscovery.UserControls
             this.labelStationFaction.MouseDown += new System.Windows.Forms.MouseEventHandler(this.controlMouseDown);
             this.labelStationFaction.MouseMove += new System.Windows.Forms.MouseEventHandler(this.controlMouseMove);
             this.labelStationFaction.MouseUp += new System.Windows.Forms.MouseEventHandler(this.controlMouseUp);
-            // 
-            // extScrollBar1
-            // 
-            this.extScrollBar1.ArrowBorderColor = System.Drawing.Color.LightBlue;
-            this.extScrollBar1.ArrowButtonColor = System.Drawing.Color.LightGray;
-            this.extScrollBar1.ArrowColorScaling = 0.5F;
-            this.extScrollBar1.ArrowDownDrawAngle = 270F;
-            this.extScrollBar1.ArrowUpDrawAngle = 90F;
-            this.extScrollBar1.BorderColor = System.Drawing.Color.White;
-            this.extScrollBar1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.extScrollBar1.HideScrollBar = true;
-            this.extScrollBar1.LargeChange = 10;
-            this.extScrollBar1.Location = new System.Drawing.Point(739, 0);
-            this.extScrollBar1.Maximum = -96;
-            this.extScrollBar1.Minimum = 0;
-            this.extScrollBar1.MouseOverButtonColor = System.Drawing.Color.Green;
-            this.extScrollBar1.MousePressedButtonColor = System.Drawing.Color.Red;
-            this.extScrollBar1.Name = "extScrollBar1";
-            this.extScrollBar1.Size = new System.Drawing.Size(16, 832);
-            this.extScrollBar1.SliderColor = System.Drawing.Color.DarkGray;
-            this.extScrollBar1.SmallChange = 1;
-            this.extScrollBar1.TabIndex = 49;
-            this.extScrollBar1.ThumbBorderColor = System.Drawing.Color.Yellow;
-            this.extScrollBar1.ThumbButtonColor = System.Drawing.Color.DarkBlue;
-            this.extScrollBar1.ThumbColorScaling = 0.5F;
-            this.extScrollBar1.ThumbDrawAngle = 0F;
-            this.extScrollBar1.Value = -96;
-            this.extScrollBar1.ValueLimited = -96;
             // 
             // textBoxSystem
             // 
@@ -914,7 +1010,7 @@ namespace EDDiscovery.UserControls
             // labelGamemode
             // 
             this.labelGamemode.AutoSize = true;
-            this.labelGamemode.Location = new System.Drawing.Point(183, 545);
+            this.labelGamemode.Location = new System.Drawing.Point(501, 55);
             this.labelGamemode.Name = "labelGamemode";
             this.labelGamemode.Size = new System.Drawing.Size(34, 13);
             this.labelGamemode.TabIndex = 16;
@@ -926,7 +1022,7 @@ namespace EDDiscovery.UserControls
             // labelTravel
             // 
             this.labelTravel.AutoSize = true;
-            this.labelTravel.Location = new System.Drawing.Point(184, 571);
+            this.labelTravel.Location = new System.Drawing.Point(502, 81);
             this.labelTravel.Name = "labelTravel";
             this.labelTravel.Size = new System.Drawing.Size(37, 13);
             this.labelTravel.TabIndex = 16;
@@ -1153,7 +1249,7 @@ namespace EDDiscovery.UserControls
             // labelVisits
             // 
             this.labelVisits.AutoSize = true;
-            this.labelVisits.Location = new System.Drawing.Point(330, 508);
+            this.labelVisits.Location = new System.Drawing.Point(648, 18);
             this.labelVisits.Name = "labelVisits";
             this.labelVisits.Size = new System.Drawing.Size(31, 13);
             this.labelVisits.TabIndex = 9;
@@ -1166,7 +1262,7 @@ namespace EDDiscovery.UserControls
             // labelMR
             // 
             this.labelMR.AutoSize = true;
-            this.labelMR.Location = new System.Drawing.Point(189, 660);
+            this.labelMR.Location = new System.Drawing.Point(507, 170);
             this.labelMR.Name = "labelMR";
             this.labelMR.Size = new System.Drawing.Size(24, 13);
             this.labelMR.TabIndex = 16;
@@ -1201,7 +1297,7 @@ namespace EDDiscovery.UserControls
             this.textBoxVisits.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxVisits.EndButtonImage")));
             this.textBoxVisits.EndButtonVisible = false;
             this.textBoxVisits.InErrorCondition = false;
-            this.textBoxVisits.Location = new System.Drawing.Point(382, 501);
+            this.textBoxVisits.Location = new System.Drawing.Point(700, 11);
             this.textBoxVisits.Multiline = false;
             this.textBoxVisits.Name = "textBoxVisits";
             this.textBoxVisits.ReadOnly = true;
@@ -1311,7 +1407,7 @@ namespace EDDiscovery.UserControls
             this.richTextBoxScrollMissions.BorderColor = System.Drawing.Color.Transparent;
             this.richTextBoxScrollMissions.BorderColorScaling = 0.5F;
             this.richTextBoxScrollMissions.HideScrollBar = true;
-            this.richTextBoxScrollMissions.Location = new System.Drawing.Point(231, 597);
+            this.richTextBoxScrollMissions.Location = new System.Drawing.Point(549, 107);
             this.richTextBoxScrollMissions.Name = "richTextBoxScrollMissions";
             this.richTextBoxScrollMissions.ReadOnly = false;
             this.richTextBoxScrollMissions.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang2057{\\fonttbl{\\f0\\fnil\\fcharset0 " +
@@ -1376,7 +1472,7 @@ namespace EDDiscovery.UserControls
             this.textBoxTravelJumps.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxTravelJumps.EndButtonImage")));
             this.textBoxTravelJumps.EndButtonVisible = false;
             this.textBoxTravelJumps.InErrorCondition = false;
-            this.textBoxTravelJumps.Location = new System.Drawing.Point(388, 571);
+            this.textBoxTravelJumps.Location = new System.Drawing.Point(706, 81);
             this.textBoxTravelJumps.Multiline = false;
             this.textBoxTravelJumps.Name = "textBoxTravelJumps";
             this.textBoxTravelJumps.ReadOnly = true;
@@ -1396,7 +1492,7 @@ namespace EDDiscovery.UserControls
             // labelMissions
             // 
             this.labelMissions.AutoSize = true;
-            this.labelMissions.Location = new System.Drawing.Point(178, 597);
+            this.labelMissions.Location = new System.Drawing.Point(496, 107);
             this.labelMissions.Name = "labelMissions";
             this.labelMissions.Size = new System.Drawing.Size(47, 13);
             this.labelMissions.TabIndex = 28;
@@ -1419,7 +1515,7 @@ namespace EDDiscovery.UserControls
             this.textBoxTravelTime.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxTravelTime.EndButtonImage")));
             this.textBoxTravelTime.EndButtonVisible = false;
             this.textBoxTravelTime.InErrorCondition = false;
-            this.textBoxTravelTime.Location = new System.Drawing.Point(308, 571);
+            this.textBoxTravelTime.Location = new System.Drawing.Point(626, 81);
             this.textBoxTravelTime.Multiline = false;
             this.textBoxTravelTime.Name = "textBoxTravelTime";
             this.textBoxTravelTime.ReadOnly = true;
@@ -1525,7 +1621,7 @@ namespace EDDiscovery.UserControls
             this.extTextBoxMR.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("extTextBoxMR.EndButtonImage")));
             this.extTextBoxMR.EndButtonVisible = false;
             this.extTextBoxMR.InErrorCondition = false;
-            this.extTextBoxMR.Location = new System.Drawing.Point(230, 660);
+            this.extTextBoxMR.Location = new System.Drawing.Point(548, 170);
             this.extTextBoxMR.Multiline = false;
             this.extTextBoxMR.Name = "extTextBoxMR";
             this.extTextBoxMR.ReadOnly = true;
@@ -1768,7 +1864,7 @@ namespace EDDiscovery.UserControls
             this.textBoxTravelDist.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxTravelDist.EndButtonImage")));
             this.textBoxTravelDist.EndButtonVisible = false;
             this.textBoxTravelDist.InErrorCondition = false;
-            this.textBoxTravelDist.Location = new System.Drawing.Point(231, 571);
+            this.textBoxTravelDist.Location = new System.Drawing.Point(549, 81);
             this.textBoxTravelDist.Multiline = false;
             this.textBoxTravelDist.Name = "textBoxTravelDist";
             this.textBoxTravelDist.ReadOnly = true;
@@ -1874,7 +1970,7 @@ namespace EDDiscovery.UserControls
             this.textBoxGameMode.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxGameMode.EndButtonImage")));
             this.textBoxGameMode.EndButtonVisible = false;
             this.textBoxGameMode.InErrorCondition = false;
-            this.textBoxGameMode.Location = new System.Drawing.Point(231, 545);
+            this.textBoxGameMode.Location = new System.Drawing.Point(549, 55);
             this.textBoxGameMode.Multiline = false;
             this.textBoxGameMode.Name = "textBoxGameMode";
             this.textBoxGameMode.ReadOnly = true;
@@ -2017,7 +2113,7 @@ namespace EDDiscovery.UserControls
             this.ContextMenuStrip = this.contextMenuStrip;
             this.Controls.Add(this.extPanelScroll);
             this.Name = "UserControlSysInfo";
-            this.Size = new System.Drawing.Size(755, 832);
+            this.Size = new System.Drawing.Size(1024, 832);
             this.toolTip.SetToolTip(this, "Hold down Ctrl Key then left drag a item to reposition, 8 columns are available");
             this.Resize += new System.EventHandler(this.UserControlSysInfo_Resize);
             this.contextMenuStrip.ResumeLayout(false);
@@ -2130,5 +2226,8 @@ namespace EDDiscovery.UserControls
         private ExtendedControls.ExtTextBox extTextBoxNextDestination;
         private System.Windows.Forms.Label labelNextDestination;
         private System.Windows.Forms.ToolStripMenuItem displayNextDestinationToolStripMenuItem;
+        private ExtendedControls.ExtTextBox extTextBoxNextDestinationPosition;
+        private ExtendedControls.ExtTextBox extTextBoxNextDestinationDistance;
+        private ExtendedControls.ExtTextBox extTextBox1;
     }
 }
