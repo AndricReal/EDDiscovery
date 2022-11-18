@@ -17,6 +17,8 @@ SECTION UserControlBookmarks
 .buttonExtImport.ToolTip: "Import bookmarks to EDD from CSV file" @
 .buttonExtExcel.ToolTip: "Export bookmarks to CSV file" @
 .extButtonEditSystem.ToolTip: "Edit Bookmark on current system" @
+.extButtonNewRegion.ToolTip: "New Region Bookmark" @
+
 
 SECTION UserControlCombatPanel
 
@@ -1143,6 +1145,7 @@ SECTION UserControlSysInfo
 .toolStripSkinny: "When transparent, use skinny look" @
 .toolStripReset: "Reset" @
 .toolStripRemoveAll: "Remove All" @
+.displayNextDestinationToolStripMenuItem: "Display Next Destination Selected" @
 
 .ToolTip: "Hold down Ctrl Key then left drag a item to reposition, 8 columns are available" @
 .textBoxTargetDist.ToolTip: "Distance to target" @
@@ -1177,6 +1180,8 @@ SECTION UserControlSysInfo
 .labelState: "State" @
 .labelSolDist: "Sol" @
 .labelHomeDist: "Home" @
+.labelNextDestination: "Dest" @
+
 .NoMissions: "No Missions" @
 .SysUnk: "System unknown to EDSM" @
 .Pos: "Position is {0:0.00},{1:0.00},{2:0.00}" @

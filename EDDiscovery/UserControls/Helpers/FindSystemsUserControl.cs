@@ -228,21 +228,30 @@ namespace EDDiscovery.UserControls
 
             if (sys != null)
             {
-                BaseUtils.SortedListDoubleDuplicate<ISystem> distlist = new BaseUtils.SortedListDoubleDuplicate<ISystem>();
-
                 Cursor = Cursors.WaitCursor;
 
-                SystemCache.GetSystemListBySqDistancesFrom(distlist, sys.X, sys.Y, sys.Z, 50000,
-                            numberBoxMinRadius.Value, numberBoxMaxRadius.Value, !checkBoxCustomCube.Checked);
+                Task<List<Tuple<ISystem,double>>>.Factory.StartNew(() =>
+                {
+                    BaseUtils.SortedListDoubleDuplicate<ISystem> distlist = new BaseUtils.SortedListDoubleDuplicate<ISystem>();
 
-                Cursor = Cursors.Default;
+                    SystemCache.GetSystemListBySqDistancesFrom(distlist, sys.X, sys.Y, sys.Z, 50000,
+                                numberBoxMinRadius.Value, numberBoxMaxRadius.Value, !checkBoxCustomCube.Checked);
 
-                var res = (from x in distlist select new Tuple<ISystem, double>(x.Value, x.Value.Distance(sys))).ToList();
+                    var res = (from x in distlist select new Tuple<ISystem, double>(x.Value, x.Value.Distance(sys))).ToList();
 
-                if ( extCheckBoxExcludeVisitedSystems.Checked )
-                    res = (from x in res where discoveryform.history.FindLastFSDCarrierJumpBySystemName(x.Item1.Name) == null select x).ToList();
+                    return res;
 
-                ReturnSystems(res);
+                }).ContinueWith(task => this.Invoke(new Action(() =>
+                {
+                    var res = task.Result;
+
+                    if (extCheckBoxExcludeVisitedSystems.Checked)
+                        res = (from x in res where discoveryform.history.FindLastFSDCarrierJumpBySystemName(x.Item1.Name) == null select x).ToList();
+
+                    ReturnSystems(res);
+
+                    Cursor = Cursors.Default;
+                })));
             }
             else
                 ExtendedControls.MessageBoxTheme.Show(this.FindForm(), "Cannot find system ".T(EDTx.FindSystemsUserControl_Cannotfindsystem) + textBoxSystemName.Text, "Warning".T(EDTx.Warning), MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -250,7 +259,7 @@ namespace EDDiscovery.UserControls
 
         private void buttonExtExcel_Click(object sender, EventArgs e)
         {
-            Excel();
+            Excel?.Invoke();
         }
 
         bool ignoresystemnamechange = false;

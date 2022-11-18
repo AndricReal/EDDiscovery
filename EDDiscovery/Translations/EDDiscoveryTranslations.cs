@@ -1043,6 +1043,7 @@ namespace EDDiscovery
         UserControlSysInfo_toolStripSkinny, // ToolStrip control 'When transparent, use skinny look'
         UserControlSysInfo_toolStripReset, // ToolStrip control 'Reset'
         UserControlSysInfo_toolStripRemoveAll, // ToolStrip control 'Remove All'
+        UserControlSysInfo_displayNextDestinationToolStripMenuItem,
 
         UserControlSysInfo_ToolTip, // ToolTip 'Hold down Ctrl Key then left drag a item to reposition, 8 columns are available'
         UserControlSysInfo_textBoxTargetDist_ToolTip, // ToolTip 'Distance to target'
@@ -1077,6 +1078,7 @@ namespace EDDiscovery
         UserControlSysInfo_labelState, // Control 'State'
         UserControlSysInfo_labelSolDist, // Control 'Sol'
         UserControlSysInfo_labelHomeDist, // Control 'Home'
+        UserControlSysInfo_labelNextDestination,
         UserControlSysInfo_NoMissions, // No Missions
         UserControlSysInfo_SysUnk, // System unknown to EDSM
         UserControlSysInfo_Pos, // Position is {0:0.00},{1:0.00},{2:0.00}

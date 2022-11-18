@@ -47,6 +47,7 @@ namespace EDDiscovery.UserControls
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlSysInfo));
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripSystem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayNextDestinationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripEDSM = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripEDSMDownLine = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripVisits = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,6 +79,8 @@ namespace EDDiscovery.UserControls
             this.textBoxTargetDist = new ExtendedControls.ExtTextBox();
             this.textBoxTarget = new ExtendedControls.ExtTextBoxAutoComplete();
             this.extPanelScroll = new ExtendedControls.ExtPanelScroll();
+            this.extTextBoxNextDestination = new ExtendedControls.ExtTextBox();
+            this.labelNextDestination = new System.Windows.Forms.Label();
             this.extTextBoxStationFaction = new ExtendedControls.ExtTextBox();
             this.labelStationFaction = new System.Windows.Forms.Label();
             this.extScrollBar1 = new ExtendedControls.ExtScrollBar();
@@ -152,6 +155,7 @@ namespace EDDiscovery.UserControls
             // 
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripSystem,
+            this.displayNextDestinationToolStripMenuItem,
             this.toolStripEDSM,
             this.toolStripEDSMDownLine,
             this.toolStripVisits,
@@ -180,7 +184,7 @@ namespace EDDiscovery.UserControls
             this.toolStripReset,
             this.toolStripRemoveAll});
             this.contextMenuStrip.Name = "contextMenuStrip1";
-            this.contextMenuStrip.Size = new System.Drawing.Size(256, 620);
+            this.contextMenuStrip.Size = new System.Drawing.Size(256, 664);
             // 
             // toolStripSystem
             // 
@@ -191,6 +195,16 @@ namespace EDDiscovery.UserControls
             this.toolStripSystem.Size = new System.Drawing.Size(255, 22);
             this.toolStripSystem.Text = "Display System Name";
             this.toolStripSystem.Click += new System.EventHandler(this.toolStripSystem_Click);
+            // 
+            // displayNextDestinationToolStripMenuItem
+            // 
+            this.displayNextDestinationToolStripMenuItem.Checked = true;
+            this.displayNextDestinationToolStripMenuItem.CheckOnClick = true;
+            this.displayNextDestinationToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.displayNextDestinationToolStripMenuItem.Name = "displayNextDestinationToolStripMenuItem";
+            this.displayNextDestinationToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
+            this.displayNextDestinationToolStripMenuItem.Text = "Display Next Destination Selected";
+            this.displayNextDestinationToolStripMenuItem.Click += new System.EventHandler(this.displayNextDestinationToolStripMenuItem_Click);
             // 
             // toolStripEDSM
             // 
@@ -471,7 +485,7 @@ namespace EDDiscovery.UserControls
             this.textBoxTargetDist.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxTargetDist.EndButtonImage")));
             this.textBoxTargetDist.EndButtonVisible = false;
             this.textBoxTargetDist.InErrorCondition = false;
-            this.textBoxTargetDist.Location = new System.Drawing.Point(165, 341);
+            this.textBoxTargetDist.Location = new System.Drawing.Point(341, 327);
             this.textBoxTargetDist.Margin = new System.Windows.Forms.Padding(10, 3, 3, 3);
             this.textBoxTargetDist.Multiline = false;
             this.textBoxTargetDist.Name = "textBoxTargetDist";
@@ -495,6 +509,7 @@ namespace EDDiscovery.UserControls
             this.textBoxTarget.AutoCompleteCommentMarker = null;
             this.textBoxTarget.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.textBoxTarget.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.textBoxTarget.AutoCompleteTimeout = 200;
             this.textBoxTarget.BackErrorColor = System.Drawing.Color.Red;
             this.textBoxTarget.BorderColor = System.Drawing.Color.Transparent;
             this.textBoxTarget.BorderColorScaling = 0.5F;
@@ -511,7 +526,7 @@ namespace EDDiscovery.UserControls
             this.textBoxTarget.EndButtonVisible = true;
             this.textBoxTarget.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.textBoxTarget.InErrorCondition = false;
-            this.textBoxTarget.Location = new System.Drawing.Point(55, 341);
+            this.textBoxTarget.Location = new System.Drawing.Point(231, 327);
             this.textBoxTarget.Multiline = false;
             this.textBoxTarget.Name = "textBoxTarget";
             this.textBoxTarget.ReadOnly = false;
@@ -533,6 +548,8 @@ namespace EDDiscovery.UserControls
             // 
             // extPanelScroll
             // 
+            this.extPanelScroll.Controls.Add(this.extTextBoxNextDestination);
+            this.extPanelScroll.Controls.Add(this.labelNextDestination);
             this.extPanelScroll.Controls.Add(this.extTextBoxStationFaction);
             this.extPanelScroll.Controls.Add(this.labelStationFaction);
             this.extPanelScroll.Controls.Add(this.extScrollBar1);
@@ -605,9 +622,51 @@ namespace EDDiscovery.UserControls
             this.extPanelScroll.FlowControlsLeftToRight = false;
             this.extPanelScroll.Location = new System.Drawing.Point(0, 0);
             this.extPanelScroll.Name = "extPanelScroll";
-            this.extPanelScroll.Size = new System.Drawing.Size(371, 760);
+            this.extPanelScroll.Size = new System.Drawing.Size(755, 832);
             this.extPanelScroll.TabIndex = 49;
             this.extPanelScroll.VerticalScrollBarDockRight = true;
+            // 
+            // extTextBoxNextDestination
+            // 
+            this.extTextBoxNextDestination.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.extTextBoxNextDestination.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
+            this.extTextBoxNextDestination.BackErrorColor = System.Drawing.Color.Red;
+            this.extTextBoxNextDestination.BorderColor = System.Drawing.Color.Transparent;
+            this.extTextBoxNextDestination.BorderColorScaling = 0.5F;
+            this.extTextBoxNextDestination.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.extTextBoxNextDestination.ClearOnFirstChar = false;
+            this.extTextBoxNextDestination.ControlBackground = System.Drawing.SystemColors.Control;
+            this.extTextBoxNextDestination.EndButtonEnable = true;
+            this.extTextBoxNextDestination.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("extTextBoxNextDestination.EndButtonImage")));
+            this.extTextBoxNextDestination.EndButtonVisible = false;
+            this.extTextBoxNextDestination.InErrorCondition = false;
+            this.extTextBoxNextDestination.Location = new System.Drawing.Point(232, 707);
+            this.extTextBoxNextDestination.Multiline = false;
+            this.extTextBoxNextDestination.Name = "extTextBoxNextDestination";
+            this.extTextBoxNextDestination.ReadOnly = true;
+            this.extTextBoxNextDestination.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.extTextBoxNextDestination.SelectionLength = 0;
+            this.extTextBoxNextDestination.SelectionStart = 0;
+            this.extTextBoxNextDestination.Size = new System.Drawing.Size(350, 20);
+            this.extTextBoxNextDestination.TabIndex = 52;
+            this.extTextBoxNextDestination.TabStop = false;
+            this.extTextBoxNextDestination.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.extTextBoxNextDestination.WordWrap = true;
+            this.extTextBoxNextDestination.MouseDown += new System.Windows.Forms.MouseEventHandler(this.controlMouseDown);
+            this.extTextBoxNextDestination.MouseMove += new System.Windows.Forms.MouseEventHandler(this.controlMouseMove);
+            this.extTextBoxNextDestination.MouseUp += new System.Windows.Forms.MouseEventHandler(this.controlMouseUp);
+            // 
+            // labelNextDestination
+            // 
+            this.labelNextDestination.AutoSize = true;
+            this.labelNextDestination.Location = new System.Drawing.Point(184, 710);
+            this.labelNextDestination.Name = "labelNextDestination";
+            this.labelNextDestination.Size = new System.Drawing.Size(29, 13);
+            this.labelNextDestination.TabIndex = 53;
+            this.labelNextDestination.Text = "Dest";
+            this.labelNextDestination.MouseDown += new System.Windows.Forms.MouseEventHandler(this.controlMouseDown);
+            this.labelNextDestination.MouseMove += new System.Windows.Forms.MouseEventHandler(this.controlMouseMove);
+            this.labelNextDestination.MouseUp += new System.Windows.Forms.MouseEventHandler(this.controlMouseUp);
             // 
             // extTextBoxStationFaction
             // 
@@ -623,7 +682,7 @@ namespace EDDiscovery.UserControls
             this.extTextBoxStationFaction.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("extTextBoxStationFaction.EndButtonImage")));
             this.extTextBoxStationFaction.EndButtonVisible = false;
             this.extTextBoxStationFaction.InErrorCondition = false;
-            this.extTextBoxStationFaction.Location = new System.Drawing.Point(54, 193);
+            this.extTextBoxStationFaction.Location = new System.Drawing.Point(230, 179);
             this.extTextBoxStationFaction.Multiline = false;
             this.extTextBoxStationFaction.Name = "extTextBoxStationFaction";
             this.extTextBoxStationFaction.ReadOnly = true;
@@ -643,7 +702,7 @@ namespace EDDiscovery.UserControls
             // labelStationFaction
             // 
             this.labelStationFaction.AutoSize = true;
-            this.labelStationFaction.Location = new System.Drawing.Point(6, 196);
+            this.labelStationFaction.Location = new System.Drawing.Point(182, 182);
             this.labelStationFaction.Name = "labelStationFaction";
             this.labelStationFaction.Size = new System.Drawing.Size(42, 13);
             this.labelStationFaction.TabIndex = 51;
@@ -663,13 +722,13 @@ namespace EDDiscovery.UserControls
             this.extScrollBar1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.extScrollBar1.HideScrollBar = true;
             this.extScrollBar1.LargeChange = 10;
-            this.extScrollBar1.Location = new System.Drawing.Point(355, 0);
-            this.extScrollBar1.Maximum = 2;
+            this.extScrollBar1.Location = new System.Drawing.Point(739, 0);
+            this.extScrollBar1.Maximum = -96;
             this.extScrollBar1.Minimum = 0;
             this.extScrollBar1.MouseOverButtonColor = System.Drawing.Color.Green;
             this.extScrollBar1.MousePressedButtonColor = System.Drawing.Color.Red;
             this.extScrollBar1.Name = "extScrollBar1";
-            this.extScrollBar1.Size = new System.Drawing.Size(16, 760);
+            this.extScrollBar1.Size = new System.Drawing.Size(16, 832);
             this.extScrollBar1.SliderColor = System.Drawing.Color.DarkGray;
             this.extScrollBar1.SmallChange = 1;
             this.extScrollBar1.TabIndex = 49;
@@ -677,8 +736,8 @@ namespace EDDiscovery.UserControls
             this.extScrollBar1.ThumbButtonColor = System.Drawing.Color.DarkBlue;
             this.extScrollBar1.ThumbColorScaling = 0.5F;
             this.extScrollBar1.ThumbDrawAngle = 0F;
-            this.extScrollBar1.Value = 0;
-            this.extScrollBar1.ValueLimited = 0;
+            this.extScrollBar1.Value = -96;
+            this.extScrollBar1.ValueLimited = -96;
             // 
             // textBoxSystem
             // 
@@ -694,7 +753,7 @@ namespace EDDiscovery.UserControls
             this.textBoxSystem.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxSystem.EndButtonImage")));
             this.textBoxSystem.EndButtonVisible = false;
             this.textBoxSystem.InErrorCondition = false;
-            this.textBoxSystem.Location = new System.Drawing.Point(53, 14);
+            this.textBoxSystem.Location = new System.Drawing.Point(229, 16);
             this.textBoxSystem.Multiline = false;
             this.textBoxSystem.Name = "textBoxSystem";
             this.textBoxSystem.ReadOnly = true;
@@ -717,7 +776,7 @@ namespace EDDiscovery.UserControls
             this.extButtonEDSMTarget.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.extButtonEDSMTarget.Image = null;
             this.extButtonEDSMTarget.ImageSelected = ExtendedControls.ExtButtonDrawn.ImageType.InverseText;
-            this.extButtonEDSMTarget.Location = new System.Drawing.Point(217, 341);
+            this.extButtonEDSMTarget.Location = new System.Drawing.Point(393, 327);
             this.extButtonEDSMTarget.MouseOverColor = System.Drawing.Color.White;
             this.extButtonEDSMTarget.MouseSelectedColor = System.Drawing.Color.Green;
             this.extButtonEDSMTarget.MouseSelectedColorEnable = true;
@@ -749,7 +808,7 @@ namespace EDDiscovery.UserControls
             this.extTextBoxSecurity.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("extTextBoxSecurity.EndButtonImage")));
             this.extTextBoxSecurity.EndButtonVisible = false;
             this.extTextBoxSecurity.InErrorCondition = false;
-            this.extTextBoxSecurity.Location = new System.Drawing.Point(58, 733);
+            this.extTextBoxSecurity.Location = new System.Drawing.Point(377, 465);
             this.extTextBoxSecurity.Multiline = false;
             this.extTextBoxSecurity.Name = "extTextBoxSecurity";
             this.extTextBoxSecurity.ReadOnly = true;
@@ -779,7 +838,7 @@ namespace EDDiscovery.UserControls
             this.textBoxJumpRange.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxJumpRange.EndButtonImage")));
             this.textBoxJumpRange.EndButtonVisible = false;
             this.textBoxJumpRange.InErrorCondition = false;
-            this.textBoxJumpRange.Location = new System.Drawing.Point(58, 707);
+            this.textBoxJumpRange.Location = new System.Drawing.Point(377, 439);
             this.textBoxJumpRange.Multiline = false;
             this.textBoxJumpRange.Name = "textBoxJumpRange";
             this.textBoxJumpRange.ReadOnly = true;
@@ -798,7 +857,7 @@ namespace EDDiscovery.UserControls
             // labelSecurity
             // 
             this.labelSecurity.AutoSize = true;
-            this.labelSecurity.Location = new System.Drawing.Point(9, 733);
+            this.labelSecurity.Location = new System.Drawing.Point(328, 465);
             this.labelSecurity.Name = "labelSecurity";
             this.labelSecurity.Size = new System.Drawing.Size(45, 13);
             this.labelSecurity.TabIndex = 48;
@@ -810,7 +869,7 @@ namespace EDDiscovery.UserControls
             // labelJumpRange
             // 
             this.labelJumpRange.AutoSize = true;
-            this.labelJumpRange.Location = new System.Drawing.Point(10, 710);
+            this.labelJumpRange.Location = new System.Drawing.Point(329, 442);
             this.labelJumpRange.Name = "labelJumpRange";
             this.labelJumpRange.Size = new System.Drawing.Size(32, 13);
             this.labelJumpRange.TabIndex = 48;
@@ -823,7 +882,7 @@ namespace EDDiscovery.UserControls
             // 
             this.panelFD.BackgroundImage = global::EDDiscovery.Icons.Controls.firstdiscover;
             this.panelFD.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.panelFD.Location = new System.Drawing.Point(207, 14);
+            this.panelFD.Location = new System.Drawing.Point(383, 16);
             this.panelFD.Name = "panelFD";
             this.panelFD.Size = new System.Drawing.Size(24, 24);
             this.panelFD.TabIndex = 46;
@@ -831,7 +890,7 @@ namespace EDDiscovery.UserControls
             // labelTarget
             // 
             this.labelTarget.AutoSize = true;
-            this.labelTarget.Location = new System.Drawing.Point(4, 344);
+            this.labelTarget.Location = new System.Drawing.Point(180, 330);
             this.labelTarget.Name = "labelTarget";
             this.labelTarget.Size = new System.Drawing.Size(38, 13);
             this.labelTarget.TabIndex = 16;
@@ -843,7 +902,7 @@ namespace EDDiscovery.UserControls
             // labelSysName
             // 
             this.labelSysName.AutoSize = true;
-            this.labelSysName.Location = new System.Drawing.Point(4, 14);
+            this.labelSysName.Location = new System.Drawing.Point(180, 16);
             this.labelSysName.Name = "labelSysName";
             this.labelSysName.Size = new System.Drawing.Size(41, 13);
             this.labelSysName.TabIndex = 4;
@@ -855,7 +914,7 @@ namespace EDDiscovery.UserControls
             // labelGamemode
             // 
             this.labelGamemode.AutoSize = true;
-            this.labelGamemode.Location = new System.Drawing.Point(7, 559);
+            this.labelGamemode.Location = new System.Drawing.Point(183, 545);
             this.labelGamemode.Name = "labelGamemode";
             this.labelGamemode.Size = new System.Drawing.Size(34, 13);
             this.labelGamemode.TabIndex = 16;
@@ -867,7 +926,7 @@ namespace EDDiscovery.UserControls
             // labelTravel
             // 
             this.labelTravel.AutoSize = true;
-            this.labelTravel.Location = new System.Drawing.Point(8, 585);
+            this.labelTravel.Location = new System.Drawing.Point(184, 571);
             this.labelTravel.Name = "labelTravel";
             this.labelTravel.Size = new System.Drawing.Size(37, 13);
             this.labelTravel.TabIndex = 16;
@@ -879,7 +938,7 @@ namespace EDDiscovery.UserControls
             // labelOpenShip
             // 
             this.labelOpenShip.AutoSize = true;
-            this.labelOpenShip.Location = new System.Drawing.Point(4, 393);
+            this.labelOpenShip.Location = new System.Drawing.Point(180, 379);
             this.labelOpenShip.Name = "labelOpenShip";
             this.labelOpenShip.Size = new System.Drawing.Size(33, 13);
             this.labelOpenShip.TabIndex = 3;
@@ -891,7 +950,7 @@ namespace EDDiscovery.UserControls
             // labelOpenStation
             // 
             this.labelOpenStation.AutoSize = true;
-            this.labelOpenStation.Location = new System.Drawing.Point(4, 113);
+            this.labelOpenStation.Location = new System.Drawing.Point(180, 99);
             this.labelOpenStation.Name = "labelOpenStation";
             this.labelOpenStation.Size = new System.Drawing.Size(33, 13);
             this.labelOpenStation.TabIndex = 3;
@@ -903,7 +962,7 @@ namespace EDDiscovery.UserControls
             // labelOpen
             // 
             this.labelOpen.AutoSize = true;
-            this.labelOpen.Location = new System.Drawing.Point(4, 38);
+            this.labelOpen.Location = new System.Drawing.Point(180, 40);
             this.labelOpen.Name = "labelOpen";
             this.labelOpen.Size = new System.Drawing.Size(33, 13);
             this.labelOpen.TabIndex = 3;
@@ -915,7 +974,7 @@ namespace EDDiscovery.UserControls
             // labelCargo
             // 
             this.labelCargo.AutoSize = true;
-            this.labelCargo.Location = new System.Drawing.Point(7, 472);
+            this.labelCargo.Location = new System.Drawing.Point(324, 409);
             this.labelCargo.Name = "labelCargo";
             this.labelCargo.Size = new System.Drawing.Size(35, 13);
             this.labelCargo.TabIndex = 16;
@@ -928,7 +987,7 @@ namespace EDDiscovery.UserControls
             // 
             this.extButtonSpanshStation.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.extButtonSpanshStation.Image = global::EDDiscovery.Icons.Controls.spansh;
-            this.extButtonSpanshStation.Location = new System.Drawing.Point(151, 113);
+            this.extButtonSpanshStation.Location = new System.Drawing.Point(327, 99);
             this.extButtonSpanshStation.Name = "extButtonSpanshStation";
             this.extButtonSpanshStation.Padding = new System.Windows.Forms.Padding(2);
             this.extButtonSpanshStation.Size = new System.Drawing.Size(44, 20);
@@ -943,7 +1002,7 @@ namespace EDDiscovery.UserControls
             // 
             this.extButtonSpanshSystem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.extButtonSpanshSystem.Image = global::EDDiscovery.Icons.Controls.spansh;
-            this.extButtonSpanshSystem.Location = new System.Drawing.Point(189, 36);
+            this.extButtonSpanshSystem.Location = new System.Drawing.Point(365, 38);
             this.extButtonSpanshSystem.Name = "extButtonSpanshSystem";
             this.extButtonSpanshSystem.Padding = new System.Windows.Forms.Padding(2);
             this.extButtonSpanshSystem.Size = new System.Drawing.Size(44, 20);
@@ -958,7 +1017,7 @@ namespace EDDiscovery.UserControls
             // 
             this.extButtonCoriolis.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.extButtonCoriolis.Image = global::EDDiscovery.Icons.Controls.Coriolis;
-            this.extButtonCoriolis.Location = new System.Drawing.Point(52, 392);
+            this.extButtonCoriolis.Location = new System.Drawing.Point(228, 378);
             this.extButtonCoriolis.Name = "extButtonCoriolis";
             this.extButtonCoriolis.Padding = new System.Windows.Forms.Padding(2);
             this.extButtonCoriolis.Size = new System.Drawing.Size(44, 20);
@@ -972,7 +1031,7 @@ namespace EDDiscovery.UserControls
             // 
             this.extButtonInaraStation.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.extButtonInaraStation.Image = global::EDDiscovery.Icons.Controls.Inara;
-            this.extButtonInaraStation.Location = new System.Drawing.Point(52, 112);
+            this.extButtonInaraStation.Location = new System.Drawing.Point(228, 98);
             this.extButtonInaraStation.Name = "extButtonInaraStation";
             this.extButtonInaraStation.Padding = new System.Windows.Forms.Padding(2);
             this.extButtonInaraStation.Size = new System.Drawing.Size(44, 20);
@@ -986,7 +1045,7 @@ namespace EDDiscovery.UserControls
             // 
             this.extButtonInaraSystem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.extButtonInaraSystem.Image = global::EDDiscovery.Icons.Controls.Inara;
-            this.extButtonInaraSystem.Location = new System.Drawing.Point(144, 36);
+            this.extButtonInaraSystem.Location = new System.Drawing.Point(320, 38);
             this.extButtonInaraSystem.Name = "extButtonInaraSystem";
             this.extButtonInaraSystem.Padding = new System.Windows.Forms.Padding(2);
             this.extButtonInaraSystem.Size = new System.Drawing.Size(44, 20);
@@ -1000,7 +1059,7 @@ namespace EDDiscovery.UserControls
             // 
             this.extButtonEDSMSystem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.extButtonEDSMSystem.Image = global::EDDiscovery.Icons.Controls.EDSM;
-            this.extButtonEDSMSystem.Location = new System.Drawing.Point(54, 36);
+            this.extButtonEDSMSystem.Location = new System.Drawing.Point(230, 38);
             this.extButtonEDSMSystem.Name = "extButtonEDSMSystem";
             this.extButtonEDSMSystem.Padding = new System.Windows.Forms.Padding(2);
             this.extButtonEDSMSystem.Size = new System.Drawing.Size(44, 20);
@@ -1013,7 +1072,7 @@ namespace EDDiscovery.UserControls
             // labelCredits
             // 
             this.labelCredits.AutoSize = true;
-            this.labelCredits.Location = new System.Drawing.Point(5, 680);
+            this.labelCredits.Location = new System.Drawing.Point(5, 16);
             this.labelCredits.Name = "labelCredits";
             this.labelCredits.Size = new System.Drawing.Size(39, 13);
             this.labelCredits.TabIndex = 16;
@@ -1027,7 +1086,7 @@ namespace EDDiscovery.UserControls
             this.extButtonEDSY.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.extButtonEDSY.Cursor = System.Windows.Forms.Cursors.Hand;
             this.extButtonEDSY.Image = global::EDDiscovery.Icons.Controls.EDShipYard;
-            this.extButtonEDSY.Location = new System.Drawing.Point(102, 393);
+            this.extButtonEDSY.Location = new System.Drawing.Point(278, 379);
             this.extButtonEDSY.Name = "extButtonEDSY";
             this.extButtonEDSY.Padding = new System.Windows.Forms.Padding(2);
             this.extButtonEDSY.Size = new System.Drawing.Size(44, 20);
@@ -1042,7 +1101,7 @@ namespace EDDiscovery.UserControls
             this.extButtonEDDBStation.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.extButtonEDDBStation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.extButtonEDDBStation.Image = global::EDDiscovery.Icons.Controls.EDDB;
-            this.extButtonEDDBStation.Location = new System.Drawing.Point(102, 113);
+            this.extButtonEDDBStation.Location = new System.Drawing.Point(278, 99);
             this.extButtonEDDBStation.Name = "extButtonEDDBStation";
             this.extButtonEDDBStation.Padding = new System.Windows.Forms.Padding(2);
             this.extButtonEDDBStation.Size = new System.Drawing.Size(44, 20);
@@ -1057,7 +1116,7 @@ namespace EDDiscovery.UserControls
             this.extButtonEDDBSystem.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.extButtonEDDBSystem.Cursor = System.Windows.Forms.Cursors.Hand;
             this.extButtonEDDBSystem.Image = global::EDDiscovery.Icons.Controls.EDDB;
-            this.extButtonEDDBSystem.Location = new System.Drawing.Point(98, 36);
+            this.extButtonEDDBSystem.Location = new System.Drawing.Point(274, 38);
             this.extButtonEDDBSystem.Name = "extButtonEDDBSystem";
             this.extButtonEDDBSystem.Padding = new System.Windows.Forms.Padding(2);
             this.extButtonEDDBSystem.Size = new System.Drawing.Size(44, 20);
@@ -1070,7 +1129,7 @@ namespace EDDiscovery.UserControls
             // labelShip
             // 
             this.labelShip.AutoSize = true;
-            this.labelShip.Location = new System.Drawing.Point(7, 367);
+            this.labelShip.Location = new System.Drawing.Point(183, 353);
             this.labelShip.Name = "labelShip";
             this.labelShip.Size = new System.Drawing.Size(28, 13);
             this.labelShip.TabIndex = 16;
@@ -1082,7 +1141,7 @@ namespace EDDiscovery.UserControls
             // labelMaterials
             // 
             this.labelMaterials.AutoSize = true;
-            this.labelMaterials.Location = new System.Drawing.Point(-2, 531);
+            this.labelMaterials.Location = new System.Drawing.Point(177, 471);
             this.labelMaterials.Name = "labelMaterials";
             this.labelMaterials.Size = new System.Drawing.Size(49, 13);
             this.labelMaterials.TabIndex = 16;
@@ -1094,7 +1153,7 @@ namespace EDDiscovery.UserControls
             // labelVisits
             // 
             this.labelVisits.AutoSize = true;
-            this.labelVisits.Location = new System.Drawing.Point(4, 63);
+            this.labelVisits.Location = new System.Drawing.Point(330, 508);
             this.labelVisits.Name = "labelVisits";
             this.labelVisits.Size = new System.Drawing.Size(31, 13);
             this.labelVisits.TabIndex = 9;
@@ -1107,7 +1166,7 @@ namespace EDDiscovery.UserControls
             // labelMR
             // 
             this.labelMR.AutoSize = true;
-            this.labelMR.Location = new System.Drawing.Point(11, 447);
+            this.labelMR.Location = new System.Drawing.Point(189, 660);
             this.labelMR.Name = "labelMR";
             this.labelMR.Size = new System.Drawing.Size(24, 13);
             this.labelMR.TabIndex = 16;
@@ -1119,7 +1178,7 @@ namespace EDDiscovery.UserControls
             // labelData
             // 
             this.labelData.AutoSize = true;
-            this.labelData.Location = new System.Drawing.Point(16, 505);
+            this.labelData.Location = new System.Drawing.Point(195, 445);
             this.labelData.Name = "labelData";
             this.labelData.Size = new System.Drawing.Size(30, 13);
             this.labelData.TabIndex = 16;
@@ -1142,7 +1201,7 @@ namespace EDDiscovery.UserControls
             this.textBoxVisits.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxVisits.EndButtonImage")));
             this.textBoxVisits.EndButtonVisible = false;
             this.textBoxVisits.InErrorCondition = false;
-            this.textBoxVisits.Location = new System.Drawing.Point(53, 62);
+            this.textBoxVisits.Location = new System.Drawing.Point(382, 501);
             this.textBoxVisits.Multiline = false;
             this.textBoxVisits.Name = "textBoxVisits";
             this.textBoxVisits.ReadOnly = true;
@@ -1162,7 +1221,7 @@ namespace EDDiscovery.UserControls
             // labelFuel
             // 
             this.labelFuel.AutoSize = true;
-            this.labelFuel.Location = new System.Drawing.Point(7, 423);
+            this.labelFuel.Location = new System.Drawing.Point(183, 409);
             this.labelFuel.Name = "labelFuel";
             this.labelFuel.Size = new System.Drawing.Size(27, 13);
             this.labelFuel.TabIndex = 16;
@@ -1174,7 +1233,7 @@ namespace EDDiscovery.UserControls
             // labelBodyName
             // 
             this.labelBodyName.AutoSize = true;
-            this.labelBodyName.Location = new System.Drawing.Point(4, 88);
+            this.labelBodyName.Location = new System.Drawing.Point(180, 74);
             this.labelBodyName.Name = "labelBodyName";
             this.labelBodyName.Size = new System.Drawing.Size(31, 13);
             this.labelBodyName.TabIndex = 3;
@@ -1188,7 +1247,7 @@ namespace EDDiscovery.UserControls
             this.richTextBoxNote.BorderColor = System.Drawing.Color.Transparent;
             this.richTextBoxNote.BorderColorScaling = 0.5F;
             this.richTextBoxNote.HideScrollBar = true;
-            this.richTextBoxNote.Location = new System.Drawing.Point(52, 281);
+            this.richTextBoxNote.Location = new System.Drawing.Point(228, 267);
             this.richTextBoxNote.Name = "richTextBoxNote";
             this.richTextBoxNote.ReadOnly = false;
             this.richTextBoxNote.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang2057{\\fonttbl{\\f0\\fnil\\fcharset0 " +
@@ -1230,7 +1289,7 @@ namespace EDDiscovery.UserControls
             this.textBoxBody.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxBody.EndButtonImage")));
             this.textBoxBody.EndButtonVisible = false;
             this.textBoxBody.InErrorCondition = false;
-            this.textBoxBody.Location = new System.Drawing.Point(53, 86);
+            this.textBoxBody.Location = new System.Drawing.Point(229, 72);
             this.textBoxBody.Multiline = false;
             this.textBoxBody.Name = "textBoxBody";
             this.textBoxBody.ReadOnly = true;
@@ -1252,7 +1311,7 @@ namespace EDDiscovery.UserControls
             this.richTextBoxScrollMissions.BorderColor = System.Drawing.Color.Transparent;
             this.richTextBoxScrollMissions.BorderColorScaling = 0.5F;
             this.richTextBoxScrollMissions.HideScrollBar = true;
-            this.richTextBoxScrollMissions.Location = new System.Drawing.Point(55, 611);
+            this.richTextBoxScrollMissions.Location = new System.Drawing.Point(231, 597);
             this.richTextBoxScrollMissions.Name = "richTextBoxScrollMissions";
             this.richTextBoxScrollMissions.ReadOnly = false;
             this.richTextBoxScrollMissions.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang2057{\\fonttbl{\\f0\\fnil\\fcharset0 " +
@@ -1281,7 +1340,7 @@ namespace EDDiscovery.UserControls
             // labelPosition
             // 
             this.labelPosition.AutoSize = true;
-            this.labelPosition.Location = new System.Drawing.Point(4, 135);
+            this.labelPosition.Location = new System.Drawing.Point(180, 121);
             this.labelPosition.Name = "labelPosition";
             this.labelPosition.Size = new System.Drawing.Size(25, 13);
             this.labelPosition.TabIndex = 7;
@@ -1294,7 +1353,7 @@ namespace EDDiscovery.UserControls
             // labelNote
             // 
             this.labelNote.AutoSize = true;
-            this.labelNote.Location = new System.Drawing.Point(5, 281);
+            this.labelNote.Location = new System.Drawing.Point(181, 267);
             this.labelNote.Name = "labelNote";
             this.labelNote.Size = new System.Drawing.Size(30, 13);
             this.labelNote.TabIndex = 28;
@@ -1317,7 +1376,7 @@ namespace EDDiscovery.UserControls
             this.textBoxTravelJumps.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxTravelJumps.EndButtonImage")));
             this.textBoxTravelJumps.EndButtonVisible = false;
             this.textBoxTravelJumps.InErrorCondition = false;
-            this.textBoxTravelJumps.Location = new System.Drawing.Point(212, 585);
+            this.textBoxTravelJumps.Location = new System.Drawing.Point(388, 571);
             this.textBoxTravelJumps.Multiline = false;
             this.textBoxTravelJumps.Name = "textBoxTravelJumps";
             this.textBoxTravelJumps.ReadOnly = true;
@@ -1337,7 +1396,7 @@ namespace EDDiscovery.UserControls
             // labelMissions
             // 
             this.labelMissions.AutoSize = true;
-            this.labelMissions.Location = new System.Drawing.Point(2, 611);
+            this.labelMissions.Location = new System.Drawing.Point(178, 597);
             this.labelMissions.Name = "labelMissions";
             this.labelMissions.Size = new System.Drawing.Size(47, 13);
             this.labelMissions.TabIndex = 28;
@@ -1360,7 +1419,7 @@ namespace EDDiscovery.UserControls
             this.textBoxTravelTime.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxTravelTime.EndButtonImage")));
             this.textBoxTravelTime.EndButtonVisible = false;
             this.textBoxTravelTime.InErrorCondition = false;
-            this.textBoxTravelTime.Location = new System.Drawing.Point(132, 585);
+            this.textBoxTravelTime.Location = new System.Drawing.Point(308, 571);
             this.textBoxTravelTime.Multiline = false;
             this.textBoxTravelTime.Name = "textBoxTravelTime";
             this.textBoxTravelTime.ReadOnly = true;
@@ -1391,7 +1450,7 @@ namespace EDDiscovery.UserControls
             this.textBoxEconomy.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxEconomy.EndButtonImage")));
             this.textBoxEconomy.EndButtonVisible = false;
             this.textBoxEconomy.InErrorCondition = false;
-            this.textBoxEconomy.Location = new System.Drawing.Point(192, 255);
+            this.textBoxEconomy.Location = new System.Drawing.Point(368, 241);
             this.textBoxEconomy.Multiline = false;
             this.textBoxEconomy.Name = "textBoxEconomy";
             this.textBoxEconomy.ReadOnly = true;
@@ -1422,7 +1481,7 @@ namespace EDDiscovery.UserControls
             this.textBoxFuel.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxFuel.EndButtonImage")));
             this.textBoxFuel.EndButtonVisible = false;
             this.textBoxFuel.InErrorCondition = false;
-            this.textBoxFuel.Location = new System.Drawing.Point(54, 423);
+            this.textBoxFuel.Location = new System.Drawing.Point(230, 409);
             this.textBoxFuel.Multiline = false;
             this.textBoxFuel.Name = "textBoxFuel";
             this.textBoxFuel.ReadOnly = true;
@@ -1442,7 +1501,7 @@ namespace EDDiscovery.UserControls
             // labelEconomy
             // 
             this.labelEconomy.AutoSize = true;
-            this.labelEconomy.Location = new System.Drawing.Point(126, 255);
+            this.labelEconomy.Location = new System.Drawing.Point(302, 241);
             this.labelEconomy.Name = "labelEconomy";
             this.labelEconomy.Size = new System.Drawing.Size(51, 13);
             this.labelEconomy.TabIndex = 34;
@@ -1466,7 +1525,7 @@ namespace EDDiscovery.UserControls
             this.extTextBoxMR.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("extTextBoxMR.EndButtonImage")));
             this.extTextBoxMR.EndButtonVisible = false;
             this.extTextBoxMR.InErrorCondition = false;
-            this.extTextBoxMR.Location = new System.Drawing.Point(52, 447);
+            this.extTextBoxMR.Location = new System.Drawing.Point(230, 660);
             this.extTextBoxMR.Multiline = false;
             this.extTextBoxMR.Name = "extTextBoxMR";
             this.extTextBoxMR.ReadOnly = true;
@@ -1497,7 +1556,7 @@ namespace EDDiscovery.UserControls
             this.textBoxData.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxData.EndButtonImage")));
             this.textBoxData.EndButtonVisible = false;
             this.textBoxData.InErrorCondition = false;
-            this.textBoxData.Location = new System.Drawing.Point(52, 502);
+            this.textBoxData.Location = new System.Drawing.Point(231, 442);
             this.textBoxData.Multiline = false;
             this.textBoxData.Name = "textBoxData";
             this.textBoxData.ReadOnly = true;
@@ -1528,7 +1587,7 @@ namespace EDDiscovery.UserControls
             this.textBoxGovernment.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxGovernment.EndButtonImage")));
             this.textBoxGovernment.EndButtonVisible = false;
             this.textBoxGovernment.InErrorCondition = false;
-            this.textBoxGovernment.Location = new System.Drawing.Point(54, 255);
+            this.textBoxGovernment.Location = new System.Drawing.Point(230, 241);
             this.textBoxGovernment.Multiline = false;
             this.textBoxGovernment.Name = "textBoxGovernment";
             this.textBoxGovernment.ReadOnly = true;
@@ -1559,7 +1618,7 @@ namespace EDDiscovery.UserControls
             this.textBoxMaterials.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxMaterials.EndButtonImage")));
             this.textBoxMaterials.EndButtonVisible = false;
             this.textBoxMaterials.InErrorCondition = false;
-            this.textBoxMaterials.Location = new System.Drawing.Point(61, 528);
+            this.textBoxMaterials.Location = new System.Drawing.Point(240, 468);
             this.textBoxMaterials.Multiline = false;
             this.textBoxMaterials.Name = "textBoxMaterials";
             this.textBoxMaterials.ReadOnly = true;
@@ -1579,7 +1638,7 @@ namespace EDDiscovery.UserControls
             // labelGov
             // 
             this.labelGov.AutoSize = true;
-            this.labelGov.Location = new System.Drawing.Point(5, 255);
+            this.labelGov.Location = new System.Drawing.Point(181, 241);
             this.labelGov.Name = "labelGov";
             this.labelGov.Size = new System.Drawing.Size(27, 13);
             this.labelGov.TabIndex = 36;
@@ -1603,7 +1662,7 @@ namespace EDDiscovery.UserControls
             this.textBoxCredits.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxCredits.EndButtonImage")));
             this.textBoxCredits.EndButtonVisible = false;
             this.textBoxCredits.InErrorCondition = false;
-            this.textBoxCredits.Location = new System.Drawing.Point(61, 680);
+            this.textBoxCredits.Location = new System.Drawing.Point(61, 16);
             this.textBoxCredits.Multiline = false;
             this.textBoxCredits.Name = "textBoxCredits";
             this.textBoxCredits.ReadOnly = true;
@@ -1634,7 +1693,7 @@ namespace EDDiscovery.UserControls
             this.textBoxAllegiance.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxAllegiance.EndButtonImage")));
             this.textBoxAllegiance.EndButtonVisible = false;
             this.textBoxAllegiance.InErrorCondition = false;
-            this.textBoxAllegiance.Location = new System.Drawing.Point(192, 237);
+            this.textBoxAllegiance.Location = new System.Drawing.Point(368, 223);
             this.textBoxAllegiance.Multiline = false;
             this.textBoxAllegiance.Name = "textBoxAllegiance";
             this.textBoxAllegiance.ReadOnly = true;
@@ -1665,7 +1724,7 @@ namespace EDDiscovery.UserControls
             this.textBoxCargo.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxCargo.EndButtonImage")));
             this.textBoxCargo.EndButtonVisible = false;
             this.textBoxCargo.InErrorCondition = false;
-            this.textBoxCargo.Location = new System.Drawing.Point(55, 469);
+            this.textBoxCargo.Location = new System.Drawing.Point(372, 406);
             this.textBoxCargo.Multiline = false;
             this.textBoxCargo.Name = "textBoxCargo";
             this.textBoxCargo.ReadOnly = true;
@@ -1685,7 +1744,7 @@ namespace EDDiscovery.UserControls
             // labelAllegiance
             // 
             this.labelAllegiance.AutoSize = true;
-            this.labelAllegiance.Location = new System.Drawing.Point(126, 237);
+            this.labelAllegiance.Location = new System.Drawing.Point(302, 223);
             this.labelAllegiance.Name = "labelAllegiance";
             this.labelAllegiance.Size = new System.Drawing.Size(56, 13);
             this.labelAllegiance.TabIndex = 13;
@@ -1709,7 +1768,7 @@ namespace EDDiscovery.UserControls
             this.textBoxTravelDist.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxTravelDist.EndButtonImage")));
             this.textBoxTravelDist.EndButtonVisible = false;
             this.textBoxTravelDist.InErrorCondition = false;
-            this.textBoxTravelDist.Location = new System.Drawing.Point(55, 585);
+            this.textBoxTravelDist.Location = new System.Drawing.Point(231, 571);
             this.textBoxTravelDist.Multiline = false;
             this.textBoxTravelDist.Name = "textBoxTravelDist";
             this.textBoxTravelDist.ReadOnly = true;
@@ -1740,7 +1799,7 @@ namespace EDDiscovery.UserControls
             this.textBoxState.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxState.EndButtonImage")));
             this.textBoxState.EndButtonVisible = false;
             this.textBoxState.InErrorCondition = false;
-            this.textBoxState.Location = new System.Drawing.Point(54, 237);
+            this.textBoxState.Location = new System.Drawing.Point(230, 223);
             this.textBoxState.Multiline = false;
             this.textBoxState.Name = "textBoxState";
             this.textBoxState.ReadOnly = true;
@@ -1771,7 +1830,7 @@ namespace EDDiscovery.UserControls
             this.textBoxShip.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxShip.EndButtonImage")));
             this.textBoxShip.EndButtonVisible = false;
             this.textBoxShip.InErrorCondition = false;
-            this.textBoxShip.Location = new System.Drawing.Point(55, 367);
+            this.textBoxShip.Location = new System.Drawing.Point(231, 353);
             this.textBoxShip.Multiline = false;
             this.textBoxShip.Name = "textBoxShip";
             this.textBoxShip.ReadOnly = true;
@@ -1791,7 +1850,7 @@ namespace EDDiscovery.UserControls
             // labelState
             // 
             this.labelState.AutoSize = true;
-            this.labelState.Location = new System.Drawing.Point(5, 237);
+            this.labelState.Location = new System.Drawing.Point(181, 223);
             this.labelState.Name = "labelState";
             this.labelState.Size = new System.Drawing.Size(32, 13);
             this.labelState.TabIndex = 38;
@@ -1815,7 +1874,7 @@ namespace EDDiscovery.UserControls
             this.textBoxGameMode.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxGameMode.EndButtonImage")));
             this.textBoxGameMode.EndButtonVisible = false;
             this.textBoxGameMode.InErrorCondition = false;
-            this.textBoxGameMode.Location = new System.Drawing.Point(55, 559);
+            this.textBoxGameMode.Location = new System.Drawing.Point(231, 545);
             this.textBoxGameMode.Multiline = false;
             this.textBoxGameMode.Name = "textBoxGameMode";
             this.textBoxGameMode.ReadOnly = true;
@@ -1846,7 +1905,7 @@ namespace EDDiscovery.UserControls
             this.textBoxSolDist.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxSolDist.EndButtonImage")));
             this.textBoxSolDist.EndButtonVisible = false;
             this.textBoxSolDist.InErrorCondition = false;
-            this.textBoxSolDist.Location = new System.Drawing.Point(246, 166);
+            this.textBoxSolDist.Location = new System.Drawing.Point(422, 152);
             this.textBoxSolDist.Multiline = false;
             this.textBoxSolDist.Name = "textBoxSolDist";
             this.textBoxSolDist.ReadOnly = true;
@@ -1877,7 +1936,7 @@ namespace EDDiscovery.UserControls
             this.textBoxPosition.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxPosition.EndButtonImage")));
             this.textBoxPosition.EndButtonVisible = false;
             this.textBoxPosition.InErrorCondition = false;
-            this.textBoxPosition.Location = new System.Drawing.Point(53, 135);
+            this.textBoxPosition.Location = new System.Drawing.Point(229, 121);
             this.textBoxPosition.Multiline = false;
             this.textBoxPosition.Name = "textBoxPosition";
             this.textBoxPosition.ReadOnly = true;
@@ -1897,7 +1956,7 @@ namespace EDDiscovery.UserControls
             // labelSolDist
             // 
             this.labelSolDist.AutoSize = true;
-            this.labelSolDist.Location = new System.Drawing.Point(182, 166);
+            this.labelSolDist.Location = new System.Drawing.Point(358, 152);
             this.labelSolDist.Name = "labelSolDist";
             this.labelSolDist.Size = new System.Drawing.Size(22, 13);
             this.labelSolDist.TabIndex = 45;
@@ -1910,7 +1969,7 @@ namespace EDDiscovery.UserControls
             // labelHomeDist
             // 
             this.labelHomeDist.AutoSize = true;
-            this.labelHomeDist.Location = new System.Drawing.Point(5, 166);
+            this.labelHomeDist.Location = new System.Drawing.Point(181, 152);
             this.labelHomeDist.Name = "labelHomeDist";
             this.labelHomeDist.Size = new System.Drawing.Size(35, 13);
             this.labelHomeDist.TabIndex = 43;
@@ -1934,7 +1993,7 @@ namespace EDDiscovery.UserControls
             this.textBoxHomeDist.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxHomeDist.EndButtonImage")));
             this.textBoxHomeDist.EndButtonVisible = false;
             this.textBoxHomeDist.InErrorCondition = false;
-            this.textBoxHomeDist.Location = new System.Drawing.Point(61, 167);
+            this.textBoxHomeDist.Location = new System.Drawing.Point(237, 153);
             this.textBoxHomeDist.Multiline = false;
             this.textBoxHomeDist.Name = "textBoxHomeDist";
             this.textBoxHomeDist.ReadOnly = true;
@@ -1958,7 +2017,7 @@ namespace EDDiscovery.UserControls
             this.ContextMenuStrip = this.contextMenuStrip;
             this.Controls.Add(this.extPanelScroll);
             this.Name = "UserControlSysInfo";
-            this.Size = new System.Drawing.Size(371, 760);
+            this.Size = new System.Drawing.Size(755, 832);
             this.toolTip.SetToolTip(this, "Hold down Ctrl Key then left drag a item to reposition, 8 columns are available");
             this.Resize += new System.EventHandler(this.UserControlSysInfo_Resize);
             this.contextMenuStrip.ResumeLayout(false);
@@ -2068,5 +2127,8 @@ namespace EDDiscovery.UserControls
         private ExtendedControls.ExtTextBox extTextBoxSecurity;
         private System.Windows.Forms.Label labelSecurity;
         private System.Windows.Forms.ToolStripMenuItem displaySecurityToolStripMenuItem;
+        private ExtendedControls.ExtTextBox extTextBoxNextDestination;
+        private System.Windows.Forms.Label labelNextDestination;
+        private System.Windows.Forms.ToolStripMenuItem displayNextDestinationToolStripMenuItem;
     }
 }
