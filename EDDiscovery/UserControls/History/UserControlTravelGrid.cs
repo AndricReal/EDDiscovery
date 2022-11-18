@@ -464,7 +464,9 @@ namespace EDDiscovery.UserControls
                                + $"s[{he.Status.StationName},{he.Status.StationType}]\r\n"
                                + $"mc{he.MaterialCommodity}/w{he.Weapons}/s{he.Suits}/l{he.Loadouts}/e{he.Engineering}\r\n"
                                + $"b{he.journalEntry.IsBeta}/h{ he.journalEntry.IsHorizons}/o{ he.journalEntry.IsOdyssey}\r\n"
-                               + $"bkt{he.Status.BookedTaxi} d {he.Status.BookedDropship}";
+                               + $"bkt{he.Status.BookedTaxi} d {he.Status.BookedDropship}\r\n"
+                               + $"jcb{he.Status.CurrentBoost}"
+                               ;
 
                 colDescription = he.journalEntry.EventTypeStr.SplitCapsWord() == he.EventSummary ? he.EventSummary : (he.journalEntry.EventTypeStr + Environment.NewLine + he.EventSummary);
 

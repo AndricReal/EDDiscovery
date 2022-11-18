@@ -457,8 +457,6 @@ namespace EDDiscovery.UserControls
                 textBoxJumpRange.Text = "";
                 double jumprange = 0;
 
-                // TBD JCB and Synthesis
-
                 if (he.Status.OnFoot)
                 {
                     labelShip.Text = "On Foot".T(EDTx.UserControlSysInfo_OnFoot);   
@@ -505,8 +503,8 @@ namespace EDDiscovery.UserControls
                                                                         si.ModuleMass() + si.HullMass(), si.FuelLevel, si.FuelCapacity / 2);
 
                             //System.Diagnostics.Debug.WriteLine("Jump range " + si.FuelLevel + " " + si.FuelCapacity + " " + ji.cursinglejump);
-                            jumprange = ji.curfumessinglejump;
-                            textBoxJumpRange.Text = ji.cursinglejump.ToString("N2") + "ly";
+                            jumprange = ji.curfumessinglejump * he.Status.CurrentBoost;
+                            textBoxJumpRange.Text = jumprange.ToString("N2") + "ly";
                         }
 
                         extButtonCoriolis.Enabled = extButtonEDSY.Enabled = true;
@@ -1352,6 +1350,7 @@ namespace EDDiscovery.UserControls
 
                 Cursor.Current = Cursors.Default;
                 drag.End();
+                extPanelScroll.EnsureScrollBarZ();
             }
         }
 
