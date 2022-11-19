@@ -151,12 +151,12 @@ namespace EDDiscovery
         EDDiscoveryController_HRC, // History refresh complete.
         EDDiscoveryController_EXPD, // Checking for new Expedition data
 
-        UserControlForm_panel_showtitle_ToolTip, // ToolTip 'Toggle title visibility for this window when transparent'
-        UserControlForm_panel_minimize_ToolTip, // ToolTip 'Minimise'
-        UserControlForm_panel_ontop_ToolTip, // ToolTip 'Toggle window on top of others'
-        UserControlForm_panel_taskbaricon_ToolTip, // ToolTip 'Toggle show taskbar icon for this window'
-        UserControlForm_panel_transparent_ToolTip, // ToolTip 'Toggle window transparency thru four settings\r\nOff - normal window\r\nOn (T) - transparent with controls active when mouse not inside window\r\nOn (Tc) - transparent with control active, to activate hold down the activate key\r\nOn (Tf) - fully transparent and inert, to activate hold down the activate key\r\n\r\nSee the settings page for configuring which key is the activate key.  \r\nMouse must be within the boundaries of the window and the key held down for\r\n500ms approx.\r\n\r\n\r\n'
-        UserControlForm_panel_close_ToolTip, // ToolTip 'Close'
+        UserControlForm_extButtonDrawnShowTitle_ToolTip, // ToolTip 'Toggle title visibility for this window when transparent'
+        UserControlForm_extButtonDrawnMinimize_ToolTip, // ToolTip 'Minimise'
+        UserControlForm_extButtonDrawnOnTop_ToolTip, // ToolTip 'Toggle window on top of others'
+        UserControlForm_extButtonDrawnTaskBarIcon_ToolTip, // ToolTip 'Toggle show taskbar icon for this window'
+        UserControlForm_extButtonDrawnTransparentMode_ToolTip, // ToolTip 'Toggle window transparency thru four settings\r\nOff - normal window\r\nOn (T) - transparent with controls active when mouse not inside window\r\nOn (Tc) - transparent with control active, to activate hold down the activate key\r\nOn (Tf) - fully transparent and inert, to activate hold down the activate key\r\n\r\nSee the settings page for configuring which key is the activate key.  \r\nMouse must be within the boundaries of the window and the key held down for\r\n500ms approx.\r\n\r\n\r\n'
+        UserControlForm_extButtonDrawnClose_ToolTip, // ToolTip 'Close'
 
         AddOnManagerForm_buttonExtGlobals,   // Control 'Globals'
 

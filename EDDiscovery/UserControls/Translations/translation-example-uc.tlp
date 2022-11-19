@@ -165,6 +165,7 @@ SECTION UserControlDiscoveries
 
 SECTION SearchStars
 
+.ColumnIndex: "Index" @
 .ColumnStar: "Star" @
 .ColumnCentreDistance: "Centre Distance" @
 .ColumnCurrentDistance: "Current Distance" @
