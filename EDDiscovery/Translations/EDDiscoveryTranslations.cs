@@ -1373,6 +1373,7 @@ namespace EDDiscovery
         SearchMaterialsCommodities_comboBoxCustomCM2_ToolTip,
 
         SearchStars_ColumnStar, // Column Header 'Star'
+        SearchStars_ColumnIndex, // Column Header 'Star'
         SearchStars_ColumnCentreDistance, // Column Header 'Centre Distance'
         SearchStars_ColumnCurrentDistance, // Column Header 'Current Distance'
         SearchStars_ColumnPosition, // Column Header 'Position'
