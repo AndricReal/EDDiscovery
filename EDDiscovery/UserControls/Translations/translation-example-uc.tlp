@@ -1155,7 +1155,7 @@ SECTION UserControlSysInfo
 .labelStationFaction: "Faction" @
 .extButtonEDSMTarget: "EDSM" @
 .labelSecurity: "Security" @
-.labelJumpRange: "Jump" @
+.labelJumpRange: "Range" @
 .labelTarget: "Target" @
 .labelSysName: "System" @
 .labelGamemode: "Mode" @

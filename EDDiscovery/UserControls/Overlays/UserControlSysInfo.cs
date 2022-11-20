@@ -571,7 +571,7 @@ namespace EDDiscovery.UserControls
                         if (sys != null && sys.HasCoordinate)       // Bingo!
                         {
                             double dist = sys.Distance(discoveryform.history.GetLast.System);       // we must have a last to be here
-                            distance = $"{dist:N1}ly";
+                            distance = $"{dist:N2}ly";
                             pos = $"{sys.X:N1}, {sys.Y:N1}, {sys.Z:N1}";
                             if (ji != null)
                             {
@@ -579,8 +579,8 @@ namespace EDDiscovery.UserControls
                                     textdistcolor = ExtendedControls.Theme.Current.TextBlockHighlightColor;
                                 else
                                 {
-                                    double fuel = fsd.FuelUse(cargocount, he.ShipInformation.ModuleMass() + he.ShipInformation.HullMass(), dist);
-                                    distance += $" {fuel:N1}t";
+                                    double fuel = fsd.FuelUse(cargocount, he.ShipInformation.ModuleMass() + he.ShipInformation.HullMass(), dist, he.Status.CurrentBoost, he.ShipInformation.FuelLevel);
+                                    distance += $" {fuel:N2}t";
                                 }
                             }
                         }
