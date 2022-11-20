@@ -454,8 +454,12 @@ namespace EDDiscovery.UserControls
 
                 //= lasttarget != null ? $"{lasttarget.StarSystem} {lasttarget.StarClass}" : "";
 
+
+                EliteDangerousCalculations.FSDSpec fsd = !he.Status.OnFoot && he.ShipInformation != null ? he.ShipInformation.GetFSDSpec() : null;
+                EliteDangerousCalculations.FSDSpec.JumpInfo ji = fsd != null ? fsd.GetJumpInfo(cargocount, he.ShipInformation.ModuleMass() + he.ShipInformation.HullMass(),
+                                he.ShipInformation.FuelLevel, he.ShipInformation.FuelCapacity / 2, he.Status.CurrentBoost) : null;
+
                 textBoxJumpRange.Text = "";
-                double jumprange = 0;
 
                 if (he.Status.OnFoot)
                 {
@@ -496,16 +500,8 @@ namespace EDDiscovery.UserControls
                         else
                             textBoxFuel.Text = "N/A".T(EDTx.UserControlSysInfo_NA);
 
-                        EliteDangerousCalculations.FSDSpec fsd = si.GetFSDSpec();
-                        if (fsd != null)
-                        {
-                            EliteDangerousCalculations.FSDSpec.JumpInfo ji = fsd.GetJumpInfo(cargocount,
-                                                                        si.ModuleMass() + si.HullMass(), si.FuelLevel, si.FuelCapacity / 2);
-
-                            //System.Diagnostics.Debug.WriteLine("Jump range " + si.FuelLevel + " " + si.FuelCapacity + " " + ji.cursinglejump);
-                            jumprange = ji.curfumessinglejump * he.Status.CurrentBoost;
-                            textBoxJumpRange.Text = jumprange.ToString("N2") + "ly";
-                        }
+                        if ( ji != null)
+                            textBoxJumpRange.Text = ji.cursinglejump.ToString("N2") + "ly";
 
                         extButtonCoriolis.Enabled = extButtonEDSY.Enabled = true;
                     }
@@ -575,10 +571,18 @@ namespace EDDiscovery.UserControls
                         if (sys != null && sys.HasCoordinate)       // Bingo!
                         {
                             double dist = sys.Distance(discoveryform.history.GetLast.System);       // we must have a last to be here
-                            distance = dist.ToString("N1") + "ly";
+                            distance = $"{dist:N1}ly";
                             pos = $"{sys.X:N1}, {sys.Y:N1}, {sys.Z:N1}";
-                            if (jumprange > 0 && jumprange < dist)
-                                textdistcolor = ExtendedControls.Theme.Current.TextBlockHighlightColor;
+                            if (ji != null)
+                            {
+                                if (ji.cursinglejump < dist)
+                                    textdistcolor = ExtendedControls.Theme.Current.TextBlockHighlightColor;
+                                else
+                                {
+                                    double fuel = fsd.FuelUse(cargocount, he.ShipInformation.ModuleMass() + he.ShipInformation.HullMass(), dist);
+                                    distance += $" {fuel:N1}t";
+                                }
+                            }
                         }
                     }
 

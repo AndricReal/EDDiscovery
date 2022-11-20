@@ -674,14 +674,14 @@ namespace EDDiscovery.UserControls
             this.extTextBoxNextDestinationPosition.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("extTextBoxNextDestinationPosition.EndButtonImage")));
             this.extTextBoxNextDestinationPosition.EndButtonVisible = false;
             this.extTextBoxNextDestinationPosition.InErrorCondition = false;
-            this.extTextBoxNextDestinationPosition.Location = new System.Drawing.Point(611, 241);
+            this.extTextBoxNextDestinationPosition.Location = new System.Drawing.Point(624, 240);
             this.extTextBoxNextDestinationPosition.Multiline = false;
             this.extTextBoxNextDestinationPosition.Name = "extTextBoxNextDestinationPosition";
             this.extTextBoxNextDestinationPosition.ReadOnly = true;
             this.extTextBoxNextDestinationPosition.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.extTextBoxNextDestinationPosition.SelectionLength = 0;
             this.extTextBoxNextDestinationPosition.SelectionStart = 0;
-            this.extTextBoxNextDestinationPosition.Size = new System.Drawing.Size(137, 20);
+            this.extTextBoxNextDestinationPosition.Size = new System.Drawing.Size(150, 20);
             this.extTextBoxNextDestinationPosition.TabIndex = 52;
             this.extTextBoxNextDestinationPosition.TabStop = false;
             this.extTextBoxNextDestinationPosition.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -704,14 +704,14 @@ namespace EDDiscovery.UserControls
             this.extTextBoxNextDestinationDistance.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("extTextBoxNextDestinationDistance.EndButtonImage")));
             this.extTextBoxNextDestinationDistance.EndButtonVisible = false;
             this.extTextBoxNextDestinationDistance.InErrorCondition = false;
-            this.extTextBoxNextDestinationDistance.Location = new System.Drawing.Point(550, 241);
+            this.extTextBoxNextDestinationDistance.Location = new System.Drawing.Point(549, 240);
             this.extTextBoxNextDestinationDistance.Multiline = false;
             this.extTextBoxNextDestinationDistance.Name = "extTextBoxNextDestinationDistance";
             this.extTextBoxNextDestinationDistance.ReadOnly = true;
             this.extTextBoxNextDestinationDistance.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.extTextBoxNextDestinationDistance.SelectionLength = 0;
             this.extTextBoxNextDestinationDistance.SelectionStart = 0;
-            this.extTextBoxNextDestinationDistance.Size = new System.Drawing.Size(59, 20);
+            this.extTextBoxNextDestinationDistance.Size = new System.Drawing.Size(74, 20);
             this.extTextBoxNextDestinationDistance.TabIndex = 52;
             this.extTextBoxNextDestinationDistance.TabStop = false;
             this.extTextBoxNextDestinationDistance.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -764,14 +764,14 @@ namespace EDDiscovery.UserControls
             this.extTextBoxNextDestination.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("extTextBoxNextDestination.EndButtonImage")));
             this.extTextBoxNextDestination.EndButtonVisible = false;
             this.extTextBoxNextDestination.InErrorCondition = false;
-            this.extTextBoxNextDestination.Location = new System.Drawing.Point(550, 217);
+            this.extTextBoxNextDestination.Location = new System.Drawing.Point(549, 216);
             this.extTextBoxNextDestination.Multiline = false;
             this.extTextBoxNextDestination.Name = "extTextBoxNextDestination";
             this.extTextBoxNextDestination.ReadOnly = true;
             this.extTextBoxNextDestination.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.extTextBoxNextDestination.SelectionLength = 0;
             this.extTextBoxNextDestination.SelectionStart = 0;
-            this.extTextBoxNextDestination.Size = new System.Drawing.Size(198, 20);
+            this.extTextBoxNextDestination.Size = new System.Drawing.Size(225, 20);
             this.extTextBoxNextDestination.TabIndex = 52;
             this.extTextBoxNextDestination.TabStop = false;
             this.extTextBoxNextDestination.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -813,7 +813,7 @@ namespace EDDiscovery.UserControls
             this.extTextBoxStationFaction.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.extTextBoxStationFaction.SelectionLength = 0;
             this.extTextBoxStationFaction.SelectionStart = 0;
-            this.extTextBoxStationFaction.Size = new System.Drawing.Size(198, 20);
+            this.extTextBoxStationFaction.Size = new System.Drawing.Size(225, 20);
             this.extTextBoxStationFaction.TabIndex = 50;
             this.extTextBoxStationFaction.TabStop = false;
             this.extTextBoxStationFaction.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -856,7 +856,7 @@ namespace EDDiscovery.UserControls
             this.textBoxSystem.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textBoxSystem.SelectionLength = 0;
             this.textBoxSystem.SelectionStart = 0;
-            this.textBoxSystem.Size = new System.Drawing.Size(152, 20);
+            this.textBoxSystem.Size = new System.Drawing.Size(195, 20);
             this.textBoxSystem.TabIndex = 1;
             this.textBoxSystem.TabStop = false;
             this.textBoxSystem.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -978,7 +978,7 @@ namespace EDDiscovery.UserControls
             // 
             this.panelFD.BackgroundImage = global::EDDiscovery.Icons.Controls.firstdiscover;
             this.panelFD.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.panelFD.Location = new System.Drawing.Point(383, 16);
+            this.panelFD.Location = new System.Drawing.Point(430, 18);
             this.panelFD.Name = "panelFD";
             this.panelFD.Size = new System.Drawing.Size(24, 24);
             this.panelFD.TabIndex = 46;
@@ -1361,7 +1361,7 @@ namespace EDDiscovery.UserControls
             this.richTextBoxNote.ScrollBarThumbBorderColor = System.Drawing.Color.Yellow;
             this.richTextBoxNote.ScrollBarThumbButtonColor = System.Drawing.Color.DarkBlue;
             this.richTextBoxNote.ShowLineCount = false;
-            this.richTextBoxNote.Size = new System.Drawing.Size(200, 50);
+            this.richTextBoxNote.Size = new System.Drawing.Size(225, 50);
             this.richTextBoxNote.TabIndex = 0;
             this.richTextBoxNote.TextBoxBackColor = System.Drawing.SystemColors.Control;
             this.richTextBoxNote.TextBoxForeColor = System.Drawing.SystemColors.ControlText;
@@ -1392,7 +1392,7 @@ namespace EDDiscovery.UserControls
             this.textBoxBody.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textBoxBody.SelectionLength = 0;
             this.textBoxBody.SelectionStart = 0;
-            this.textBoxBody.Size = new System.Drawing.Size(199, 20);
+            this.textBoxBody.Size = new System.Drawing.Size(225, 20);
             this.textBoxBody.TabIndex = 3;
             this.textBoxBody.TabStop = false;
             this.textBoxBody.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -1425,7 +1425,7 @@ namespace EDDiscovery.UserControls
             this.richTextBoxScrollMissions.ScrollBarThumbBorderColor = System.Drawing.Color.Yellow;
             this.richTextBoxScrollMissions.ScrollBarThumbButtonColor = System.Drawing.Color.DarkBlue;
             this.richTextBoxScrollMissions.ShowLineCount = false;
-            this.richTextBoxScrollMissions.Size = new System.Drawing.Size(200, 50);
+            this.richTextBoxScrollMissions.Size = new System.Drawing.Size(225, 50);
             this.richTextBoxScrollMissions.TabIndex = 0;
             this.richTextBoxScrollMissions.TextBoxBackColor = System.Drawing.SystemColors.Control;
             this.richTextBoxScrollMissions.TextBoxForeColor = System.Drawing.SystemColors.ControlText;
@@ -1546,7 +1546,7 @@ namespace EDDiscovery.UserControls
             this.textBoxEconomy.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxEconomy.EndButtonImage")));
             this.textBoxEconomy.EndButtonVisible = false;
             this.textBoxEconomy.InErrorCondition = false;
-            this.textBoxEconomy.Location = new System.Drawing.Point(368, 241);
+            this.textBoxEconomy.Location = new System.Drawing.Point(377, 241);
             this.textBoxEconomy.Multiline = false;
             this.textBoxEconomy.Name = "textBoxEconomy";
             this.textBoxEconomy.ReadOnly = true;
@@ -1597,7 +1597,7 @@ namespace EDDiscovery.UserControls
             // labelEconomy
             // 
             this.labelEconomy.AutoSize = true;
-            this.labelEconomy.Location = new System.Drawing.Point(302, 241);
+            this.labelEconomy.Location = new System.Drawing.Point(311, 241);
             this.labelEconomy.Name = "labelEconomy";
             this.labelEconomy.Size = new System.Drawing.Size(51, 13);
             this.labelEconomy.TabIndex = 34;
@@ -1628,7 +1628,7 @@ namespace EDDiscovery.UserControls
             this.extTextBoxMR.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.extTextBoxMR.SelectionLength = 0;
             this.extTextBoxMR.SelectionStart = 0;
-            this.extTextBoxMR.Size = new System.Drawing.Size(200, 20);
+            this.extTextBoxMR.Size = new System.Drawing.Size(225, 20);
             this.extTextBoxMR.TabIndex = 8;
             this.extTextBoxMR.TabStop = false;
             this.extTextBoxMR.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -1789,7 +1789,7 @@ namespace EDDiscovery.UserControls
             this.textBoxAllegiance.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxAllegiance.EndButtonImage")));
             this.textBoxAllegiance.EndButtonVisible = false;
             this.textBoxAllegiance.InErrorCondition = false;
-            this.textBoxAllegiance.Location = new System.Drawing.Point(368, 223);
+            this.textBoxAllegiance.Location = new System.Drawing.Point(377, 223);
             this.textBoxAllegiance.Multiline = false;
             this.textBoxAllegiance.Name = "textBoxAllegiance";
             this.textBoxAllegiance.ReadOnly = true;
@@ -1840,7 +1840,7 @@ namespace EDDiscovery.UserControls
             // labelAllegiance
             // 
             this.labelAllegiance.AutoSize = true;
-            this.labelAllegiance.Location = new System.Drawing.Point(302, 223);
+            this.labelAllegiance.Location = new System.Drawing.Point(311, 223);
             this.labelAllegiance.Name = "labelAllegiance";
             this.labelAllegiance.Size = new System.Drawing.Size(56, 13);
             this.labelAllegiance.TabIndex = 13;
@@ -1933,7 +1933,7 @@ namespace EDDiscovery.UserControls
             this.textBoxShip.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textBoxShip.SelectionLength = 0;
             this.textBoxShip.SelectionStart = 0;
-            this.textBoxShip.Size = new System.Drawing.Size(200, 20);
+            this.textBoxShip.Size = new System.Drawing.Size(225, 20);
             this.textBoxShip.TabIndex = 8;
             this.textBoxShip.TabStop = false;
             this.textBoxShip.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -2001,7 +2001,7 @@ namespace EDDiscovery.UserControls
             this.textBoxSolDist.EndButtonImage = ((System.Drawing.Image)(resources.GetObject("textBoxSolDist.EndButtonImage")));
             this.textBoxSolDist.EndButtonVisible = false;
             this.textBoxSolDist.InErrorCondition = false;
-            this.textBoxSolDist.Location = new System.Drawing.Point(422, 152);
+            this.textBoxSolDist.Location = new System.Drawing.Point(390, 152);
             this.textBoxSolDist.Multiline = false;
             this.textBoxSolDist.Name = "textBoxSolDist";
             this.textBoxSolDist.ReadOnly = true;
@@ -2039,7 +2039,7 @@ namespace EDDiscovery.UserControls
             this.textBoxPosition.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.textBoxPosition.SelectionLength = 0;
             this.textBoxPosition.SelectionStart = 0;
-            this.textBoxPosition.Size = new System.Drawing.Size(152, 20);
+            this.textBoxPosition.Size = new System.Drawing.Size(225, 20);
             this.textBoxPosition.TabIndex = 8;
             this.textBoxPosition.TabStop = false;
             this.textBoxPosition.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
@@ -2052,7 +2052,7 @@ namespace EDDiscovery.UserControls
             // labelSolDist
             // 
             this.labelSolDist.AutoSize = true;
-            this.labelSolDist.Location = new System.Drawing.Point(358, 152);
+            this.labelSolDist.Location = new System.Drawing.Point(347, 152);
             this.labelSolDist.Name = "labelSolDist";
             this.labelSolDist.Size = new System.Drawing.Size(22, 13);
             this.labelSolDist.TabIndex = 45;
