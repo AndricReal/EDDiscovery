@@ -579,7 +579,7 @@ namespace EDDiscovery.UserControls
                                     textdistcolor = ExtendedControls.Theme.Current.TextBlockHighlightColor;
                                 else
                                 {
-                                    double fuel = fsd.FuelUse(cargocount, he.ShipInformation.ModuleMass() + he.ShipInformation.HullMass(), dist, he.Status.CurrentBoost, he.ShipInformation.FuelLevel);
+                                    double fuel = fsd.FuelUse(cargocount, he.ShipInformation.ModuleMass() + he.ShipInformation.HullMass(), he.ShipInformation.FuelLevel, dist, he.Status.CurrentBoost);
                                     distance += $" {fuel:N2}t";
                                 }
                             }
