@@ -273,11 +273,11 @@ namespace EDDiscovery.UserControls
                 AddInfoLine("FSD Max Range".T(EDTx.UserControlModules_FSDMaxRange), ji.maxjumprange.ToString("N2") + "ly", "Full Tank, no cargo".T(EDTx.UserControlModules_FT), fsdspec.ToString());
                 AddInfoLine("FSD Maximum Fuel per jump".T(EDTx.UserControlModules_FSDMaximumFuelperjump), fsdspec.MaxFuelPerJump.ToString() + "t", "", fsdspec.ToString());
 
-                {
-                    double eddmaxunlanen = fsdspec.JumpRange(0, modulemass + hullmass, 5, 1);
-                    double spanshmaxunladen = fsdspec.SpanshJumpRange(modulemass + hullmass + 5);
-                    AddInfoLine("AAFSD", $"5t fuel EDD = {eddmaxunlanen}\r\nSpansh:{spanshmaxunladen}");
-                }
+                //{
+                //    double eddmaxunlanen = fsdspec.JumpRange(0, modulemass + hullmass, 5, 1);
+                //    double spanshmaxunladen = fsdspec.SpanshJumpRange(modulemass + hullmass + 5);
+                //    AddInfoLine("AAFSD", $"5t fuel EDD = {eddmaxunlanen}\r\nSpansh:{spanshmaxunladen}");
+                //}
             }
 
             if (si.HullValue > 0)

@@ -114,7 +114,9 @@ namespace EDDiscovery.UserControls
         private EliteDangerousCore.JournalEvents.JournalFSDTarget lasttarget = null;        // set when UI FSDTarget passes thru and not in jump sequence on top of history
         private EliteDangerousCore.JournalEvents.JournalFSDTarget pendingtarget = null;     // if we are, its stored here, and transfered back to lasttarget on the next FSD
         private EliteDangerousCore.UIEvents.UIDestination lastdestination = null;           // When UI Destination comes thru
-        
+
+        private bool TravelHistoryAtTop = true;
+
         private ControlHelpersStaticFunc.ControlDragger drag = new ControlHelpersStaticFunc.ControlDragger();
 
         #region Init
@@ -297,9 +299,14 @@ namespace EDDiscovery.UserControls
 
         private void Discoveryform_OnNewUIEvent(UIEvent obj)
         {
-            if (obj is EliteDangerousCore.UIEvents.UIFuel) // fuel UI update the SI information globally.
+            if (obj is EliteDangerousCore.UIEvents.UIFuel && TravelHistoryAtTop) // fuel UI update the SI information globally.  if tracking at the top..
             {
-                Display(last_he, discoveryform.history);
+                var tophe = discoveryform.history.GetLast;
+                if (tophe != null)   // paranoia
+                {
+                    System.Diagnostics.Debug.WriteLine($"UI Top he Fuel {last_he.EventTimeUTC} {last_he.ShipInformation.FuelLevel} {last_he.ShipInformation.ReserveFuelCapacity}");
+                    Display(tophe, discoveryform.history);
+                }
             }
 
             if (obj is EliteDangerousCore.UIEvents.UIFSDTarget)
@@ -335,6 +342,8 @@ namespace EDDiscovery.UserControls
 
         private void TravelSelChanged(HistoryEntry he, HistoryList hl, bool sel)
         {
+            TravelHistoryAtTop = he == hl.GetLast;      // see if tracking at top
+
             bool duetosystem = last_he == null;
             bool duetostatus = false;
             bool duetocomms = false;
@@ -532,7 +541,8 @@ namespace EDDiscovery.UserControls
                         ShipInformation si = he.ShipInformation;
 
                         textBoxShip.Text = si.ShipFullInfo(cargo: false, fuel: false);
-                        if (si.FuelCapacity > 0 && si.FuelLevel > 0)
+
+                        if (si.FuelCapacity > 0 && si.FuelLevel > 0)            // Fuel info 
                             textBoxFuel.Text = si.FuelLevel.ToString("0.#") + "/" + si.FuelCapacity.ToString("0.#");
                         else if (si.FuelCapacity > 0)
                             textBoxFuel.Text = si.FuelCapacity.ToString("0.#");
@@ -554,7 +564,7 @@ namespace EDDiscovery.UserControls
                 // if we have a destination, or we have a last target but its not on our own star system (because we don't track FSD Jump to clearlast target)
                 // sequence of lastdestination vs lasttarget is indeterminate
 
-                if (lastdestination != null || (lasttarget != null && lasttarget.StarSystem != he.System.Name))
+                if (TravelHistoryAtTop && ( lastdestination != null || (lasttarget != null && lasttarget.StarSystem != he.System.Name)))
                 {
                     string starname = "";
                     string bodyname = "";
@@ -631,7 +641,7 @@ namespace EDDiscovery.UserControls
                     extTextBoxNextDestinationDistance.ForeColor = textdistcolor;
                 }
                 else
-                    extTextBoxNextDestination.Text = "";
+                    extTextBoxNextDestinationDistance.Text = extTextBoxNextDestinationPosition.Text = extTextBoxNextDestination.Text = "";
 
 
                 RefreshTargetDisplay(this);
