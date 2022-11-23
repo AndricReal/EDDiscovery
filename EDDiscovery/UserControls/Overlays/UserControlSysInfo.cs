@@ -111,7 +111,8 @@ namespace EDDiscovery.UserControls
         private int Selection;          // selection bits
         private List<BaseUtils.LineStore> Lines;            // stores settings on each line, values are BitN+1, 0 means position not used.
 
-        private EliteDangerousCore.JournalEvents.JournalFSDTarget lasttarget = null;        // set when UI FSDTarget passes thru
+        private EliteDangerousCore.JournalEvents.JournalFSDTarget lasttarget = null;        // set when UI FSDTarget passes thru and not in jump sequence on top of history
+        private EliteDangerousCore.JournalEvents.JournalFSDTarget pendingtarget = null;     // if we are, its stored here, and transfered back to lasttarget on the next FSD
         private EliteDangerousCore.UIEvents.UIDestination lastdestination = null;           // When UI Destination comes thru
         
         private ControlHelpersStaticFunc.ControlDragger drag = new ControlHelpersStaticFunc.ControlDragger();
@@ -306,9 +307,17 @@ namespace EDDiscovery.UserControls
                 var j = ((EliteDangerousCore.UIEvents.UIFSDTarget)obj).FSDTarget;
                 if (lasttarget == null || j.StarSystem != lasttarget.StarSystem)       // a little bit of debouncing, see if the target info has changed
                 {
-                    System.Diagnostics.Debug.WriteLine($"FSD target got");
-                    lasttarget = j;
-                    Display(last_he, discoveryform.history);
+                    if ( (discoveryform.history.GetLast?.FSDJumpSequence??false)  == true) 
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Sysinfo - FSD target got, but in fsd sequence, pend it");
+                        pendingtarget = j;
+                    }
+                    else
+                    {
+                        lasttarget = j;
+                        System.Diagnostics.Debug.WriteLine($"Sysinfo - FSD target got");
+                        Display(last_he, discoveryform.history);
+                    }
                 }
             }
             if (obj is EliteDangerousCore.UIEvents.UIDestination)
@@ -316,7 +325,7 @@ namespace EDDiscovery.UserControls
                 var j = (EliteDangerousCore.UIEvents.UIDestination)obj;
                 if (lastdestination == null || j.Name != lastdestination.Name || j.BodyID != lastdestination.BodyID)        // if name or bodyid has changed
                 {
-                    System.Diagnostics.Debug.WriteLine($"Destination got");
+                    System.Diagnostics.Debug.WriteLine($"Sysinfo - Destination got");
 
                     lastdestination = j;
                     Display(last_he, discoveryform.history);
@@ -326,7 +335,36 @@ namespace EDDiscovery.UserControls
 
         private void TravelSelChanged(HistoryEntry he, HistoryList hl, bool sel)
         {
-            Display(he, hl);
+            bool duetosystem = last_he == null;
+            bool duetostatus = false;
+            bool duetocomms = false;
+            bool duetoship = false;
+            bool duetoother = false;
+            bool duetomissions = false;
+
+            if (he.FSDJumpSequence == false && pendingtarget != null )      // if we reached the end of the fsd sequence, but we have a pend, free
+            {
+                System.Diagnostics.Debug.WriteLine($"Sysinfo - FSDJump and pending target set, so end of jump sequence");
+                lasttarget = pendingtarget;
+                pendingtarget = null;
+                duetoother = true;          // force update
+            }
+
+            if (last_he!=null)       // last_he must be non null for these tests
+            {
+                duetosystem |= last_he.System.Name != he.System.Name;       // add on sys name changes to this
+                duetostatus = last_he.Status != he.Status;
+                duetocomms = last_he.MaterialCommodity != he.MaterialCommodity;
+                duetoship = last_he.ShipInformation != he.ShipInformation;
+                duetoother = last_he.Credits != he.Credits || last_he.Suits != he.Suits || last_he.Loadouts != he.Loadouts;
+                duetomissions = last_he.MissionList != he.MissionList;
+            }
+
+            if (duetosystem || duetostatus || duetocomms || duetoship || duetoother || duetomissions)
+            {
+                System.Diagnostics.Debug.WriteLine($"SysInfo - {he.journalEntry.EventTypeStr} got: sys {duetosystem} st {duetostatus} comds {duetocomms} ship {duetoship} missions {duetomissions} other {duetoother}");
+                Display(he, hl);
+            }
         }
 
         bool neverdisplayed = true;
@@ -422,6 +460,7 @@ namespace EDDiscovery.UserControls
 
                 SetNote(he.SNC != null ? he.SNC.Note : "");
                 textBoxGameMode.Text = he.GameModeGroup;
+
                 if (he.isTravelling)
                 {
                     textBoxTravelDist.Text = he.TravelledDistance.ToString("0.0") + "ly";
@@ -572,17 +611,17 @@ namespace EDDiscovery.UserControls
                         {
                             double dist = sys.Distance(discoveryform.history.GetLast.System);       // we must have a last to be here
                             distance = $"{dist:N2}ly";
-                            pos = $"{sys.X:N1}, {sys.Y:N1}, {sys.Z:N1}";
-                            if (ji != null)
+
+                            if (ji != null) // and therefore fsd is non null
                             {
+                                double fuel = fsd.FuelUse(cargocount, he.ShipInformation.ModuleMass() + he.ShipInformation.HullMass(), he.ShipInformation.FuelLevel, dist, he.Status.CurrentBoost);
+                                distance += $" {fuel:N2}t";
+
                                 if (ji.cursinglejump < dist)
                                     textdistcolor = ExtendedControls.Theme.Current.TextBlockHighlightColor;
-                                else
-                                {
-                                    double fuel = fsd.FuelUse(cargocount, he.ShipInformation.ModuleMass() + he.ShipInformation.HullMass(), he.ShipInformation.FuelLevel, dist, he.Status.CurrentBoost);
-                                    distance += $" {fuel:N2}t";
-                                }
                             }
+
+                            pos = $"{sys.X:N1}, {sys.Y:N1}, {sys.Z:N1}";
                         }
                     }
 
@@ -590,8 +629,6 @@ namespace EDDiscovery.UserControls
                     extTextBoxNextDestinationDistance.Text = distance;
                     extTextBoxNextDestinationPosition.Text = pos;
                     extTextBoxNextDestinationDistance.ForeColor = textdistcolor;
-
-                    // set colour to text block color if no jumprange, not a star, or okay in range. stardistance = 0 if not known so will pass
                 }
                 else
                     extTextBoxNextDestination.Text = "";
