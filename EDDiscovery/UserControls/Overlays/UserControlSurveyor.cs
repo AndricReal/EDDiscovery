@@ -391,19 +391,22 @@ namespace EDDiscovery.UserControls
                 if (IsClosed)   // may close during await..
                     return;
 
-                int scanned = checkBoxEDSM.Checked ? systemnode.StarPlanetsScanned() : systemnode.StarPlanetsScannednonEDSM();
-
-                if (scanned > 0)
+                if (systemnode != null)
                 {
-                    text = text.AppendPrePad("Scan".T(EDTx.UserControlSurveyor_Scan) + " " + scanned.ToString() + (systemnode.FSSTotalBodies != null ? (" / " + systemnode.FSSTotalBodies.Value.ToString()) : ""), Environment.NewLine);
-                }
+                    int scanned = checkBoxEDSM.Checked ? systemnode.StarPlanetsScanned() : systemnode.StarPlanetsScannednonEDSM();
 
-                long value = systemnode.ScanValue(false);
+                    if (scanned > 0)
+                    {
+                        text = text.AppendPrePad("Scan".T(EDTx.UserControlSurveyor_Scan) + " " + scanned.ToString() + (systemnode.FSSTotalBodies != null ? (" / " + systemnode.FSSTotalBodies.Value.ToString()) : ""), Environment.NewLine);
+                    }
 
-                if (value > 0 && IsSet(CtrlList.showValues))
-                {
-                    text.AppendPrePad("Scan".T(EDTx.UserControlSurveyor_Scan) + " " + scanned.ToString() + (systemnode.FSSTotalBodies != null ? (" / " + systemnode.FSSTotalBodies.Value.ToString()) : "", Environment.NewLine));
-                    text = text.AppendPrePad("~ " + value.ToString("N0") + " cr", "; ");
+                    long value = systemnode.ScanValue(false);
+
+                    if (value > 0 && IsSet(CtrlList.showValues))
+                    {
+                        text.AppendPrePad("Scan".T(EDTx.UserControlSurveyor_Scan) + " " + scanned.ToString() + (systemnode.FSSTotalBodies != null ? (" / " + systemnode.FSSTotalBodies.Value.ToString()) : "", Environment.NewLine));
+                        text = text.AppendPrePad("~ " + value.ToString("N0") + " cr", "; ");
+                    }
                 }
             }
 

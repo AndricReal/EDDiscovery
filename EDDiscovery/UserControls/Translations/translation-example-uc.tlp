@@ -258,6 +258,9 @@ SECTION UserControlExpedition
 .SystemName: "System Name" @
 .Distance: "Dist." @
 .Note: "Note" @
+.ColumnDistStart: "Dist Start" @
+.ColumnDistanceRemaining: "Dist Remaining" @
+
 .labelCml: "Cml Distance:" @
 .labelP2P: "P2P Distance:" @
 .labelEndDate: "End Date:" @
@@ -280,7 +283,7 @@ SECTION UserControlExpedition
 .Specify: "Please specify a name for the route." @
 .Conflict: "The current route name conflicts with a well-known expedition.\r\nPlease specify a new name to save your changes." @
 .Overwrite: "Warning: route already exists. Would you like to overwrite it?" @
-.EDSMUnk: "System not known to EDSM" @
+.EDSMUnk: "System not known" @
 .NoScanInfo : "No local scan info" @
 
 SECTION UserControlJournalGrid

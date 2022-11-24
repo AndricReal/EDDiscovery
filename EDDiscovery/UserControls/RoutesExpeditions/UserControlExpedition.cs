@@ -27,6 +27,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace EDDiscovery.UserControls
 {
@@ -46,7 +47,6 @@ namespace EDDiscovery.UserControls
         const double eccentricityLimit = 0.95; //orbital eccentricity limit
 
         private Timer autoupdateedsm;
-        private bool closing = false;
         private bool updatingsystemrows = false;    // set during row update, to stop user interfering with the async processor without flashing icons if we just disabled them
 
         #region Standard UC Interfaces
@@ -86,7 +86,11 @@ namespace EDDiscovery.UserControls
             autoupdateedsm.Tick += Autoupdateedsm_Tick;
             autoupdateedsm.Start();     // something to display..
 
-            var enumlist = new Enum[] { EDTx.UserControlExpedition_SystemName, EDTx.UserControlExpedition_Distance, EDTx.UserControlExpedition_Note, EDTx.UserControlExpedition_CurDist, EDTx.UserControlExpedition_Visits, EDTx.UserControlExpedition_Scans, EDTx.UserControlExpedition_FSSBodies, EDTx.UserControlExpedition_KnownBodies, EDTx.UserControlExpedition_Stars, EDTx.UserControlExpedition_Info, EDTx.UserControlExpedition_labelRouteName, EDTx.UserControlExpedition_labelDateStart, EDTx.UserControlExpedition_labelEndDate, EDTx.UserControlExpedition_labelCml, EDTx.UserControlExpedition_labelP2P};
+            var enumlist = new Enum[] { EDTx.UserControlExpedition_SystemName, EDTx.UserControlExpedition_Distance, EDTx.UserControlExpedition_Note, EDTx.UserControlExpedition_CurDist, 
+                                        EDTx.UserControlExpedition_Visits, EDTx.UserControlExpedition_Scans, EDTx.UserControlExpedition_FSSBodies, EDTx.UserControlExpedition_KnownBodies, 
+                                        EDTx.UserControlExpedition_Stars, EDTx.UserControlExpedition_Info, EDTx.UserControlExpedition_labelRouteName, EDTx.UserControlExpedition_labelDateStart, 
+                                        EDTx.UserControlExpedition_labelEndDate, EDTx.UserControlExpedition_labelCml, EDTx.UserControlExpedition_labelP2P,
+                                        EDTx.UserControlExpedition_ColumnDistStart, EDTx.UserControlExpedition_ColumnDistanceRemaining};
             var enumlisttt = new Enum[] { EDTx.UserControlExpedition_extButtonLoadRoute_ToolTip, EDTx.UserControlExpedition_extButtonNew_ToolTip, EDTx.UserControlExpedition_extButtonSave_ToolTip, EDTx.UserControlExpedition_extButtonDelete_ToolTip, 
                                           EDTx.UserControlExpedition_extButtonImportFile_ToolTip, EDTx.UserControlExpedition_extButtonImportRoute_ToolTip, EDTx.UserControlExpedition_extButtonImportNavRoute_ToolTip, EDTx.UserControlExpedition_extButtonNavRouteLatest_ToolTip, 
                                           EDTx.UserControlExpedition_extButtonAddSystems_ToolTip, 
@@ -126,7 +130,6 @@ namespace EDDiscovery.UserControls
 
         public override void Closing()
         {
-            closing = true;
             autoupdateedsm.Stop();
 
             DGVSaveColumnLayout(dataGridView);
@@ -266,7 +269,11 @@ namespace EDDiscovery.UserControls
             bool showorganics = displayfilters.Contains("organics");
             bool disablegmoshow = displayfilters.Contains("gmoinfooff");
 
-
+            ISystem startsystem = await LookupSystem(0, edsmcheck);
+            ISystem endsystem = await LookupSystem(dataGridView.GetLastRowWithValue(), edsmcheck);
+            if (IsClosed)
+                return;
+                
             for (int rowindex = rowstart; rowindex <= Math.Min(rowendinc, dataGridView.Rows.Count-1); rowindex++)
             {
                 DataGridViewRow row = dataGridView.Rows[rowindex];
@@ -300,8 +307,7 @@ namespace EDDiscovery.UserControls
                 var lookup = edsmcheck;     // here so you can turn it off for speed
                 var sys = await SystemCache.FindSystemAsync(sysname, discoveryform.galacticMapping, lookup);
                 //System.Diagnostics.Debug.WriteLine($"{Environment.TickCount % 10000} Continuing for {sysname} EDSM {edsmcheck} found {sys?.Name}");
-
-                if (closing)        // because its async, the await returns with void, and then this is called back, and we may be closing.
+                if (IsClosed)        // because its async, the await returns with void, and then this is called back, and we may be closing.
                     return;
 
                 row.Tag = sys;      // store tag
@@ -313,7 +319,6 @@ namespace EDDiscovery.UserControls
                 if ( sys == null )      // no system found
                 {
                     row.Cells[Distance.Index].Tag = null;
-
                     row.Cells[Distance.Index].Value =
                     row.Cells[ColumnX.Index].Value =
                     row.Cells[ColumnY.Index].Value =
@@ -341,7 +346,7 @@ namespace EDDiscovery.UserControls
 
                     StarScan.SystemNode sysnode = await discoveryform.history.StarScan.FindSystemAsync(sys, lookup);
 
-                    if (closing)        // because its async, may be called during closedown. stop this
+                    if (IsClosed)        // because its async, may be called during closedown. stop this
                         return;
 
                     if (sysnode != null)
@@ -383,40 +388,58 @@ namespace EDDiscovery.UserControls
                 }
             }
 
-            ISystem firstsys = null;
-            ISystem lastsys = null;
-            double totaldistance = 0;
-
-            for (int rowindex = 0; rowindex < dataGridView.Rows.Count; rowindex++)  // scan all rows for distance total
             {
-                var row = dataGridView.Rows[rowindex];
-                var sys = row.Tag as ISystem;
-                if ( sys?.HasCoordinate ?? false)
-                {
-                    if (firstsys == null)
-                        firstsys = sys;
-                    lastsys = sys;
+                ISystem firstsys = null;
+                ISystem lastsys = null;
+                double totaldistance = 0;
 
-                    double? ds = row.Cells[Distance.Index].Tag as double?;
-                    if (ds != null)
+                for (int rowindex = 0; rowindex < dataGridView.Rows.Count; rowindex++)  // scan all rows for distance total
+                {
+                    var row = dataGridView.Rows[rowindex];
+                    var sys = row.Tag as ISystem;
+
+                    if (sys?.HasCoordinate ?? false)
                     {
-                        totaldistance += ds.Value;
+                        if (firstsys == null)
+                            firstsys = sys;
+
+                        lastsys = sys;
+
+                        double? ds = row.Cells[Distance.Index].Tag as double?;
+                        if (ds != null)
+                        {
+                            totaldistance += ds.Value;
+                        }
+
+                        row.Cells[ColumnDistStart.Index].Value = startsystem != null ? sys.Distance(startsystem).ToString("N1") : "";
+                        row.Cells[ColumnDistanceRemaining.Index].Value = endsystem != null ? sys.Distance(endsystem).ToString("N1") : "";
+                    }
+                    else
+                    {
+                        row.Cells[ColumnDistStart.Index].Value = row.Cells[ColumnDistanceRemaining.Index].Value = "";
                     }
                 }
-            }
 
-            if (firstsys != null)      // therefore lastsys must too
-            {
-                txtCmlDistance.Text = totaldistance.ToString("0.#") + " ly";
-                txtP2PDIstance.Text = firstsys.Distance(lastsys).ToString("0.#") + "ly";
+                if (firstsys != null)      // therefore lastsys must too
+                {
+                    txtCmlDistance.Text = totaldistance.ToString("0.#") + " ly";
+                    txtP2PDIstance.Text = firstsys.Distance(lastsys).ToString("0.#") + "ly";
+                }
+                else
+                    txtCmlDistance.Text = txtP2PDIstance.Text = "";
             }
-            else
-                txtCmlDistance.Text = txtP2PDIstance.Text = "";
 
             Cursor = Cursors.Default;
 
             updatingsystemrows = false;
         }
+
+        private Task<ISystem> LookupSystem(int row, bool checkedsm)
+        {
+            string name = (row >= 0 && row < dataGridView.RowCount && dataGridView[0, row].Value != null) ? (string)dataGridView[0, row].Value : "xxxRubbishxxx";
+            return SystemCache.FindSystemAsync(name, null, checkedsm);
+        }
+
 
         private void Autoupdateedsm_Tick(object sender, EventArgs e)            // tick tock to get edsm data very slowly!
         {
@@ -603,23 +626,26 @@ namespace EDDiscovery.UserControls
 
             var savedroutes = SavedRouteClass.GetAllSavedRoutes();
 
-            dropdown.FitImagesToItemHeight = true;
-            dropdown.Items = savedroutes.Select(x => x.Name).ToList();
-            dropdown.FlatStyle = FlatStyle.Popup;
-            dropdown.PositionBelow(sender as Control);
-            dropdown.SelectedIndexChanged += (s, ea) =>
+            if (savedroutes.Count > 0)
             {
-                if (PromptAndSaveIfNeeded())
+                dropdown.FitImagesToItemHeight = true;
+                dropdown.Items = savedroutes.Select(x => x.Name).ToList();
+                dropdown.FlatStyle = FlatStyle.Popup;
+                dropdown.PositionBelow(sender as Control);
+                dropdown.SelectedIndexChanged += (s, ea) =>
                 {
-                    string name = savedroutes[dropdown.SelectedIndex].Name;
-                    savedroutes = SavedRouteClass.GetAllSavedRoutes();      // reload, in case reselecting saved route
-                    loadedroute = savedroutes.Find(x => x.Name == name);        // if your picking the same route again for some strange reason
-                    DisplayRoute(loadedroute);
-                }
-            };
+                    if (PromptAndSaveIfNeeded())
+                    {
+                        string name = savedroutes[dropdown.SelectedIndex].Name;
+                        savedroutes = SavedRouteClass.GetAllSavedRoutes();      // reload, in case reselecting saved route
+                        loadedroute = savedroutes.Find(x => x.Name == name);        // if your picking the same route again for some strange reason
+                        DisplayRoute(loadedroute);
+                    }
+                };
 
-            ExtendedControls.Theme.Current.ApplyDialog(dropdown, true);
-            dropdown.Show(this.FindForm());
+                ExtendedControls.Theme.Current.ApplyDialog(dropdown, true);
+                dropdown.Show(this.FindForm());
+            }
         }
 
         private void extButtonNew_Click(object sender, EventArgs e)
@@ -1295,7 +1321,7 @@ namespace EDDiscovery.UserControls
         {
             if (e.Column.Index == 0)
                 e.SortDataGridViewColumnAlphaInt();
-            else if (e.Column.Index == 1 || (e.Column.Index>=3 && e.Column.Index <= 10))
+            else if (e.Column.Index == Distance.Index || (e.Column.Index>=ColumnX.Index && e.Column.Index <= KnownBodies.Index))
                 e.SortDataGridViewColumnNumeric();
 
         }

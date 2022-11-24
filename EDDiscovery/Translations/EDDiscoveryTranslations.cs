@@ -1099,6 +1099,8 @@ namespace EDDiscovery
         UserControlExpedition_labelRouteName, // Control 'Route Name:'
         UserControlExpedition_labelDateStart, // Control 'Start Date:'
         UserControlExpedition_labelEndDate, // Control 'End Date:'
+        UserControlExpedition_ColumnDistStart,
+        UserControlExpedition_ColumnDistanceRemaining,
         UserControlExpedition_labelCml, // Control 'Cml Distance:'
         UserControlExpedition_labelP2P, // Control 'P2P Distance:'
         UserControlExpedition_buttonReverseRoute_ToolTip, // Control 'Reverse'

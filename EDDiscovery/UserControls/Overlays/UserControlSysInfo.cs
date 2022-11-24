@@ -503,7 +503,7 @@ namespace EDDiscovery.UserControls
 
 
                 EliteDangerousCalculations.FSDSpec fsd = !he.Status.OnFoot && he.ShipInformation != null ? he.ShipInformation.GetFSDSpec() : null;
-                EliteDangerousCalculations.FSDSpec.JumpInfo ji = fsd != null ? fsd.GetJumpInfo(cargocount, he.ShipInformation.ModuleMass() + he.ShipInformation.HullMass(),
+                EliteDangerousCalculations.FSDSpec.JumpInfo ji = fsd != null ? fsd.GetJumpInfo(cargocount, he.ShipInformation.HullModuleMass(),
                                 he.ShipInformation.FuelLevel, he.ShipInformation.FuelCapacity / 2, he.Status.CurrentBoost) : null;
 
                 textBoxJumpRange.Text = "";
@@ -623,7 +623,7 @@ namespace EDDiscovery.UserControls
 
                             if (ji != null) // and therefore fsd is non null
                             {
-                                double fuel = fsd.FuelUse(cargocount, he.ShipInformation.ModuleMass() + he.ShipInformation.HullMass(), he.ShipInformation.FuelLevel, dist, he.Status.CurrentBoost);
+                                double fuel = fsd.FuelUse(cargocount, he.ShipInformation.HullModuleMass(), he.ShipInformation.FuelLevel, dist, he.Status.CurrentBoost);
                                 distance += $" {fuel:N2}t";
 
                                 if (ji.cursinglejump < dist)
