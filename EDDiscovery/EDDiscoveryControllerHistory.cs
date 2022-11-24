@@ -198,11 +198,48 @@ namespace EDDiscovery
                     }
                 }
 
-                hist = HistoryList.LoadHistory( (s) => ReportRefreshProgress(-1, s), ()=>PendingClose,
-                                                args.CurrentCommander,
-                                                EDDOptions.Instance.HistoryLoadDayLimit > 0 ? EDDOptions.Instance.HistoryLoadDayLimit : EDDConfig.Instance.FullHistoryLoadDayLimit, 
-                                                EDDConfig.Instance.EssentialEventTypes
-                                                 );
+                HistoryList newhistory = null;
+                bool redo = false;
+
+                do
+                {
+                    var cmdr = EDCommander.GetCommander(args.CurrentCommander);
+                    newhistory = new HistoryList();
+
+                    var essentialitemslist = (EDDConfig.Instance.EssentialEventTypes == nameof(JournalEssentialEvents.JumpScanEssentialEvents)) ? JournalEssentialEvents.JumpScanEssentialEvents :
+                               (EDDConfig.Instance.EssentialEventTypes == nameof(JournalEssentialEvents.JumpEssentialEvents)) ? JournalEssentialEvents.JumpEssentialEvents :
+                               (EDDConfig.Instance.EssentialEventTypes == nameof(JournalEssentialEvents.NoEssentialEvents)) ? JournalEssentialEvents.NoEssentialEvents :
+                               (EDDConfig.Instance.EssentialEventTypes == nameof(JournalEssentialEvents.FullStatsEssentialEvents)) ? JournalEssentialEvents.FullStatsEssentialEvents :
+                                JournalEssentialEvents.EssentialEvents;
+
+                    int linkedcmdrid = cmdr.LinkedCommanderID;
+
+                    if (linkedcmdrid >= 0)      // if loading a linked commander (new nov 22 u14)
+                    {
+                        HistoryList.LoadHistory(newhistory, (s) => ReportRefreshProgress(-1, s), () => PendingClose,
+                                                        linkedcmdrid, cmdr.Name,
+                                                        EDDOptions.Instance.HistoryLoadDayLimit > 0 ? EDDOptions.Instance.HistoryLoadDayLimit : EDDConfig.Instance.FullHistoryLoadDayLimit,
+                                                        essentialitemslist,
+                                                        cmdr.LinkedCommanderEndTime
+                                                        );
+                    }
+
+                    // then link any data from our commander
+                    HistoryList.LoadHistory(newhistory, (s) => ReportRefreshProgress(-1, s), () => PendingClose,
+                                                    args.CurrentCommander, cmdr.Name,
+                                                    EDDOptions.Instance.HistoryLoadDayLimit > 0 ? EDDOptions.Instance.HistoryLoadDayLimit : EDDConfig.Instance.FullHistoryLoadDayLimit,
+                                                    essentialitemslist,
+                                                    null
+                                                    );
+
+                    // now, if its a fresh one, we may have created a new linked commander. If that ends up being the current commander, we have not fully loaded properly
+                    // If so, detect and do it again.  This scenario is unlikely but worth checking for
+
+                    redo = cmdr.LinkedCommanderID != linkedcmdrid;      // if we updated the linked commander ID, we need to redo
+
+                } while (redo);
+
+                hist = newhistory;
 
                 if (args.NetLogPath != null )
                 {

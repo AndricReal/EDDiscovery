@@ -115,7 +115,10 @@ namespace EDDiscovery.UserControls
         private EliteDangerousCore.JournalEvents.JournalFSDTarget pendingtarget = null;     // if we are, its stored here, and transfered back to lasttarget on the next FSD
         private EliteDangerousCore.UIEvents.UIDestination lastdestination = null;           // When UI Destination comes thru
 
-        private bool TravelHistoryAtTop = true;
+        private bool travelhistoryisattop = true;
+
+        bool neverdisplayed = true;
+        HistoryEntry last_he = null;
 
         private ControlHelpersStaticFunc.ControlDragger drag = new ControlHelpersStaticFunc.ControlDragger();
 
@@ -288,24 +291,24 @@ namespace EDDiscovery.UserControls
 
         public override void InitialDisplay()
         {
-            Display(uctg.GetCurrentHistoryEntry, discoveryform.history);
+            Display(uctg.GetCurrentHistoryEntry);
         }
 
         private void Discoveryform_OnEDSMSyncComplete(int count, string syslist)     // EDSM ~MAY~ have updated the last discovery flag, so redisplay
         {
             //System.Diagnostics.Debug.WriteLine("EDSM SYNC COMPLETED with " + count + " '" + syslist + "'");
-            Display(last_he, last_hl);
+            Display(last_he);
         }
 
         private void Discoveryform_OnNewUIEvent(UIEvent obj)
         {
-            if (obj is EliteDangerousCore.UIEvents.UIFuel && TravelHistoryAtTop) // fuel UI update the SI information globally.  if tracking at the top..
+            if (obj is EliteDangerousCore.UIEvents.UIFuel && travelhistoryisattop) // fuel UI update the SI information globally.  if tracking at the top..
             {
-                var tophe = discoveryform.history.GetLast;
+                var tophe = discoveryform.history.GetLast;      // we feed in the top, which is being updated by EDDiscoveryControllerNewEntry with the latest fuel
                 if (tophe != null)   // paranoia
                 {
                     System.Diagnostics.Debug.WriteLine($"UI Top he Fuel {last_he.EventTimeUTC} {last_he.ShipInformation.FuelLevel} {last_he.ShipInformation.ReserveFuelCapacity}");
-                    Display(tophe, discoveryform.history);
+                    Display(tophe);
                 }
             }
 
@@ -323,7 +326,7 @@ namespace EDDiscovery.UserControls
                     {
                         lasttarget = j;
                         System.Diagnostics.Debug.WriteLine($"Sysinfo - FSD target got");
-                        Display(last_he, discoveryform.history);
+                        Display(last_he);
                     }
                 }
             }
@@ -335,14 +338,14 @@ namespace EDDiscovery.UserControls
                     System.Diagnostics.Debug.WriteLine($"Sysinfo - Destination got");
 
                     lastdestination = j;
-                    Display(last_he, discoveryform.history);
+                    Display(last_he);
                 }
             }
         }
 
         private void TravelSelChanged(HistoryEntry he, HistoryList hl, bool sel)
         {
-            TravelHistoryAtTop = he == hl.GetLast;      // see if tracking at top
+            travelhistoryisattop = he == hl.GetLast;      // see if tracking at top
 
             bool duetosystem = last_he == null;
             bool duetostatus = false;
@@ -372,15 +375,11 @@ namespace EDDiscovery.UserControls
             if (duetosystem || duetostatus || duetocomms || duetoship || duetoother || duetomissions)
             {
                 System.Diagnostics.Debug.WriteLine($"SysInfo - {he.journalEntry.EventTypeStr} got: sys {duetosystem} st {duetostatus} comds {duetocomms} ship {duetoship} missions {duetomissions} other {duetoother}");
-                Display(he, hl);
+                Display(he);
             }
         }
 
-        bool neverdisplayed = true;
-        HistoryEntry last_he = null;
-        HistoryList last_hl = null;
-
-        private async void Display(HistoryEntry he, HistoryList hl)       // use he/hl not any global ones due to refresh sync timing between EDSM/Others
+        private async void Display(HistoryEntry he) 
         {
             if (neverdisplayed)
             {
@@ -389,13 +388,13 @@ namespace EDDiscovery.UserControls
             }
 
             last_he = he;
-            last_hl = hl;
+            var hl = discoveryform.history;
 
             if (last_he != null)
             {
                 SetControlText(he.System.Name);
 
-                HistoryEntry lastfsd = last_hl.GetLastHistoryEntry(x => x.EntryType == JournalTypeEnum.FSDJump, he);
+                HistoryEntry lastfsd = hl.GetLastHistoryEntry(x => x.EntryType == JournalTypeEnum.FSDJump, he);
 
                 textBoxSystem.Text = he.System.Name;
                 panelFD.BackgroundImage = (lastfsd != null && (lastfsd.journalEntry as EliteDangerousCore.JournalEvents.JournalFSDJump).EDSMFirstDiscover) ? EDDiscovery.Icons.Controls.firstdiscover : EDDiscovery.Icons.Controls.notfirstdiscover;
@@ -427,7 +426,7 @@ namespace EDDiscovery.UserControls
                     textBoxSolDist.Text = "";
                 }
 
-                int count = last_hl.GetVisitsCount(he.System.Name);
+                int count = hl.GetVisitsCount(he.System.Name);
                 textBoxVisits.Text = count.ToString();
 
                 //                System.Diagnostics.Debug.WriteLine("UserControlSysInfo sys info {0} {1} {2}", he.System.Name, he.System.EDSMID, he.System.EDDBID);
@@ -564,7 +563,7 @@ namespace EDDiscovery.UserControls
                 // if we have a destination, or we have a last target but its not on our own star system (because we don't track FSD Jump to clearlast target)
                 // sequence of lastdestination vs lasttarget is indeterminate
 
-                if (TravelHistoryAtTop && ( lastdestination != null || (lasttarget != null && lasttarget.StarSystem != he.System.Name)))
+                if (travelhistoryisattop && ( lastdestination != null || (lasttarget != null && lasttarget.StarSystem != he.System.Name)))
                 {
                     string starname = "";
                     string bodyname = "";
