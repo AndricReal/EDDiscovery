@@ -443,7 +443,7 @@ namespace EDDiscovery.UserControls
             //string debugt = item.Journalid + "  " + item.System.id_edsm + " " + item.System.GetHashCode() + " "; // add on for debug purposes to a field below
 
             string colTime = EDDConfig.Instance.ConvertTimeToSelectedFromUTC(he.EventTimeUTC).ToString();
-            colTime += $" {he.journalEntry.Id}";
+            //colTime += $" {he.journalEntry.Id}";
 
             string colIcon = "";
             string colDescription = he.EventSummary;
@@ -453,14 +453,14 @@ namespace EDDiscovery.UserControls
 
             if (debugmode)
             {
-                colTime += Environment.NewLine + $"{he.TravelState} \r\n"
-                               + $"st[{he.System.Name}]\r\n"
-                               + $"b[{he.Status.BodyName},{he.Status.BodyType},{he.Status.BodyID},ba {he.Status.BodyApproached}]\r\n"
-                               + $"s[{he.Status.StationName},{he.Status.StationType}]\r\n"
+                colTime += Environment.NewLine + $"{he.TravelState} @ {he.System.Name}\r\n"
+                               + $"b{he.Status.BodyName},{he.Status.BodyType},{he.Status.BodyID},ba {he.Status.BodyApproached}\r\n"
+                               + $"s{he.Status.StationName},{he.Status.StationType}\r\n"
                                + $"mc{he.MaterialCommodity}/w{he.Weapons}/s{he.Suits}/l{he.Loadouts}/e{he.Engineering}\r\n"
                                + $"b{he.journalEntry.IsBeta}/h{ he.journalEntry.IsHorizons}/o{ he.journalEntry.IsOdyssey}\r\n"
                                + $"bkt{he.Status.BookedTaxi} d {he.Status.BookedDropship}\r\n"
-                               + $"jcb{he.Status.CurrentBoost} fsds{he.FSDJumpSequence}"
+                               + $"jcb{he.Status.CurrentBoost} fsds{he.FSDJumpSequence}\r\n"
+                               + $"jid{he.journalEntry.Id} tlu{he.journalEntry.TLUId}"
                                ;
 
                 colDescription = he.journalEntry.EventTypeStr.SplitCapsWord() == he.EventSummary ? he.EventSummary : (he.journalEntry.EventTypeStr + Environment.NewLine + he.EventSummary);
