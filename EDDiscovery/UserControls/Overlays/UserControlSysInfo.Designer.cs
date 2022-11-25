@@ -58,7 +58,6 @@ namespace EDDiscovery.UserControls
             this.toolStripDistanceFrom = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSystemState = new System.Windows.Forms.ToolStripMenuItem();
             this.displaySecurityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripNotes = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTarget = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripShip = new System.Windows.Forms.ToolStripMenuItem();
             this.displayShipButtonsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -120,11 +119,9 @@ namespace EDDiscovery.UserControls
             this.textBoxVisits = new ExtendedControls.ExtTextBox();
             this.labelFuel = new System.Windows.Forms.Label();
             this.labelBodyName = new System.Windows.Forms.Label();
-            this.richTextBoxNote = new ExtendedControls.ExtRichTextBox();
             this.textBoxBody = new ExtendedControls.ExtTextBox();
             this.richTextBoxScrollMissions = new ExtendedControls.ExtRichTextBox();
             this.labelPosition = new System.Windows.Forms.Label();
-            this.labelNote = new System.Windows.Forms.Label();
             this.textBoxTravelJumps = new ExtendedControls.ExtTextBox();
             this.labelMissions = new System.Windows.Forms.Label();
             this.textBoxTravelTime = new ExtendedControls.ExtTextBox();
@@ -169,7 +166,6 @@ namespace EDDiscovery.UserControls
             this.toolStripDistanceFrom,
             this.toolStripSystemState,
             this.displaySecurityToolStripMenuItem,
-            this.toolStripNotes,
             this.toolStripTarget,
             this.toolStripShip,
             this.displayShipButtonsToolStripMenuItem,
@@ -308,16 +304,6 @@ namespace EDDiscovery.UserControls
             this.displaySecurityToolStripMenuItem.Size = new System.Drawing.Size(255, 22);
             this.displaySecurityToolStripMenuItem.Text = "Display Security";
             this.displaySecurityToolStripMenuItem.Click += new System.EventHandler(this.displaySecurityToolStripMenuItem_Click);
-            // 
-            // toolStripNotes
-            // 
-            this.toolStripNotes.Checked = true;
-            this.toolStripNotes.CheckOnClick = true;
-            this.toolStripNotes.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripNotes.Name = "toolStripNotes";
-            this.toolStripNotes.Size = new System.Drawing.Size(255, 22);
-            this.toolStripNotes.Text = "Display Notes";
-            this.toolStripNotes.Click += new System.EventHandler(this.toolStripNotes_Click);
             // 
             // toolStripTarget
             // 
@@ -594,11 +580,9 @@ namespace EDDiscovery.UserControls
             this.extPanelScroll.Controls.Add(this.textBoxVisits);
             this.extPanelScroll.Controls.Add(this.labelFuel);
             this.extPanelScroll.Controls.Add(this.labelBodyName);
-            this.extPanelScroll.Controls.Add(this.richTextBoxNote);
             this.extPanelScroll.Controls.Add(this.textBoxBody);
             this.extPanelScroll.Controls.Add(this.richTextBoxScrollMissions);
             this.extPanelScroll.Controls.Add(this.labelPosition);
-            this.extPanelScroll.Controls.Add(this.labelNote);
             this.extPanelScroll.Controls.Add(this.textBoxTravelJumps);
             this.extPanelScroll.Controls.Add(this.labelMissions);
             this.extPanelScroll.Controls.Add(this.textBoxTravelTime);
@@ -1338,39 +1322,6 @@ namespace EDDiscovery.UserControls
             this.labelBodyName.MouseMove += new System.Windows.Forms.MouseEventHandler(this.controlMouseMove);
             this.labelBodyName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.controlMouseUp);
             // 
-            // richTextBoxNote
-            // 
-            this.richTextBoxNote.BorderColor = System.Drawing.Color.Transparent;
-            this.richTextBoxNote.BorderColorScaling = 0.5F;
-            this.richTextBoxNote.HideScrollBar = true;
-            this.richTextBoxNote.Location = new System.Drawing.Point(228, 267);
-            this.richTextBoxNote.Name = "richTextBoxNote";
-            this.richTextBoxNote.ReadOnly = false;
-            this.richTextBoxNote.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang2057{\\fonttbl{\\f0\\fnil\\fcharset0 " +
-    "Microsoft Sans Serif;}}\r\n{\\*\\generator Riched20 10.0.19041}\\viewkind4\\uc1 \r\n\\par" +
-    "d\\f0\\fs17\\par\r\n}\r\n";
-            this.richTextBoxNote.ScrollBarArrowBorderColor = System.Drawing.Color.LightBlue;
-            this.richTextBoxNote.ScrollBarArrowButtonColor = System.Drawing.Color.LightGray;
-            this.richTextBoxNote.ScrollBarBackColor = System.Drawing.SystemColors.Control;
-            this.richTextBoxNote.ScrollBarBorderColor = System.Drawing.Color.White;
-            this.richTextBoxNote.ScrollBarFlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.richTextBoxNote.ScrollBarForeColor = System.Drawing.SystemColors.ControlText;
-            this.richTextBoxNote.ScrollBarMouseOverButtonColor = System.Drawing.Color.Green;
-            this.richTextBoxNote.ScrollBarMousePressedButtonColor = System.Drawing.Color.Red;
-            this.richTextBoxNote.ScrollBarSliderColor = System.Drawing.Color.DarkGray;
-            this.richTextBoxNote.ScrollBarThumbBorderColor = System.Drawing.Color.Yellow;
-            this.richTextBoxNote.ScrollBarThumbButtonColor = System.Drawing.Color.DarkBlue;
-            this.richTextBoxNote.ShowLineCount = false;
-            this.richTextBoxNote.Size = new System.Drawing.Size(225, 50);
-            this.richTextBoxNote.TabIndex = 0;
-            this.richTextBoxNote.TextBoxBackColor = System.Drawing.SystemColors.Control;
-            this.richTextBoxNote.TextBoxForeColor = System.Drawing.SystemColors.ControlText;
-            this.richTextBoxNote.TextBoxChanged += new ExtendedControls.ExtRichTextBox.OnTextBoxChanged(this.richTextBoxNote_TextBoxChanged);
-            this.richTextBoxNote.Leave += new System.EventHandler(this.richTextBoxNote_Leave);
-            this.richTextBoxNote.MouseDown += new System.Windows.Forms.MouseEventHandler(this.controlMouseDown);
-            this.richTextBoxNote.MouseMove += new System.Windows.Forms.MouseEventHandler(this.controlMouseMove);
-            this.richTextBoxNote.MouseUp += new System.Windows.Forms.MouseEventHandler(this.controlMouseUp);
-            // 
             // textBoxBody
             // 
             this.textBoxBody.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
@@ -1445,18 +1396,6 @@ namespace EDDiscovery.UserControls
             this.labelPosition.MouseDown += new System.Windows.Forms.MouseEventHandler(this.controlMouseDown);
             this.labelPosition.MouseMove += new System.Windows.Forms.MouseEventHandler(this.controlMouseMove);
             this.labelPosition.MouseUp += new System.Windows.Forms.MouseEventHandler(this.controlMouseUp);
-            // 
-            // labelNote
-            // 
-            this.labelNote.AutoSize = true;
-            this.labelNote.Location = new System.Drawing.Point(181, 267);
-            this.labelNote.Name = "labelNote";
-            this.labelNote.Size = new System.Drawing.Size(30, 13);
-            this.labelNote.TabIndex = 28;
-            this.labelNote.Text = "Note";
-            this.labelNote.MouseDown += new System.Windows.Forms.MouseEventHandler(this.controlMouseDown);
-            this.labelNote.MouseMove += new System.Windows.Forms.MouseEventHandler(this.controlMouseMove);
-            this.labelNote.MouseUp += new System.Windows.Forms.MouseEventHandler(this.controlMouseUp);
             // 
             // textBoxTravelJumps
             // 
@@ -2145,8 +2084,6 @@ namespace EDDiscovery.UserControls
         private ExtendedControls.ExtButton extButtonEDSMSystem;
         private ExtendedControls.ExtTextBox textBoxSolDist;
         private System.Windows.Forms.Label labelSolDist;
-        private ExtendedControls.ExtRichTextBox richTextBoxNote;
-        private System.Windows.Forms.Label labelNote;
         private System.Windows.Forms.Label labelTarget;
         private ExtendedControls.ExtButtonDrawn extButtonEDSMTarget;
         private ExtendedControls.ExtTextBoxAutoComplete textBoxTarget;
@@ -2154,7 +2091,6 @@ namespace EDDiscovery.UserControls
         private ExtendedControls.ExtTextBox textBoxTargetDist;
         private ExtendedControls.ExtTextBox textBoxSystem;
         private System.Windows.Forms.Label labelSysName;
-        private System.Windows.Forms.ToolStripMenuItem toolStripNotes;
         private System.Windows.Forms.ToolStripMenuItem toolStripSystem;
         private System.Windows.Forms.ToolStripMenuItem toolStripBody;
         private System.Windows.Forms.ToolStripMenuItem toolStripTarget;

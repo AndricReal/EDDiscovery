@@ -33,20 +33,17 @@ namespace EDDiscovery
 
         public void NewTargetSet(Object sender)
         {
-            if (OnNewTarget != null)
-                OnNewTarget(sender);
+            OnNewTarget?.Invoke(sender);
         }
 
-        public void NoteChanged(Object sender, HistoryEntry snc, bool committed)
+        public void NoteChanged(Object sender, HistoryEntry snc)
         {
-            if (OnNoteChanged != null)
-                OnNoteChanged(sender, snc, committed);
+            OnNoteChanged?.Invoke(sender, snc);
         }
 
         public void NewCalculatedRoute(List<ISystem> list)
         {
-            if (OnNewCalculatedRoute != null)
-                OnNewCalculatedRoute(list);
+            OnNewCalculatedRoute?.Invoke(list);
         }
 
         #endregion

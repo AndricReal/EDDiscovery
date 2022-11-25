@@ -10,24 +10,20 @@
  * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
  * ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
- *
- * EDDiscovery is not affiliated with Frontier Developments plc.
  */
+
+using EDDiscovery.Controls;
+using EliteDangerousCore;
+using EliteDangerousCore.EDDN;
+using EliteDangerousCore.EDSM;
+using QuickJSON;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using EDDiscovery.Controls;
-using EliteDangerousCore.DB;
-using EliteDangerousCore;
-using EliteDangerousCore.EDSM;
-using EliteDangerousCore.EDDN;
-using EDDiscovery.Forms;
-using QuickJSON;
-using BaseUtils;
 
 namespace EDDiscovery.UserControls
 {
@@ -46,10 +42,6 @@ namespace EDDiscovery.UserControls
         public event ChangedSelectionHEHandler OnTravelSelectionChanged;   // as above, different format, for certain older controls
 
         public event OnNewStarsSubPanelsHandler OnNewStarList;
-
-        // for primary travel grid for auto note jump
-        public delegate void KeyDownInCell(int asciikeycode, int rowno, int colno, bool note);
-        public event KeyDownInCell OnKeyDownInCell;   // After a change of selection
 
         #endregion
 
@@ -451,10 +443,13 @@ namespace EDDiscovery.UserControls
             //string debugt = item.Journalid + "  " + item.System.id_edsm + " " + item.System.GetHashCode() + " "; // add on for debug purposes to a field below
 
             string colTime = EDDConfig.Instance.ConvertTimeToSelectedFromUTC(he.EventTimeUTC).ToString();
+            colTime += $" {he.journalEntry.Id}";
+
             string colIcon = "";
             string colDescription = he.EventSummary;
             he.FillInformation(out string colInformation, out string eventDetailedInfo);
-            string colNote = (he.SNC != null) ? he.SNC.Note : "";
+
+            string colNote = he.GetNoteText;
 
             if (debugmode)
             {
@@ -607,13 +602,16 @@ namespace EDDiscovery.UserControls
 
             //System.Diagnostics.Debug.WriteLine("KC " + (int)e.KeyCode + " " + (int)e.KeyData + " " + e.KeyValue);
         }
-
-        private void dataGridViewTravel_KeyPress(object sender, KeyPressEventArgs e)
+        private void dataGridViewTravel_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            //System.Diagnostics.Debug.WriteLine("KP " + (int)e.KeyChar);
-
-            if (OnKeyDownInCell != null && dataGridViewTravel.CurrentCell != null )
-                OnKeyDownInCell(e.KeyChar, dataGridViewTravel.CurrentCell.RowIndex, dataGridViewTravel.CurrentCell.ColumnIndex, dataGridViewTravel.CurrentCell.ColumnIndex == Columns.Note);
+            var c = dataGridViewTravel.CurrentCell;
+            if (c != null && c.ColumnIndex == ColumnNote.Index)
+            {
+                var he = dataGridViewTravel.Rows[c.RowIndex].Tag as HistoryEntry;
+                var str = dataGridViewTravel[ColumnNote.Index, c.RowIndex].Value as string;
+                he.journalEntry.UpdateSystemNote(str, he.System.Name, EDCommander.Current.SyncToEdsm);
+                discoveryform.NoteChanged(this, he);
+            }
         }
 
         private void dataGridViewTravel_KeyUp(object sender, KeyEventArgs e)
@@ -631,19 +629,19 @@ namespace EDDiscovery.UserControls
                 FireChangeSelection();
         }
 
-        private void OnNoteChanged(Object sender,HistoryEntry he, bool committed)
+        private void OnNoteChanged(Object sender,HistoryEntry he)
         {
             if (todotimer.Enabled)
             {
-                todo.Enqueue(() => OnNoteChanged(sender, he, committed));
+                todo.Enqueue(() => OnNoteChanged(sender, he));
                 return;
             }
 
-            if (rowsbyjournalid.ContainsKey(he.Journalid) ) // if we can find the grid entry
+            if ( rowsbyjournalid.TryGetValue(he.Journalid,out DataGridViewRow row))
             {
-                string s = (he.SNC != null) ? he.SNC.Note : "";     // snc may have gone null, so cope with it
-                //System.Diagnostics.Debug.WriteLine("TG:Note changed " + s);
-                rowsbyjournalid[he.Journalid].Cells[Columns.Note].Value = s;
+                System.Diagnostics.Debug.WriteLine($"TravelGrid update note due to external {row.Index} {he.GetNoteText} {he.EventSummary}");
+                string s = he.GetNoteText;  
+                row.Cells[Columns.Note].Value = s;
             }
         }
 
@@ -683,16 +681,19 @@ namespace EDDiscovery.UserControls
 
         private void dataGridViewTravel_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (dataGridViewTravel.LeftClickRowValid)                                                   // Click expands it..
+            if (dataGridViewTravel.LeftClickRowValid)                                                
             {
                 if (e.ColumnIndex == ColumnNote.Index)
                 {
-                    using (Forms.SetNoteForm noteform = new Forms.SetNoteForm(leftclickhe, discoveryform))
+                    if (!dataGridViewTravel.IsCurrentCellInEditMode)
                     {
-                        if (noteform.ShowDialog(FindForm()) == DialogResult.OK)
+                        using (Forms.SetNoteForm noteform = new Forms.SetNoteForm(leftclickhe, discoveryform))
                         {
-                            leftclickhe.SetJournalSystemNoteText(noteform.NoteText, true, EDCommander.Current.SyncToEdsm);
-                            discoveryform.NoteChanged(this, leftclickhe, true);
+                            if (noteform.ShowDialog(FindForm()) == DialogResult.OK)
+                            {
+                                leftclickhe.journalEntry.UpdateSystemNote(noteform.NoteText, leftclickhe.System.Name, EDCommander.Current.SyncToEdsm);
+                                discoveryform.NoteChanged(this, leftclickhe);
+                            }
                         }
                     }
                 }
@@ -1045,9 +1046,8 @@ namespace EDDiscovery.UserControls
             {
                 if (noteform.ShowDialog(FindForm()) == DialogResult.OK)
                 {
-                    rightclickhe.SetJournalSystemNoteText(noteform.NoteText, true, EDCommander.Current.SyncToEdsm);
-
-                    discoveryform.NoteChanged(this, rightclickhe, true);
+                    rightclickhe.journalEntry.UpdateSystemNote(noteform.NoteText, rightclickhe.System.Name, EDCommander.Current.SyncToEdsm);
+                    discoveryform.NoteChanged(this, rightclickhe);
                 }
             }
         }

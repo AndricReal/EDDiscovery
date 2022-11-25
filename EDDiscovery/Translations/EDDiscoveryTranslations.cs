@@ -302,6 +302,7 @@ namespace EDDiscovery
         SafeModeForm_buttonResetTabs, // Control 'Reset Tabs, Remove PopOuts'
         SafeModeForm_buttonPositions, // Control 'Reset Window Positions'
         SafeModeForm_buttonResetTheme, // Control 'Reset Theme'
+        SafeModeForm_buttonRemoveJournalsCommanders,
 
         SetNoteForm, // Control 'Set Note'
         SetNoteForm_labelTTimestamp, // Control 'Timestamp:'
@@ -1026,7 +1027,6 @@ namespace EDDiscovery
         UserControlSysInfo_toolStripDistanceFrom, // ToolStrip control 'Display Distance From'
         UserControlSysInfo_toolStripSystemState, // ToolStrip control 'Display System State'
         UserControlSysInfo_displaySecurityToolStripMenuItem, // ToolStrip control 'Display Security'
-        UserControlSysInfo_toolStripNotes, // ToolStrip control 'Display Notes'
         UserControlSysInfo_toolStripTarget, // ToolStrip control 'Display Target'
         UserControlSysInfo_toolStripShip, // ToolStrip control 'Display Ship Information'
         UserControlSysInfo_displayShipButtonsToolStripMenuItem, // ToolStrip control 'Display Ship Buttons'
@@ -1070,7 +1070,6 @@ namespace EDDiscovery
         UserControlSysInfo_labelFuel, // Control 'Fuel'
         UserControlSysInfo_labelBodyName, // Control 'Body'
         UserControlSysInfo_labelPosition, // Control 'Pos'
-        UserControlSysInfo_labelNote, // Control 'Note'
         UserControlSysInfo_labelMissions, // Control 'Missions'
         UserControlSysInfo_labelEconomy, // Control 'Economy'
         UserControlSysInfo_labelGov, // Control 'Gov'

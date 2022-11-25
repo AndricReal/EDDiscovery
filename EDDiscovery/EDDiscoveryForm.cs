@@ -65,10 +65,10 @@ namespace EDDiscovery
 
         #region Callbacks from us
         public event Action<Object> OnNewTarget;
-        public event Action<Object, HistoryEntry, bool> OnNoteChanged;  // UI.Note has been updated attached to this note
+        public event Action<Object, HistoryEntry> OnNoteChanged;        // UI.Note has been updated attached to this note
         public event Action<List<ISystem>> OnNewCalculatedRoute;        // route plotter has a new one
         public event Action OnAddOnsChanged;                            // add on changed
-        public event Action OnPanelAdded;                            // add on changed
+        public event Action OnPanelAdded;                               // add on changed
         public event Action<int,string> OnEDSMSyncComplete;             // EDSM Sync has completed with this list of stars are newly created
         public event Action<int> OnEDDNSyncComplete;                    // Sync has completed
         public event Action<int> OnIGAUSyncComplete;                    // Sync has completed
@@ -1026,9 +1026,6 @@ namespace EDDiscovery
 
             if (WebServer.Running)
                 WebServer.Stop();
-
-            // send any dirty notes.  if they are, the call back gets called. If we have EDSM sync on, and its an FSD entry, send it
-            SystemNoteClass.CommitDirtyNotes((snc) => { if (EDCommander.Current.SyncToEdsm && snc.FSDEntry) EDSMClass.SendComments(snc.SystemName, snc.Note); });
 
             ScreenshotConverter.SaveSettings();
             ScreenshotConverter.Stop();

@@ -27,8 +27,6 @@ namespace EDDiscovery.UserControls
 {
     public partial class UserControlSysInfo : UserControlCommonBase
     {
-        public bool IsNotesShowing { get { return richTextBoxNote.Visible; } }
-
         private string dbSelection = "Sel";
         private string dbOSave = "Order";
 
@@ -39,7 +37,6 @@ namespace EDDiscovery.UserControls
         const int BitSelPosition = 4;
         const int BitSelDistanceFrom = 5;
         const int BitSelSystemState = 6;
-        const int BitSelNotes = 7;
         const int BitSelTarget = 8;
         const int BitSelShipInfo = 9;
         const int BitSelFuel = 10;
@@ -90,7 +87,6 @@ namespace EDDiscovery.UserControls
             {BitSelDistanceFrom,-1},
             {BitSelSystemState,-1},
             {BitSelSecurity,-1},
-            {BitSelNotes,-1},
             {BitSelTarget,-1},
             {BitSelFuel,BitSelCargo},
             {BitSelMats,BitSelData},
@@ -142,13 +138,13 @@ namespace EDDiscovery.UserControls
                                         EDTx.UserControlSysInfo_labelCredits, EDTx.UserControlSysInfo_labelShip, EDTx.UserControlSysInfo_labelMaterials, 
                                         EDTx.UserControlSysInfo_labelVisits, EDTx.UserControlSysInfo_labelMR, EDTx.UserControlSysInfo_labelData, 
                                         EDTx.UserControlSysInfo_labelFuel, EDTx.UserControlSysInfo_labelBodyName, EDTx.UserControlSysInfo_labelPosition, 
-                                        EDTx.UserControlSysInfo_labelNote, EDTx.UserControlSysInfo_labelMissions, EDTx.UserControlSysInfo_labelEconomy, 
+                                        EDTx.UserControlSysInfo_labelMissions, EDTx.UserControlSysInfo_labelEconomy, 
                                         EDTx.UserControlSysInfo_labelGov, EDTx.UserControlSysInfo_labelAllegiance, EDTx.UserControlSysInfo_labelState, EDTx.UserControlSysInfo_labelSolDist, 
                                         EDTx.UserControlSysInfo_labelHomeDist, EDTx.UserControlSysInfo_labelNextDestination };
             var enumlistcms = new Enum[] { EDTx.UserControlSysInfo_toolStripSystem, EDTx.UserControlSysInfo_toolStripEDSM, EDTx.UserControlSysInfo_toolStripEDSMDownLine, 
                                         EDTx.UserControlSysInfo_toolStripVisits, EDTx.UserControlSysInfo_toolStripBody, EDTx.UserControlSysInfo_displayStationButtonsToolStripMenuItem, 
                                         EDTx.UserControlSysInfo_displayStationFactionToolStripMenuItem, EDTx.UserControlSysInfo_toolStripPosition, EDTx.UserControlSysInfo_toolStripDistanceFrom, 
-                                        EDTx.UserControlSysInfo_toolStripSystemState, EDTx.UserControlSysInfo_displaySecurityToolStripMenuItem, EDTx.UserControlSysInfo_toolStripNotes, 
+                                        EDTx.UserControlSysInfo_toolStripSystemState, EDTx.UserControlSysInfo_displaySecurityToolStripMenuItem,  
                                         EDTx.UserControlSysInfo_toolStripTarget, EDTx.UserControlSysInfo_toolStripShip, EDTx.UserControlSysInfo_displayShipButtonsToolStripMenuItem, 
                                         EDTx.UserControlSysInfo_toolStripFuel, EDTx.UserControlSysInfo_toolStripCargo, EDTx.UserControlSysInfo_toolStripDataCount, 
                                         EDTx.UserControlSysInfo_toolStripMaterialCounts, EDTx.UserControlSysInfo_displayMicroresourcesCountToolStripMenuItem, 
@@ -168,7 +164,7 @@ namespace EDDiscovery.UserControls
             toolstriplist = new ToolStripMenuItem[]
             {   toolStripSystem , toolStripEDSM , toolStripVisits, toolStripBody,
                 toolStripPosition, toolStripDistanceFrom,
-                toolStripSystemState, toolStripNotes, toolStripTarget,
+                toolStripSystemState, null, toolStripTarget,        // removed notes
                 toolStripShip, toolStripFuel , toolStripCargo, toolStripMaterialCounts,  toolStripDataCount,
                 toolStripCredits,
                 toolStripGameMode,toolStripTravel, toolStripMissionList,
@@ -250,7 +246,6 @@ namespace EDDiscovery.UserControls
             }
 
             discoveryform.OnNewTarget += RefreshTargetDisplay;
-            discoveryform.OnNoteChanged += OnNoteChanged;
             discoveryform.OnEDSMSyncComplete += Discoveryform_OnEDSMSyncComplete;
             discoveryform.OnNewUIEvent += Discoveryform_OnNewUIEvent;
             discoveryform.OnThemeChanged += Discoveryform_OnThemeChanged;
@@ -277,7 +272,6 @@ namespace EDDiscovery.UserControls
         {
             uctg.OnTravelSelectionChanged -= TravelSelChanged;
             discoveryform.OnNewTarget -= RefreshTargetDisplay;
-            discoveryform.OnNoteChanged -= OnNoteChanged;
             discoveryform.OnEDSMSyncComplete -= Discoveryform_OnEDSMSyncComplete;
             discoveryform.OnNewUIEvent -= Discoveryform_OnNewUIEvent;
 
@@ -466,7 +460,6 @@ namespace EDDiscovery.UserControls
                     richTextBoxScrollMissions.Text = t;
                 }
 
-                SetNote(he.SNC != null ? he.SNC.Note : "");
                 textBoxGameMode.Text = he.GameModeGroup;
 
                 if (he.isTravelling)
@@ -659,16 +652,7 @@ namespace EDDiscovery.UserControls
                 extButtonEDSMSystem.Enabled = extButtonEDDBSystem.Enabled = extButtonInaraSystem.Enabled = extButtonSpanshSystem.Enabled = false;
                 extButtonEDDBStation.Enabled = extButtonInaraStation.Enabled = extButtonSpanshStation.Enabled = false;
                 extButtonCoriolis.Enabled = extButtonEDSY.Enabled = false;
-                SetNote("");
             }
-        }
-
-        private void SetNote(string text)
-        {
-            noteenabled = false;
-            //System.Diagnostics.Debug.WriteLine("SI:Note text " + text);
-            richTextBoxNote.Text = text;
-            noteenabled = true;
         }
 
         #endregion
@@ -863,10 +847,6 @@ namespace EDDiscovery.UserControls
         {
             ToggleSelection(sender, BitSelBody);
         }
-        private void toolStripNotes_Click(object sender, EventArgs e)
-        {
-            ToggleSelection(sender, BitSelNotes);
-        }
         private void toolStripTarget_Click(object sender, EventArgs e)
         {
             ToggleSelection(sender, BitSelTarget);
@@ -1022,7 +1002,7 @@ namespace EDDiscovery.UserControls
                 {
                     int bitno = Lines[r].Items[c] - 1;    // stored +1
 
-                    if (bitno >= 0 && bitno < toolstriplist.Length)     // ensure within range, ignore any out of range, in case going backwards in versions
+                    if (bitno >= 0 && bitno < toolstriplist.Length && toolstriplist[bitno] != null )     // ensure within range, ignore any out of range, in case going backwards in versions
                     {
                         bool ison = (Selection & (1 << bitno)) != 0;
 
@@ -1134,10 +1114,6 @@ namespace EDDiscovery.UserControls
                                     labpos.Y = datapos.Y = labpos2.Y = datapos2.Y = itembottom + 1;
                                     itembottom = this.SetPos(labpos, labelGov, datapos, textBoxGovernment, si);
                                     OffsetPos(labpos2, labelEconomy, datapos2, textBoxEconomy, si);
-                                    break;
-
-                                case BitSelNotes:
-                                    itembottom = SetPos(labpos, labelNote, datapos, richTextBoxNote, si);
                                     break;
 
                                 case BitSelTarget:
@@ -1266,63 +1242,6 @@ namespace EDDiscovery.UserControls
 
         #endregion
 
-        #region Notes
-
-        bool noteenabled = true;
-        private void richTextBoxNote_Leave(object sender, EventArgs e)
-        {
-            if (last_he != null && noteenabled)
-            {
-                //System.Diagnostics.Debug.WriteLine("SI:leave note changed: " + richTextBoxNote.Text);
-                last_he.SetJournalSystemNoteText(richTextBoxNote.Text.Trim(), true , EDCommander.Current.SyncToEdsm);   // commit, maybe send to edsm
-                discoveryform.NoteChanged(this, last_he, true);
-            }
-        }
-
-        private void richTextBoxNote_TextBoxChanged(object sender, EventArgs e)
-        {
-            if (last_he != null && noteenabled)
-            {
-                //System.Diagnostics.Debug.WriteLine("SI:type note changed: " + richTextBoxNote.Text);
-                last_he.SetJournalSystemNoteText(richTextBoxNote.Text.Trim(), false, false);        // no commit, no send to edsm..
-                discoveryform.NoteChanged(this, last_he, false);
-            }
-        }
-
-        private void OnNoteChanged(Object sender, HistoryEntry he, bool arg)  // BEWARE we do this as well..
-        {
-            if ( !Object.ReferenceEquals(this,sender) )     // so, make sure this sys info is not sending it
-            {
-                //System.Diagnostics.Debug.WriteLine("SI:On note changed: " + he.snc.Note);
-                SetNote(he.SNC != null ? he.SNC.Note : "");
-            }
-        }
-
-        public void FocusOnNote( int asciikeycode )     // called if a focus is wanted
-        {
-            if (IsNotesShowing)
-            {
-                //System.Diagnostics.Debug.WriteLine("SI:Focus on Note due to key");
-
-                richTextBoxNote.Select(richTextBoxNote.Text.Length, 0);     // move caret to end and focus.
-                richTextBoxNote.ScrollToCaret();
-                richTextBoxNote.Focus();
-
-                string s = null;
-                if (asciikeycode == 8)      // strange old sendkeys
-                    s = "{BACKSPACE}";
-                else if (asciikeycode == '+' || asciikeycode == '^' || asciikeycode == '%' || asciikeycode == '(' || asciikeycode == ')' || asciikeycode == '~')
-                    s = "{" + (new string((char)asciikeycode, 1)) + "}";
-                else if ( asciikeycode >= 32 && asciikeycode <= 126 )
-                    s = new string((char)asciikeycode, 1);
-
-                //System.Diagnostics.Debug.WriteLine("Send " + s);
-                if (s != null)
-                    SendKeys.Send(s);
-            }
-        }
-
-        #endregion
 
         #region Move around
 

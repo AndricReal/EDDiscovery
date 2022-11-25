@@ -86,7 +86,7 @@ namespace EDDiscovery.Actions
                 vars[prefix + "Wanted"] = he.Wanted.ToStringIntValue();
                 vars[prefix + "MarketId"] = he.MarketID.HasValue ? he.MarketID.ToStringInvariant() : "0";
 
-                vars[prefix + "Note"] = he.SNC?.Note ?? "";
+                vars[prefix + "Note"] = he.GetNoteText;
 
                 he.FillInformation(out string EventDescription, out string EventDetailedInfo);
                 vars[prefix + "EventDescription"] = EventDescription;

@@ -1176,7 +1176,6 @@ SECTION UserControlSysInfo
 .labelFuel: "Fuel" @
 .labelBodyName: "Body" @
 .labelPosition: "Pos" @
-.labelNote: "Note" @
 .labelMissions: "Missions" @
 .labelEconomy: "Economy" @
 .labelGov: "Gov" @

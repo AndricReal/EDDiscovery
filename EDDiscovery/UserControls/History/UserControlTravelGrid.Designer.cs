@@ -650,11 +650,11 @@ namespace EDDiscovery.UserControls
             this.dataGridViewTravel.TabIndex = 3;
             this.dataGridViewTravel.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTravel_CellClick);
             this.dataGridViewTravel.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTravel_CellDoubleClick);
+            this.dataGridViewTravel.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTravel_CellEndEdit);
             this.dataGridViewTravel.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewTravel_ColumnHeaderMouseClick);
             this.dataGridViewTravel.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridViewTravel_RowPostPaint);
             this.dataGridViewTravel.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dataGridViewTravel_SortCompare);
             this.dataGridViewTravel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridViewTravel_KeyDown);
-            this.dataGridViewTravel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGridViewTravel_KeyPress);
             this.dataGridViewTravel.KeyUp += new System.Windows.Forms.KeyEventHandler(this.dataGridViewTravel_KeyUp);
             this.dataGridViewTravel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridViewTravel_MouseDown);
             // 
@@ -694,7 +694,6 @@ namespace EDDiscovery.UserControls
             this.ColumnNote.HeaderText = "Note";
             this.ColumnNote.MinimumWidth = 20;
             this.ColumnNote.Name = "ColumnNote";
-            this.ColumnNote.ReadOnly = true;
             // 
             // contextMenuStripOutlines
             // 
@@ -874,11 +873,6 @@ namespace EDDiscovery.UserControls
         private System.Windows.Forms.ToolStripMenuItem copyJournalEntryToClipboardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createEditBookmarkToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runActionsAcrossSelectionToolSpeechStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Icon;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSystem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDistance;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnNote;
         private System.Windows.Forms.ToolStripMenuItem removeSortingOfColumnsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runSelectionThroughInaraSystemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gotoEntryNumberToolStripMenuItem;
@@ -905,5 +899,10 @@ namespace EDDiscovery.UserControls
         private System.Windows.Forms.ToolStripMenuItem sendJournalEntriesToDLLsToolStripMenuItem;
         internal ExtendedControls.ExtComboBox extComboBoxQuickMarks;
         private System.Windows.Forms.ToolStripMenuItem quickMarkToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Icon;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSystem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDistance;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnNote;
     }
 }

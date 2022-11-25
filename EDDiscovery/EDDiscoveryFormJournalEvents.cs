@@ -118,9 +118,6 @@ namespace EDDiscovery
             if (t1.Item2 >= 80)
                 System.Diagnostics.Trace.WriteLine("NE Second Actions slow " + t1.Item1);
 
-            // all notes committed
-            SystemNoteClass.CommitDirtyNotes((snc) => { if (EDCommander.Current.SyncToEdsm && snc.FSDEntry) EDSMClass.SendComments(snc.SystemName, snc.Note, 0, he.Commander); });
-
             if (he.IsFSDCarrierJump)
             {
                 int count = history.GetVisitsCount(he.System.Name);

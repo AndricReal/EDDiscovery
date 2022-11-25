@@ -144,7 +144,7 @@ namespace EDDiscovery.UserControls
                 (uctg as IHistoryCursorNewStarList).OnNewStarList -= OnNewStars;
         }
 
-        private void Discoveryform_OnNoteChanged(object arg1, HistoryEntry arg2, bool arg3)
+        private void Discoveryform_OnNoteChanged(object arg1, HistoryEntry arg2)
         {
             UpdateSystemRows();
         }

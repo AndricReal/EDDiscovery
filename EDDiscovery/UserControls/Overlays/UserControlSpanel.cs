@@ -426,7 +426,7 @@ namespace EDDiscovery.UserControls
 
             if (layoutorder == 0 && Config(Configuration.showNotes))
             {
-                coldata.Add((he.SNC != null) ? he.SNC.Note.Replace("\r\n", " ") : "");
+                coldata.Add(he.GetNoteText.Replace("\r\n", " "));
             }
 
             if (layoutorder == 2 && Config(Configuration.showDistancePerStar))
@@ -441,7 +441,7 @@ namespace EDDiscovery.UserControls
 
             if (layoutorder > 0 && Config(Configuration.showNotes))
             {
-                coldata.Add((he.SNC != null) ? he.SNC.Note.Replace("\r\n", " ") : "");
+                coldata.Add(he.GetNoteText.Replace("\r\n", " "));
             }
 
             if (layoutorder < 2 && Config(Configuration.showDistancePerStar))

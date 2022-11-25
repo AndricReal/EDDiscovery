@@ -203,9 +203,9 @@ namespace EDDiscovery
         public DateTime ConvertTimeToSelected(DateTime t)
         {
             if (displayTimeFormat == 0)
-                return new DateTime(t.Year, t.Month, t.Day, t.Hour, t.Minute, t.Second, t.Millisecond, DateTimeKind.Local);
+                return t.ToLocalKind();     // to local, keeping the actual time
             else
-                return new DateTime(t.Year, t.Month, t.Day, t.Hour, t.Minute, t.Second, t.Millisecond, DateTimeKind.Utc);
+                return t.ToUniversalKind(); // to universal, keeping the actual time
         }
 
         public DateTime ConvertTimeToUTCFromSelected(DateTime t)        // from selected format back to UTC
