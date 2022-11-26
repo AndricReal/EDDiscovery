@@ -47,15 +47,6 @@ namespace EDDiscovery.UserControls
 
         #region Init
 
-        private class Columns
-        {
-            public const int Time = 0;
-            public const int Icon = 1;
-            public const int Description = 2;
-            public const int Information = 3;
-            public const int Note = 4;
-        }
-
         private const string dbFilter = "EventFilter2";                 // DB names
         private const string dbHistorySave = "EDUIHistory";
         private const string dbFieldFilter = "FieldFilter";
@@ -641,7 +632,7 @@ namespace EDDiscovery.UserControls
             {
                 System.Diagnostics.Debug.WriteLine($"TravelGrid update note due to external {row.Index} {he.GetNoteText} {he.EventSummary}");
                 string s = he.GetNoteText;  
-                row.Cells[Columns.Note].Value = s;
+                row.Cells[ColumnNote.Index].Value = s;
             }
         }
 
@@ -664,7 +655,7 @@ namespace EDDiscovery.UserControls
             HistoryEntry he = (HistoryEntry)dataGridViewTravel.Rows[e.RowIndex].Tag;
             bool debugmode = travelGridInDebugModeToolStripMenuItem.Checked;
             int rowno = debugmode ? (int)he.Journalid : (EDDConfig.Instance.OrderRowsInverted ? he.EntryNumber : (discoveryform.history.Count - he.EntryNumber + 1));
-            PaintHelpers.PaintEventColumn(dataGridViewTravel, e, rowno, he, Columns.Icon, true);
+            PaintHelpers.PaintEventColumn(dataGridViewTravel, e, rowno, he, Icon.Index, true);
         }
 
 
@@ -702,14 +693,14 @@ namespace EDDiscovery.UserControls
                     leftclickhe.FillInformation(out string EventDescription, out string EventDetailedInfo);
                     DataGridViewRow row = dataGridViewTravel.Rows[dataGridViewTravel.LeftClickRow];
 
-                    bool expanded = row.Cells[Columns.Information].Tag != null;
+                    bool expanded = row.Cells[ColumnDistance.Index].Tag != null;
 
                     if (expanded) // put it back to original text
                     {
-                        row.Cells[Columns.Information].Value = EventDescription;
+                        row.Cells[ColumnDistance.Index].Value = EventDescription;
                         for (int i = 0; i < row.Cells.Count; i++)
                             row.Cells[i].Style.WrapMode = DataGridViewTriState.NotSet;
-                        row.Cells[Columns.Information].Tag = null;
+                        row.Cells[ColumnDistance.Index].Tag = null;
                     }
                     else
                     {
@@ -728,7 +719,7 @@ namespace EDDiscovery.UserControls
                             {
                                 if (row.Cells[i].Value is string)
                                 {
-                                    string s = i == Columns.Information ? infodetailed : (string)row.Cells[i].Value;
+                                    string s = i == ColumnDistance.Index ? infodetailed : (string)row.Cells[i].Value;
                                     int h = (int)(g.MeasureString(s, dataGridViewTravel.Font, dataGridViewTravel.Columns[i].Width - 4).Height + 2);
                                     maxh = Math.Max(maxh, h);
                                 }
@@ -744,7 +735,7 @@ namespace EDDiscovery.UserControls
                             }
                             else
                             {
-                                row.Cells[Columns.Information].Value = infodetailed;
+                                row.Cells[ColumnDistance.Index].Value = infodetailed;
 
                                 if (!extCheckBoxWordWrap.Checked)
                                 {
@@ -753,7 +744,7 @@ namespace EDDiscovery.UserControls
                                 }
                             }
 
-                            row.Cells[Columns.Information].Tag = true;      // mark expanded
+                            row.Cells[ColumnDistance.Index].Tag = true;      // mark expanded
                         }
                     }
 

@@ -1500,20 +1500,14 @@ namespace EDDiscovery.UserControls
         // set up a time date array with the limit times in utc, and set up the grid view columns
         private Tuple<DateTime[],DateTime[]> SetupSummary(DateTime starttimeutc, DateTime endtimeutc, DateTime lastdockedutc, DataGridView gridview, string dbname)
         {
-            DateTime[] starttimesutc = new DateTime[6];
-            DateTime[] endtimesutc = new DateTime[6];
+            DateTime[] starttimesutc = new DateTime[5];
+            DateTime[] endtimesutc = new DateTime[5];
             starttimesutc[0] = endtimeutc.AddDays(-1).AddSeconds(1);
             starttimesutc[1] = endtimeutc.AddDays(-7).AddSeconds(1);
             starttimesutc[2] = endtimeutc.AddMonths(-1).AddSeconds(1);
             starttimesutc[3] = lastdockedutc;
-            starttimesutc[5] = starttimeutc;
-            endtimesutc[0] = endtimesutc[1] = endtimesutc[2] = endtimesutc[3] = endtimesutc[5] = endtimeutc;
-
-            // we try and find trip markers inside the start/end range
-            discoveryform.history.FindStartStopMarkersWithinDateTimeRange(starttimeutc, endtimeutc, out HistoryEntry starttriphe, out HistoryEntry endtriphe);
-            bool istravelling = starttriphe != null || endtriphe != null;       // we are travelling if either is set..
-            starttimesutc[4] = istravelling ? (starttriphe?.EventTimeUTC ?? starttimeutc) : endtimeutc.AddDays(1); // if we are travelling, its either starttriphe or starttime, else disable
-            endtimesutc[4] = istravelling ? (endtriphe?.EventTimeUTC ?? endtimeutc) : endtimeutc;   // same with end time
+            starttimesutc[4] = starttimeutc;
+            endtimesutc[0] = endtimesutc[1] = endtimesutc[2] = endtimesutc[3] = endtimesutc[4] = endtimeutc;
 
             if (gridview.Columns.Count == 0)
             {
@@ -1529,16 +1523,7 @@ namespace EDDiscovery.UserControls
             gridview.Columns[2].HeaderText = EDDConfig.Instance.ConvertTimeToSelectedFromUTC(starttimesutc[1]).ToShortDateString() + "..";
             gridview.Columns[3].HeaderText = EDDConfig.Instance.ConvertTimeToSelectedFromUTC(starttimesutc[2]).ToShortDateString() + "..";
             gridview.Columns[4].HeaderText = "Last dock".T(EDTx.UserControlStats_Lastdock);
-
-            if ( istravelling )
-            {
-                gridview.Columns[5].HeaderText = "Trip".T(EDTx.UserControlStats_Trip) + " " + EDDConfig.Instance.ConvertTimeToSelectedFromUTC(starttimesutc[4]).ToShortDateString()
-                                + "-" + EDDConfig.Instance.ConvertTimeToSelectedFromUTC(endtimesutc[4]).ToShortDateString();
-            }
-            else
-                gridview.Columns[5].HeaderText = "No Trip".T(EDTx.UserControlStats_NoTrip);
-
-            gridview.Columns[6].HeaderText = "All".T(EDTx.UserControlStats_All);
+            gridview.Columns[5].HeaderText = "All".T(EDTx.UserControlStats_All);
 
             //for (int i = 0; i < starttimeutc.Length; i++)  System.Diagnostics.Debug.WriteLine($"Time {starttimeutc[i].ToString()} - {endtimeutc[i].ToString()} {starttimeutc[i].Kind}");
 

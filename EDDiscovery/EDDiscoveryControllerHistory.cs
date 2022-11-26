@@ -214,7 +214,7 @@ namespace EDDiscovery
 
                     int linkedcmdrid = cmdr.LinkedCommanderID;
 
-                    if (linkedcmdrid >= 0)      // if loading a linked commander (new nov 22 u14)
+                    if (linkedcmdrid >= 0 && EDCommander.GetCommander(linkedcmdrid) != null )      // if loading a linked commander (new nov 22 u14)
                     {
                         HistoryList.LoadHistory(newhistory, (s) => ReportRefreshProgress(-1, s), () => PendingClose,
                                                         linkedcmdrid, cmdr.Name,
@@ -224,7 +224,7 @@ namespace EDDiscovery
                                                         );
                     }
 
-                    // then link any data from our commander
+                    // then load any data from our commander
                     HistoryList.LoadHistory(newhistory, (s) => ReportRefreshProgress(-1, s), () => PendingClose,
                                                     args.CurrentCommander, cmdr.Name,
                                                     EDDOptions.Instance.HistoryLoadDayLimit > 0 ? EDDOptions.Instance.HistoryLoadDayLimit : EDDConfig.Instance.FullHistoryLoadDayLimit,
